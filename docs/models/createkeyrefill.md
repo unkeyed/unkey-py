@@ -1,0 +1,11 @@
+# CreateKeyRefill
+
+Unkey enables you to refill verifications for each key at regular intervals.
+
+
+## Fields
+
+| Field                                                                                              | Type                                                                                               | Required                                                                                           | Description                                                                                        |
+| -------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------- |
+| `interval`                                                                                         | [models.CreateKeyInterval](../models/createkeyinterval.md)                                         | :heavy_check_mark:                                                                                 | Unkey will automatically refill verifications at the set interval.                                 |
+| `amount`                                                                                           | *int*                                                                                              | :heavy_check_mark:                                                                                 | The number of verifications to refill for each occurrence is determined individually for each key. |

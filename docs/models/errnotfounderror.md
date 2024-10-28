@@ -1,0 +1,11 @@
+# ErrNotFoundError
+
+
+## Fields
+
+| Field                                                               | Type                                                                | Required                                                            | Description                                                         | Example                                                             |
+| ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
+| `code`                                                              | [models.ErrNotFoundCode](../models/errnotfoundcode.md)              | :heavy_check_mark:                                                  | A machine readable error code.                                      | NOT_FOUND                                                           |
+| `docs`                                                              | *str*                                                               | :heavy_check_mark:                                                  | A link to our documentation with more details about this error code | https://unkey.dev/docs/api-reference/errors/code/NOT_FOUND          |
+| `message`                                                           | *str*                                                               | :heavy_check_mark:                                                  | A human readable explanation of what went wrong                     |                                                                     |
+| `request_id`                                                        | *str*                                                               | :heavy_check_mark:                                                  | Please always include the requestId in your error report            | req_1234                                                            |

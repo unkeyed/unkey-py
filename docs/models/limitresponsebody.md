@@ -1,0 +1,11 @@
+# LimitResponseBody
+
+
+## Fields
+
+| Field                                                                      | Type                                                                       | Required                                                                   | Description                                                                | Example                                                                    |
+| -------------------------------------------------------------------------- | -------------------------------------------------------------------------- | -------------------------------------------------------------------------- | -------------------------------------------------------------------------- | -------------------------------------------------------------------------- |
+| `success`                                                                  | *bool*                                                                     | :heavy_check_mark:                                                         | Returns true if the request should be processed, false if it was rejected. | true                                                                       |
+| `limit`                                                                    | *int*                                                                      | :heavy_check_mark:                                                         | How many requests are allowed within a window.                             | 10                                                                         |
+| `remaining`                                                                | *int*                                                                      | :heavy_check_mark:                                                         | How many requests can still be made in the current window.                 | 9                                                                          |
+| `reset`                                                                    | *int*                                                                      | :heavy_check_mark:                                                         | A unix millisecond timestamp when the limits reset.                        | 1709804263654                                                              |

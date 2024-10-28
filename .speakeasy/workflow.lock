@@ -1,0 +1,35 @@
+speakeasyVersion: 1.422.1
+sources:
+    Unkey-OAS:
+        sourceNamespace: unkey-oas
+        sourceRevisionDigest: sha256:60726211900401b3a94a208556e8c137defed86b1702d3adca7fd6ba39e3bcd9
+        sourceBlobDigest: sha256:efbf9d023555a6dde92894add8496a0973cb04cae47594a6085e1c21b3fe5dc7
+        tags:
+            - latest
+targets:
+    unkey:
+        source: Unkey-OAS
+        sourceNamespace: unkey-oas
+        sourceRevisionDigest: sha256:60726211900401b3a94a208556e8c137defed86b1702d3adca7fd6ba39e3bcd9
+        sourceBlobDigest: sha256:efbf9d023555a6dde92894add8496a0973cb04cae47594a6085e1c21b3fe5dc7
+        codeSamplesNamespace: unkey-oas-code-samples
+        codeSamplesRevisionDigest: sha256:466ac088f43d10aea6cad73ec10acf253a0dfca32490d6ccbbf596a7a2bea255
+workflow:
+    workflowVersion: 1.0.0
+    speakeasyVersion: latest
+    sources:
+        Unkey-OAS:
+            inputs:
+                - location: https://api.unkey.dev/openapi.json
+            overlays:
+                - location: .speakeasy/speakeasy-modifications-overlay.yaml
+            registry:
+                location: registry.speakeasyapi.dev/unkey/unkey/unkey-oas
+    targets:
+        unkey:
+            target: python
+            source: Unkey-OAS
+            codeSamples:
+                registry:
+                    location: registry.speakeasyapi.dev/unkey/unkey/unkey-oas-code-samples
+                blocking: false

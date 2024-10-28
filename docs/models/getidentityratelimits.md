@@ -1,0 +1,10 @@
+# GetIdentityRatelimits
+
+
+## Fields
+
+| Field                                                                          | Type                                                                           | Required                                                                       | Description                                                                    | Example                                                                        |
+| ------------------------------------------------------------------------------ | ------------------------------------------------------------------------------ | ------------------------------------------------------------------------------ | ------------------------------------------------------------------------------ | ------------------------------------------------------------------------------ |
+| `name`                                                                         | *str*                                                                          | :heavy_check_mark:                                                             | The name of this limit. You will need to use this again when verifying a key.  | tokens                                                                         |
+| `limit`                                                                        | *int*                                                                          | :heavy_check_mark:                                                             | How many requests may pass within a given window before requests are rejected. | 10                                                                             |
+| `duration`                                                                     | *int*                                                                          | :heavy_check_mark:                                                             | The duration for each ratelimit window in milliseconds.                        | 1000                                                                           |

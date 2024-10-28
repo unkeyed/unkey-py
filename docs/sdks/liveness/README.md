@@ -1,0 +1,51 @@
+# Liveness
+(*liveness*)
+
+## Overview
+
+### Available Operations
+
+* [check](#check)
+
+## check
+
+### Example Usage
+
+```python
+import os
+from unkey import Unkey
+
+s = Unkey(
+    bearer_auth=os.getenv("UNKEY_BEARER_AUTH", ""),
+)
+
+res = s.liveness.check()
+
+if res is not None:
+    # handle response
+    pass
+
+```
+
+### Parameters
+
+| Parameter                                                           | Type                                                                | Required                                                            | Description                                                         |
+| ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
+| `retries`                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)    | :heavy_minus_sign:                                                  | Configuration to override the default retry behavior of the client. |
+
+### Response
+
+**[models.V1LivenessResponseBody](../../models/v1livenessresponsebody.md)**
+
+### Errors
+
+| Error Type                    | Status Code                   | Content Type                  |
+| ----------------------------- | ----------------------------- | ----------------------------- |
+| models.ErrBadRequest          | 400                           | application/json              |
+| models.ErrUnauthorized        | 401                           | application/json              |
+| models.ErrForbidden           | 403                           | application/json              |
+| models.ErrNotFound            | 404                           | application/json              |
+| models.ErrConflict            | 409                           | application/json              |
+| models.ErrTooManyRequests     | 429                           | application/json              |
+| models.ErrInternalServerError | 500                           | application/json              |
+| models.SDKError               | 4XX, 5XX                      | \*/\*                         |

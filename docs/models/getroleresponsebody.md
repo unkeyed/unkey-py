@@ -1,0 +1,12 @@
+# GetRoleResponseBody
+
+The Role
+
+
+## Fields
+
+| Field                                                                                             | Type                                                                                              | Required                                                                                          | Description                                                                                       | Example                                                                                           |
+| ------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- |
+| `id`                                                                                              | *str*                                                                                             | :heavy_check_mark:                                                                                | The id of the role                                                                                | role_1234                                                                                         |
+| `name`                                                                                            | *str*                                                                                             | :heavy_check_mark:                                                                                | The name of the role.                                                                             | domain.record.manager                                                                             |
+| `description`                                                                                     | *Optional[str]*                                                                                   | :heavy_minus_sign:                                                                                | The description of what this role does. This is just for your team, your users will not see this. | Can manage dns records                                                                            |

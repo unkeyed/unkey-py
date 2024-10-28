@@ -1,0 +1,18 @@
+workflowVersion: 1.0.0
+speakeasyVersion: latest
+sources:
+    Unkey-OAS:
+        inputs:
+            - location: https://api.unkey.dev/openapi.json
+        overlays:
+            - location: .speakeasy/speakeasy-modifications-overlay.yaml
+        registry:
+            location: registry.speakeasyapi.dev/unkey/unkey/unkey-oas
+targets:
+    unkey:
+        target: python
+        source: Unkey-OAS
+        codeSamples:
+            registry:
+                location: registry.speakeasyapi.dev/unkey/unkey/unkey-oas-code-samples
+            blocking: false

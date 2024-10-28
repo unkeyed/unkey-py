@@ -1,0 +1,196 @@
+overlay: 1.0.0
+info:
+  title: Speakeasy Modifications
+  version: 0.0.1
+  x-speakeasy-metadata:
+    type: speakeasy-modifications
+    before: ""
+    after: ""
+actions:
+  - target: $["paths"]["/v1/identities.getIdentity"]["get"]
+    update:
+      x-speakeasy-name-override: get
+    x-speakeasy-metadata:
+      type: method-name
+      before: sdk.identities.getIdentity()
+      after: sdk.identities.get()
+      created_at: 1730106398289
+  - target: $["paths"]["/v1/identities.listIdentities"]["get"]
+    update:
+      x-speakeasy-name-override: list
+    x-speakeasy-metadata:
+      type: method-name
+      before: sdk.identities.listIdentities()
+      after: sdk.identities.list()
+      created_at: 1730106398289
+  - target: $["paths"]["/v1/permissions.getPermission"]["get"]
+    update:
+      x-speakeasy-name-override: get
+    x-speakeasy-metadata:
+      type: method-name
+      before: sdk.permissions.getPermission()
+      after: sdk.permissions.get()
+      created_at: 1730106398289
+  - target: $["paths"]["/v1/migrations.enqueueKeys"]["post"]
+    update:
+      x-speakeasy-name-override: enqueue
+    x-speakeasy-metadata:
+      type: method-name
+      before: sdk.migrations.v1.migrations.enqueueKeys()
+      after: sdk.migrations.enqueue()
+      created_at: 1730106398289
+  - target: $["paths"]["/v1/keys.updateKey"]["post"]
+    update:
+      x-speakeasy-name-override: update
+    x-speakeasy-metadata:
+      type: method-name
+      before: sdk.keys.updateKey()
+      after: sdk.keys.update()
+      created_at: 1730106398289
+  - target: $["paths"]["/v1/identities.updateIdentity"]["post"]
+    update:
+      x-speakeasy-name-override: update
+    x-speakeasy-metadata:
+      type: method-name
+      before: sdk.identities.updateIdentity()
+      after: sdk.identities.update()
+      created_at: 1730106398289
+  - target: $["paths"]["/v1/keys.verifyKey"]["post"]
+    update:
+      x-speakeasy-name-override: verify
+    x-speakeasy-metadata:
+      type: method-name
+      before: sdk.keys.verifyKey()
+      after: sdk.keys.verify()
+      created_at: 1730106398289
+  - target: $["paths"]["/v1/apis.createApi"]["post"]
+    update:
+      x-speakeasy-name-override: create
+    x-speakeasy-metadata:
+      type: method-name
+      before: sdk.apis.createApi()
+      after: sdk.apis.create()
+      created_at: 1730106398289
+  - target: $["paths"]["/v1/permissions.deletePermission"]["post"]
+    update:
+      x-speakeasy-name-override: delete
+    x-speakeasy-metadata:
+      type: method-name
+      before: sdk.permissions.deletePermission()
+      after: sdk.permissions.delete()
+      created_at: 1730106398289
+  - target: $["paths"]["/v1/migrations.createKeys"]["post"]
+    update:
+      x-speakeasy-name-override: createKeys
+    x-speakeasy-metadata:
+      type: method-name
+      before: sdk.migrations.v1.migrations.createKeys()
+      after: sdk.migrations.createKeys()
+      created_at: 1730106398289
+  - target: $["paths"]["/v1/apis.deleteApi"]["post"]
+    update:
+      x-speakeasy-name-override: delete
+    x-speakeasy-metadata:
+      type: method-name
+      before: sdk.apis.deleteApi()
+      after: sdk.apis.delete()
+      created_at: 1730106398289
+  - target: $["paths"]["/v1/apis/{apiId}/keys"]["get"]
+    update:
+      x-speakeasy-group: deprecated
+      x-speakeasy-name-override: listKeys
+    x-speakeasy-metadata:
+      type: method-name
+      before: sdk.<no_group>.deprecated.listKeys()
+      after: sdk.deprecated.listKeys()
+      created_at: 1730106398289
+  - target: $["paths"]["/v1/keys"]["post"]
+    update:
+      x-speakeasy-group: deprecated
+      x-speakeasy-name-override: createKey
+    x-speakeasy-metadata:
+      type: method-name
+      before: sdk.<no_group>.deprecated.createKey()
+      after: sdk.deprecated.createKey()
+      created_at: 1730106398289
+  - target: $["paths"]["/v1/permissions.createPermission"]["post"]
+    update:
+      x-speakeasy-name-override: create
+    x-speakeasy-metadata:
+      type: method-name
+      before: sdk.permissions.createPermission()
+      after: sdk.permissions.create()
+      created_at: 1730106398289
+  - target: $["paths"]["/v1/keys/verify"]["post"]
+    update:
+      x-speakeasy-group: deprecated
+      x-speakeasy-name-override: verifyKey
+    x-speakeasy-metadata:
+      type: method-name
+      before: sdk.<no_group>.deprecated.verifyKey()
+      after: sdk.deprecated.verifyKey()
+      created_at: 1730106398289
+  - target: $["paths"]["/v1/keys.getKey"]["get"]
+    update:
+      x-speakeasy-name-override: get
+    x-speakeasy-metadata:
+      type: method-name
+      before: sdk.keys.getKey()
+      after: sdk.keys.get()
+      created_at: 1730106398289
+  - target: $["paths"]["/v1/permissions.listPermissions"]["get"]
+    update:
+      x-speakeasy-name-override: list
+    x-speakeasy-metadata:
+      type: method-name
+      before: sdk.permissions.listPermissions()
+      after: sdk.permissions.list()
+      created_at: 1730106398289
+  - target: $["paths"]["/v1/identities.createIdentity"]["post"]
+    update:
+      x-speakeasy-name-override: create
+    x-speakeasy-metadata:
+      type: method-name
+      before: sdk.identities.createIdentity()
+      after: sdk.identities.create()
+      created_at: 1730106398289
+  - target: $["paths"]["/v1/keys.createKey"]["post"]
+    update:
+      x-speakeasy-name-override: create
+    x-speakeasy-metadata:
+      type: method-name
+      before: sdk.keys.createKey()
+      after: sdk.keys.create()
+      created_at: 1730106398289
+  - target: $["paths"]["/v1/liveness"]["get"]
+    update:
+      x-speakeasy-name-override: check
+    x-speakeasy-metadata:
+      type: method-name
+      before: sdk.liveness.v1.liveness()
+      after: sdk.liveness.check()
+      created_at: 1730106398289
+  - target: $["paths"]["/v1/identities.deleteIdentity"]["post"]
+    update:
+      x-speakeasy-name-override: delete
+    x-speakeasy-metadata:
+      type: method-name
+      before: sdk.identities.deleteIdentity()
+      after: sdk.identities.delete()
+      created_at: 1730106398289
+  - target: $["paths"]["/v1/apis.getApi"]["get"]
+    update:
+      x-speakeasy-name-override: get
+    x-speakeasy-metadata:
+      type: method-name
+      before: sdk.apis.getApi()
+      after: sdk.apis.get()
+      created_at: 1730106398289
+  - target: $["paths"]["/v1/keys.deleteKey"]["post"]
+    update:
+      x-speakeasy-name-override: delete
+    x-speakeasy-metadata:
+      type: method-name
+      before: sdk.keys.deleteKey()
+      after: sdk.keys.delete()
+      created_at: 1730106398289

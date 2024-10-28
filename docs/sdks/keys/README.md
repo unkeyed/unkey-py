@@ -1,0 +1,814 @@
+# Keys
+(*keys*)
+
+## Overview
+
+### Available Operations
+
+* [get](#get)
+* [whoami](#whoami)
+* [delete](#delete)
+* [create](#create)
+* [verify](#verify)
+* [update](#update)
+* [update_remaining](#update_remaining)
+* [get_verifications](#get_verifications)
+* [add_permissions](#add_permissions)
+* [remove_permissions](#remove_permissions)
+* [set_permissions](#set_permissions)
+* [add_roles](#add_roles)
+* [remove_roles](#remove_roles)
+* [set_roles](#set_roles)
+
+## get
+
+### Example Usage
+
+```python
+import os
+from unkey import Unkey
+
+s = Unkey(
+    bearer_auth=os.getenv("UNKEY_BEARER_AUTH", ""),
+)
+
+res = s.keys.get(key_id="key_1234")
+
+if res is not None:
+    # handle response
+    pass
+
+```
+
+### Parameters
+
+| Parameter                                                           | Type                                                                | Required                                                            | Description                                                         | Example                                                             |
+| ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
+| `key_id`                                                            | *str*                                                               | :heavy_check_mark:                                                  | N/A                                                                 | key_1234                                                            |
+| `decrypt`                                                           | *OptionalNullable[bool]*                                            | :heavy_minus_sign:                                                  | N/A                                                                 |                                                                     |
+| `retries`                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)    | :heavy_minus_sign:                                                  | Configuration to override the default retry behavior of the client. |                                                                     |
+
+### Response
+
+**[models.Key](../../models/key.md)**
+
+### Errors
+
+| Error Type                    | Status Code                   | Content Type                  |
+| ----------------------------- | ----------------------------- | ----------------------------- |
+| models.ErrBadRequest          | 400                           | application/json              |
+| models.ErrUnauthorized        | 401                           | application/json              |
+| models.ErrForbidden           | 403                           | application/json              |
+| models.ErrNotFound            | 404                           | application/json              |
+| models.ErrConflict            | 409                           | application/json              |
+| models.ErrTooManyRequests     | 429                           | application/json              |
+| models.ErrInternalServerError | 500                           | application/json              |
+| models.SDKError               | 4XX, 5XX                      | \*/\*                         |
+
+## whoami
+
+### Example Usage
+
+```python
+import os
+from unkey import Unkey
+
+s = Unkey(
+    bearer_auth=os.getenv("UNKEY_BEARER_AUTH", ""),
+)
+
+res = s.keys.whoami(request={
+    "key": "sk_123",
+})
+
+if res is not None:
+    # handle response
+    pass
+
+```
+
+### Parameters
+
+| Parameter                                                           | Type                                                                | Required                                                            | Description                                                         |
+| ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
+| `request`                                                           | [models.WhoamiRequestBody](../../models/whoamirequestbody.md)       | :heavy_check_mark:                                                  | The request object to use for the request.                          |
+| `retries`                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)    | :heavy_minus_sign:                                                  | Configuration to override the default retry behavior of the client. |
+
+### Response
+
+**[models.WhoamiResponseBody](../../models/whoamiresponsebody.md)**
+
+### Errors
+
+| Error Type                    | Status Code                   | Content Type                  |
+| ----------------------------- | ----------------------------- | ----------------------------- |
+| models.ErrBadRequest          | 400                           | application/json              |
+| models.ErrUnauthorized        | 401                           | application/json              |
+| models.ErrForbidden           | 403                           | application/json              |
+| models.ErrNotFound            | 404                           | application/json              |
+| models.ErrConflict            | 409                           | application/json              |
+| models.ErrTooManyRequests     | 429                           | application/json              |
+| models.ErrInternalServerError | 500                           | application/json              |
+| models.SDKError               | 4XX, 5XX                      | \*/\*                         |
+
+## delete
+
+### Example Usage
+
+```python
+import os
+from unkey import Unkey
+
+s = Unkey(
+    bearer_auth=os.getenv("UNKEY_BEARER_AUTH", ""),
+)
+
+res = s.keys.delete(request={
+    "key_id": "key_1234",
+})
+
+if res is not None:
+    # handle response
+    pass
+
+```
+
+### Parameters
+
+| Parameter                                                           | Type                                                                | Required                                                            | Description                                                         |
+| ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
+| `request`                                                           | [models.DeleteKeyRequestBody](../../models/deletekeyrequestbody.md) | :heavy_check_mark:                                                  | The request object to use for the request.                          |
+| `retries`                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)    | :heavy_minus_sign:                                                  | Configuration to override the default retry behavior of the client. |
+
+### Response
+
+**[models.DeleteKeyResponseBody](../../models/deletekeyresponsebody.md)**
+
+### Errors
+
+| Error Type                    | Status Code                   | Content Type                  |
+| ----------------------------- | ----------------------------- | ----------------------------- |
+| models.ErrBadRequest          | 400                           | application/json              |
+| models.ErrUnauthorized        | 401                           | application/json              |
+| models.ErrForbidden           | 403                           | application/json              |
+| models.ErrNotFound            | 404                           | application/json              |
+| models.ErrConflict            | 409                           | application/json              |
+| models.ErrTooManyRequests     | 429                           | application/json              |
+| models.ErrInternalServerError | 500                           | application/json              |
+| models.SDKError               | 4XX, 5XX                      | \*/\*                         |
+
+## create
+
+### Example Usage
+
+```python
+import os
+import unkey
+from unkey import Unkey
+
+s = Unkey(
+    bearer_auth=os.getenv("UNKEY_BEARER_AUTH", ""),
+)
+
+res = s.keys.create(request={
+    "api_id": "api_123",
+    "name": "my key",
+    "external_id": "team_123",
+    "meta": {
+        "billingTier": "PRO",
+        "trialEnds": "2023-06-16T17:16:37.161Z",
+    },
+    "roles": [
+        "admin",
+        "finance",
+    ],
+    "permissions": [
+        "domains.create_record",
+        "say_hello",
+    ],
+    "expires": 1623869797161,
+    "remaining": 1000,
+    "refill": {
+        "interval": unkey.CreateKeyInterval.DAILY,
+        "amount": 100,
+    },
+    "ratelimit": {
+        "limit": 10,
+        "type": unkey.CreateKeyType.FAST,
+        "duration": 60000,
+    },
+    "enabled": False,
+})
+
+if res is not None:
+    # handle response
+    pass
+
+```
+
+### Parameters
+
+| Parameter                                                           | Type                                                                | Required                                                            | Description                                                         |
+| ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
+| `request`                                                           | [models.CreateKeyRequestBody](../../models/createkeyrequestbody.md) | :heavy_check_mark:                                                  | The request object to use for the request.                          |
+| `retries`                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)    | :heavy_minus_sign:                                                  | Configuration to override the default retry behavior of the client. |
+
+### Response
+
+**[models.CreateKeyResponseBody](../../models/createkeyresponsebody.md)**
+
+### Errors
+
+| Error Type                    | Status Code                   | Content Type                  |
+| ----------------------------- | ----------------------------- | ----------------------------- |
+| models.ErrBadRequest          | 400                           | application/json              |
+| models.ErrUnauthorized        | 401                           | application/json              |
+| models.ErrForbidden           | 403                           | application/json              |
+| models.ErrNotFound            | 404                           | application/json              |
+| models.ErrConflict            | 409                           | application/json              |
+| models.ErrTooManyRequests     | 429                           | application/json              |
+| models.ErrInternalServerError | 500                           | application/json              |
+| models.SDKError               | 4XX, 5XX                      | \*/\*                         |
+
+## verify
+
+### Example Usage
+
+```python
+import os
+from unkey import Unkey
+
+s = Unkey(
+    bearer_auth=os.getenv("UNKEY_BEARER_AUTH", ""),
+)
+
+res = s.keys.verify(request={
+    "key": "sk_1234",
+    "api_id": "api_1234",
+    "ratelimits": [
+        {
+            "name": "tokens",
+            "limit": 500,
+            "duration": 3600000,
+        },
+        {
+            "name": "tokens",
+            "limit": 20000,
+            "duration": 86400000,
+        },
+    ],
+})
+
+if res is not None:
+    # handle response
+    pass
+
+```
+
+### Parameters
+
+| Parameter                                                               | Type                                                                    | Required                                                                | Description                                                             |
+| ----------------------------------------------------------------------- | ----------------------------------------------------------------------- | ----------------------------------------------------------------------- | ----------------------------------------------------------------------- |
+| `request`                                                               | [models.V1KeysVerifyKeyRequest](../../models/v1keysverifykeyrequest.md) | :heavy_check_mark:                                                      | The request object to use for the request.                              |
+| `retries`                                                               | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)        | :heavy_minus_sign:                                                      | Configuration to override the default retry behavior of the client.     |
+
+### Response
+
+**[models.V1KeysVerifyKeyResponse](../../models/v1keysverifykeyresponse.md)**
+
+### Errors
+
+| Error Type                    | Status Code                   | Content Type                  |
+| ----------------------------- | ----------------------------- | ----------------------------- |
+| models.ErrBadRequest          | 400                           | application/json              |
+| models.ErrUnauthorized        | 401                           | application/json              |
+| models.ErrForbidden           | 403                           | application/json              |
+| models.ErrNotFound            | 404                           | application/json              |
+| models.ErrConflict            | 409                           | application/json              |
+| models.ErrTooManyRequests     | 429                           | application/json              |
+| models.ErrInternalServerError | 500                           | application/json              |
+| models.SDKError               | 4XX, 5XX                      | \*/\*                         |
+
+## update
+
+### Example Usage
+
+```python
+import os
+import unkey
+from unkey import Unkey
+
+s = Unkey(
+    bearer_auth=os.getenv("UNKEY_BEARER_AUTH", ""),
+)
+
+res = s.keys.update(request={
+    "key_id": "key_123",
+    "name": "Customer X",
+    "external_id": "user_123",
+    "meta": {
+        "roles": [
+            "admin",
+            "user",
+        ],
+        "stripeCustomerId": "cus_1234",
+    },
+    "expires": 0,
+    "ratelimit": {
+        "limit": 10,
+        "type": unkey.UpdateKeyType.FAST,
+        "refill_rate": 1,
+        "refill_interval": 60,
+    },
+    "remaining": 1000,
+    "refill": {
+        "interval": unkey.UpdateKeyInterval.DAILY,
+        "amount": 100,
+    },
+    "enabled": True,
+    "roles": [
+        {
+            "id": "perm_123",
+        },
+        {
+            "name": "dns.record.create",
+        },
+        {
+            "name": "dns.record.delete",
+            "create": True,
+        },
+    ],
+    "permissions": [
+        {
+            "id": "perm_123",
+        },
+        {
+            "name": "dns.record.create",
+        },
+        {
+            "name": "dns.record.delete",
+            "create": True,
+        },
+    ],
+})
+
+if res is not None:
+    # handle response
+    pass
+
+```
+
+### Parameters
+
+| Parameter                                                           | Type                                                                | Required                                                            | Description                                                         |
+| ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
+| `request`                                                           | [models.UpdateKeyRequestBody](../../models/updatekeyrequestbody.md) | :heavy_check_mark:                                                  | The request object to use for the request.                          |
+| `retries`                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)    | :heavy_minus_sign:                                                  | Configuration to override the default retry behavior of the client. |
+
+### Response
+
+**[models.UpdateKeyResponseBody](../../models/updatekeyresponsebody.md)**
+
+### Errors
+
+| Error Type                    | Status Code                   | Content Type                  |
+| ----------------------------- | ----------------------------- | ----------------------------- |
+| models.ErrBadRequest          | 400                           | application/json              |
+| models.ErrUnauthorized        | 401                           | application/json              |
+| models.ErrForbidden           | 403                           | application/json              |
+| models.ErrNotFound            | 404                           | application/json              |
+| models.ErrConflict            | 409                           | application/json              |
+| models.ErrTooManyRequests     | 429                           | application/json              |
+| models.ErrInternalServerError | 500                           | application/json              |
+| models.SDKError               | 4XX, 5XX                      | \*/\*                         |
+
+## update_remaining
+
+### Example Usage
+
+```python
+import os
+import unkey
+from unkey import Unkey
+
+s = Unkey(
+    bearer_auth=os.getenv("UNKEY_BEARER_AUTH", ""),
+)
+
+res = s.keys.update_remaining(request={
+    "key_id": "key_123",
+    "op": unkey.Op.SET,
+    "value": 1,
+})
+
+if res is not None:
+    # handle response
+    pass
+
+```
+
+### Parameters
+
+| Parameter                                                                       | Type                                                                            | Required                                                                        | Description                                                                     |
+| ------------------------------------------------------------------------------- | ------------------------------------------------------------------------------- | ------------------------------------------------------------------------------- | ------------------------------------------------------------------------------- |
+| `request`                                                                       | [models.UpdateRemainingRequestBody](../../models/updateremainingrequestbody.md) | :heavy_check_mark:                                                              | The request object to use for the request.                                      |
+| `retries`                                                                       | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                | :heavy_minus_sign:                                                              | Configuration to override the default retry behavior of the client.             |
+
+### Response
+
+**[models.UpdateRemainingResponseBody](../../models/updateremainingresponsebody.md)**
+
+### Errors
+
+| Error Type                    | Status Code                   | Content Type                  |
+| ----------------------------- | ----------------------------- | ----------------------------- |
+| models.ErrBadRequest          | 400                           | application/json              |
+| models.ErrUnauthorized        | 401                           | application/json              |
+| models.ErrForbidden           | 403                           | application/json              |
+| models.ErrNotFound            | 404                           | application/json              |
+| models.ErrConflict            | 409                           | application/json              |
+| models.ErrTooManyRequests     | 429                           | application/json              |
+| models.ErrInternalServerError | 500                           | application/json              |
+| models.SDKError               | 4XX, 5XX                      | \*/\*                         |
+
+## get_verifications
+
+### Example Usage
+
+```python
+import os
+import unkey
+from unkey import Unkey
+
+s = Unkey(
+    bearer_auth=os.getenv("UNKEY_BEARER_AUTH", ""),
+)
+
+res = s.keys.get_verifications(request={
+    "key_id": "key_1234",
+    "owner_id": "chronark",
+    "start": 1620000000000,
+    "end": 1620000000000,
+    "granularity": unkey.Granularity.DAY,
+})
+
+if res is not None:
+    # handle response
+    pass
+
+```
+
+### Parameters
+
+| Parameter                                                                 | Type                                                                      | Required                                                                  | Description                                                               |
+| ------------------------------------------------------------------------- | ------------------------------------------------------------------------- | ------------------------------------------------------------------------- | ------------------------------------------------------------------------- |
+| `request`                                                                 | [models.GetVerificationsRequest](../../models/getverificationsrequest.md) | :heavy_check_mark:                                                        | The request object to use for the request.                                |
+| `retries`                                                                 | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)          | :heavy_minus_sign:                                                        | Configuration to override the default retry behavior of the client.       |
+
+### Response
+
+**[models.GetVerificationsResponseBody](../../models/getverificationsresponsebody.md)**
+
+### Errors
+
+| Error Type                    | Status Code                   | Content Type                  |
+| ----------------------------- | ----------------------------- | ----------------------------- |
+| models.ErrBadRequest          | 400                           | application/json              |
+| models.ErrUnauthorized        | 401                           | application/json              |
+| models.ErrForbidden           | 403                           | application/json              |
+| models.ErrNotFound            | 404                           | application/json              |
+| models.ErrConflict            | 409                           | application/json              |
+| models.ErrTooManyRequests     | 429                           | application/json              |
+| models.ErrInternalServerError | 500                           | application/json              |
+| models.SDKError               | 4XX, 5XX                      | \*/\*                         |
+
+## add_permissions
+
+### Example Usage
+
+```python
+import os
+from unkey import Unkey
+
+s = Unkey(
+    bearer_auth=os.getenv("UNKEY_BEARER_AUTH", ""),
+)
+
+res = s.keys.add_permissions(request={
+    "key_id": "<id>",
+    "permissions": [
+        {},
+    ],
+})
+
+if res is not None:
+    # handle response
+    pass
+
+```
+
+### Parameters
+
+| Parameter                                                                     | Type                                                                          | Required                                                                      | Description                                                                   |
+| ----------------------------------------------------------------------------- | ----------------------------------------------------------------------------- | ----------------------------------------------------------------------------- | ----------------------------------------------------------------------------- |
+| `request`                                                                     | [models.AddPermissionsRequestBody](../../models/addpermissionsrequestbody.md) | :heavy_check_mark:                                                            | The request object to use for the request.                                    |
+| `retries`                                                                     | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)              | :heavy_minus_sign:                                                            | Configuration to override the default retry behavior of the client.           |
+
+### Response
+
+**[List[models.ResponseBody]](../../models/.md)**
+
+### Errors
+
+| Error Type                    | Status Code                   | Content Type                  |
+| ----------------------------- | ----------------------------- | ----------------------------- |
+| models.ErrBadRequest          | 400                           | application/json              |
+| models.ErrUnauthorized        | 401                           | application/json              |
+| models.ErrForbidden           | 403                           | application/json              |
+| models.ErrNotFound            | 404                           | application/json              |
+| models.ErrConflict            | 409                           | application/json              |
+| models.ErrTooManyRequests     | 429                           | application/json              |
+| models.ErrInternalServerError | 500                           | application/json              |
+| models.SDKError               | 4XX, 5XX                      | \*/\*                         |
+
+## remove_permissions
+
+### Example Usage
+
+```python
+import os
+from unkey import Unkey
+
+s = Unkey(
+    bearer_auth=os.getenv("UNKEY_BEARER_AUTH", ""),
+)
+
+res = s.keys.remove_permissions(request={
+    "key_id": "<id>",
+    "permissions": [
+        {
+            "id": "perm_123",
+        },
+        {
+            "name": "dns.record.create",
+        },
+    ],
+})
+
+if res is not None:
+    # handle response
+    pass
+
+```
+
+### Parameters
+
+| Parameter                                                                           | Type                                                                                | Required                                                                            | Description                                                                         |
+| ----------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
+| `request`                                                                           | [models.RemovePermissionsRequestBody](../../models/removepermissionsrequestbody.md) | :heavy_check_mark:                                                                  | The request object to use for the request.                                          |
+| `retries`                                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                    | :heavy_minus_sign:                                                                  | Configuration to override the default retry behavior of the client.                 |
+
+### Response
+
+**[models.RemovePermissionsResponseBody](../../models/removepermissionsresponsebody.md)**
+
+### Errors
+
+| Error Type                    | Status Code                   | Content Type                  |
+| ----------------------------- | ----------------------------- | ----------------------------- |
+| models.ErrBadRequest          | 400                           | application/json              |
+| models.ErrUnauthorized        | 401                           | application/json              |
+| models.ErrForbidden           | 403                           | application/json              |
+| models.ErrNotFound            | 404                           | application/json              |
+| models.ErrConflict            | 409                           | application/json              |
+| models.ErrTooManyRequests     | 429                           | application/json              |
+| models.ErrInternalServerError | 500                           | application/json              |
+| models.SDKError               | 4XX, 5XX                      | \*/\*                         |
+
+## set_permissions
+
+### Example Usage
+
+```python
+import os
+from unkey import Unkey
+
+s = Unkey(
+    bearer_auth=os.getenv("UNKEY_BEARER_AUTH", ""),
+)
+
+res = s.keys.set_permissions(request={
+    "key_id": "<id>",
+    "permissions": [
+        {
+            "id": "perm_123",
+        },
+        {
+            "name": "dns.record.create",
+        },
+        {
+            "name": "dns.record.delete",
+            "create": True,
+        },
+    ],
+})
+
+if res is not None:
+    # handle response
+    pass
+
+```
+
+### Parameters
+
+| Parameter                                                                     | Type                                                                          | Required                                                                      | Description                                                                   |
+| ----------------------------------------------------------------------------- | ----------------------------------------------------------------------------- | ----------------------------------------------------------------------------- | ----------------------------------------------------------------------------- |
+| `request`                                                                     | [models.SetPermissionsRequestBody](../../models/setpermissionsrequestbody.md) | :heavy_check_mark:                                                            | The request object to use for the request.                                    |
+| `retries`                                                                     | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)              | :heavy_minus_sign:                                                            | Configuration to override the default retry behavior of the client.           |
+
+### Response
+
+**[List[models.SetPermissionsResponseBody]](../../models/.md)**
+
+### Errors
+
+| Error Type                    | Status Code                   | Content Type                  |
+| ----------------------------- | ----------------------------- | ----------------------------- |
+| models.ErrBadRequest          | 400                           | application/json              |
+| models.ErrUnauthorized        | 401                           | application/json              |
+| models.ErrForbidden           | 403                           | application/json              |
+| models.ErrNotFound            | 404                           | application/json              |
+| models.ErrConflict            | 409                           | application/json              |
+| models.ErrTooManyRequests     | 429                           | application/json              |
+| models.ErrInternalServerError | 500                           | application/json              |
+| models.SDKError               | 4XX, 5XX                      | \*/\*                         |
+
+## add_roles
+
+### Example Usage
+
+```python
+import os
+from unkey import Unkey
+
+s = Unkey(
+    bearer_auth=os.getenv("UNKEY_BEARER_AUTH", ""),
+)
+
+res = s.keys.add_roles(request={
+    "key_id": "<id>",
+    "roles": [
+        {
+            "id": "role_123",
+        },
+        {
+            "name": "dns.record.create",
+        },
+        {
+            "name": "dns.record.delete",
+            "create": True,
+        },
+    ],
+})
+
+if res is not None:
+    # handle response
+    pass
+
+```
+
+### Parameters
+
+| Parameter                                                           | Type                                                                | Required                                                            | Description                                                         |
+| ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
+| `request`                                                           | [models.AddRolesRequestBody](../../models/addrolesrequestbody.md)   | :heavy_check_mark:                                                  | The request object to use for the request.                          |
+| `retries`                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)    | :heavy_minus_sign:                                                  | Configuration to override the default retry behavior of the client. |
+
+### Response
+
+**[List[models.AddRolesResponseBody]](../../models/.md)**
+
+### Errors
+
+| Error Type                    | Status Code                   | Content Type                  |
+| ----------------------------- | ----------------------------- | ----------------------------- |
+| models.ErrBadRequest          | 400                           | application/json              |
+| models.ErrUnauthorized        | 401                           | application/json              |
+| models.ErrForbidden           | 403                           | application/json              |
+| models.ErrNotFound            | 404                           | application/json              |
+| models.ErrConflict            | 409                           | application/json              |
+| models.ErrTooManyRequests     | 429                           | application/json              |
+| models.ErrInternalServerError | 500                           | application/json              |
+| models.SDKError               | 4XX, 5XX                      | \*/\*                         |
+
+## remove_roles
+
+### Example Usage
+
+```python
+import os
+from unkey import Unkey
+
+s = Unkey(
+    bearer_auth=os.getenv("UNKEY_BEARER_AUTH", ""),
+)
+
+res = s.keys.remove_roles(request={
+    "key_id": "<id>",
+    "roles": [
+        {
+            "id": "role_123",
+        },
+        {
+            "name": "dns.record.create",
+        },
+    ],
+})
+
+if res is not None:
+    # handle response
+    pass
+
+```
+
+### Parameters
+
+| Parameter                                                               | Type                                                                    | Required                                                                | Description                                                             |
+| ----------------------------------------------------------------------- | ----------------------------------------------------------------------- | ----------------------------------------------------------------------- | ----------------------------------------------------------------------- |
+| `request`                                                               | [models.RemoveRolesRequestBody](../../models/removerolesrequestbody.md) | :heavy_check_mark:                                                      | The request object to use for the request.                              |
+| `retries`                                                               | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)        | :heavy_minus_sign:                                                      | Configuration to override the default retry behavior of the client.     |
+
+### Response
+
+**[models.RemoveRolesResponseBody](../../models/removerolesresponsebody.md)**
+
+### Errors
+
+| Error Type                    | Status Code                   | Content Type                  |
+| ----------------------------- | ----------------------------- | ----------------------------- |
+| models.ErrBadRequest          | 400                           | application/json              |
+| models.ErrUnauthorized        | 401                           | application/json              |
+| models.ErrForbidden           | 403                           | application/json              |
+| models.ErrNotFound            | 404                           | application/json              |
+| models.ErrConflict            | 409                           | application/json              |
+| models.ErrTooManyRequests     | 429                           | application/json              |
+| models.ErrInternalServerError | 500                           | application/json              |
+| models.SDKError               | 4XX, 5XX                      | \*/\*                         |
+
+## set_roles
+
+### Example Usage
+
+```python
+import os
+from unkey import Unkey
+
+s = Unkey(
+    bearer_auth=os.getenv("UNKEY_BEARER_AUTH", ""),
+)
+
+res = s.keys.set_roles(request={
+    "key_id": "<id>",
+    "roles": [
+        {
+            "id": "role_123",
+        },
+        {
+            "name": "dns.record.create",
+        },
+        {
+            "name": "dns.record.delete",
+            "create": True,
+        },
+    ],
+})
+
+if res is not None:
+    # handle response
+    pass
+
+```
+
+### Parameters
+
+| Parameter                                                           | Type                                                                | Required                                                            | Description                                                         |
+| ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
+| `request`                                                           | [models.SetRolesRequestBody](../../models/setrolesrequestbody.md)   | :heavy_check_mark:                                                  | The request object to use for the request.                          |
+| `retries`                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)    | :heavy_minus_sign:                                                  | Configuration to override the default retry behavior of the client. |
+
+### Response
+
+**[List[models.SetRolesResponseBody]](../../models/.md)**
+
+### Errors
+
+| Error Type                    | Status Code                   | Content Type                  |
+| ----------------------------- | ----------------------------- | ----------------------------- |
+| models.ErrBadRequest          | 400                           | application/json              |
+| models.ErrUnauthorized        | 401                           | application/json              |
+| models.ErrForbidden           | 403                           | application/json              |
+| models.ErrNotFound            | 404                           | application/json              |
+| models.ErrConflict            | 409                           | application/json              |
+| models.ErrTooManyRequests     | 429                           | application/json              |
+| models.ErrInternalServerError | 500                           | application/json              |
+| models.SDKError               | 4XX, 5XX                      | \*/\*                         |
