@@ -43,5 +43,5 @@ python:
   methodArguments: infer-optional-args
   outputModelSuffix: output
   packageName: unkey
-  responseFormat: enevelope-http
+  responseFormat: envelope-http
   templateVersion: v2
