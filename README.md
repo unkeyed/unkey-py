@@ -1,6 +1,6 @@
 # unkey
 
-Developer-friendly & type-safe Python SDK specifically catered to leverage *unkey* API.
+Developer-friendly & type-safe Python SDK for Unkey's API.
 
 <div align="left">
     <a href="https://www.speakeasy.com/?utm_source=unkey&utm_campaign=python"><img src="https://custom-icon-badges.demolab.com/badge/-Built%20By%20Speakeasy-212015?style=for-the-badge&logoColor=FBE331&logo=speakeasy&labelColor=545454" /></a>
@@ -11,8 +11,6 @@ Developer-friendly & type-safe Python SDK specifically catered to leverage *unke
 
 
 <br /><br />
-> [!IMPORTANT]
-> This SDK is not yet ready for production use. To complete setup please follow the steps outlined in your [workspace](https://app.speakeasy.com/org/unkey/unkey). Delete this section before > publishing to a package manager.
 
 <!-- Start Summary [summary] -->
 ## Summary
