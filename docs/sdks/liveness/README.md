@@ -21,7 +21,7 @@ s = Unkey(
 
 res = s.liveness.check()
 
-if res is not None:
+if res.object is not None:
     # handle response
     pass
 
@@ -35,7 +35,7 @@ if res is not None:
 
 ### Response
 
-**[models.V1LivenessResponseBody](../../models/v1livenessresponsebody.md)**
+**[models.V1LivenessResponse](../../models/v1livenessresponse.md)**
 
 ### Errors
 

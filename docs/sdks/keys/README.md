@@ -34,7 +34,7 @@ s = Unkey(
 
 res = s.keys.get(key_id="key_1234")
 
-if res is not None:
+if res.key is not None:
     # handle response
     pass
 
@@ -50,7 +50,7 @@ if res is not None:
 
 ### Response
 
-**[models.Key](../../models/key.md)**
+**[models.GetKeyResponse](../../models/getkeyresponse.md)**
 
 ### Errors
 
@@ -81,7 +81,7 @@ res = s.keys.whoami(request={
     "key": "sk_123",
 })
 
-if res is not None:
+if res.object is not None:
     # handle response
     pass
 
@@ -96,7 +96,7 @@ if res is not None:
 
 ### Response
 
-**[models.WhoamiResponseBody](../../models/whoamiresponsebody.md)**
+**[models.WhoamiResponse](../../models/whoamiresponse.md)**
 
 ### Errors
 
@@ -127,7 +127,7 @@ res = s.keys.delete(request={
     "key_id": "key_1234",
 })
 
-if res is not None:
+if res.object is not None:
     # handle response
     pass
 
@@ -142,7 +142,7 @@ if res is not None:
 
 ### Response
 
-**[models.DeleteKeyResponseBody](../../models/deletekeyresponsebody.md)**
+**[models.DeleteKeyResponse](../../models/deletekeyresponse.md)**
 
 ### Errors
 
@@ -200,7 +200,7 @@ res = s.keys.create(request={
     "enabled": False,
 })
 
-if res is not None:
+if res.object is not None:
     # handle response
     pass
 
@@ -215,7 +215,7 @@ if res is not None:
 
 ### Response
 
-**[models.CreateKeyResponseBody](../../models/createkeyresponsebody.md)**
+**[models.CreateKeyResponse](../../models/createkeyresponse.md)**
 
 ### Errors
 
@@ -259,7 +259,7 @@ res = s.keys.verify(request={
     ],
 })
 
-if res is not None:
+if res.v1_keys_verify_key_response is not None:
     # handle response
     pass
 
@@ -274,7 +274,7 @@ if res is not None:
 
 ### Response
 
-**[models.V1KeysVerifyKeyResponse](../../models/v1keysverifykeyresponse.md)**
+**[models.VerifyKeyResponse](../../models/verifykeyresponse.md)**
 
 ### Errors
 
@@ -352,7 +352,7 @@ res = s.keys.update(request={
     ],
 })
 
-if res is not None:
+if res.object is not None:
     # handle response
     pass
 
@@ -367,7 +367,7 @@ if res is not None:
 
 ### Response
 
-**[models.UpdateKeyResponseBody](../../models/updatekeyresponsebody.md)**
+**[models.UpdateKeyResponse](../../models/updatekeyresponse.md)**
 
 ### Errors
 
@@ -401,7 +401,7 @@ res = s.keys.update_remaining(request={
     "value": 1,
 })
 
-if res is not None:
+if res.object is not None:
     # handle response
     pass
 
@@ -416,7 +416,7 @@ if res is not None:
 
 ### Response
 
-**[models.UpdateRemainingResponseBody](../../models/updateremainingresponsebody.md)**
+**[models.UpdateRemainingResponse](../../models/updateremainingresponse.md)**
 
 ### Errors
 
@@ -452,7 +452,7 @@ res = s.keys.get_verifications(request={
     "granularity": unkey.Granularity.DAY,
 })
 
-if res is not None:
+if res.object is not None:
     # handle response
     pass
 
@@ -467,7 +467,7 @@ if res is not None:
 
 ### Response
 
-**[models.GetVerificationsResponseBody](../../models/getverificationsresponsebody.md)**
+**[models.GetVerificationsResponse](../../models/getverificationsresponse.md)**
 
 ### Errors
 
@@ -501,7 +501,7 @@ res = s.keys.add_permissions(request={
     ],
 })
 
-if res is not None:
+if res.response_bodies is not None:
     # handle response
     pass
 
@@ -516,7 +516,7 @@ if res is not None:
 
 ### Response
 
-**[List[models.ResponseBody]](../../models/.md)**
+**[models.AddPermissionsResponse](../../models/addpermissionsresponse.md)**
 
 ### Errors
 
@@ -555,7 +555,7 @@ res = s.keys.remove_permissions(request={
     ],
 })
 
-if res is not None:
+if res.object is not None:
     # handle response
     pass
 
@@ -570,7 +570,7 @@ if res is not None:
 
 ### Response
 
-**[models.RemovePermissionsResponseBody](../../models/removepermissionsresponsebody.md)**
+**[models.RemovePermissionsResponse](../../models/removepermissionsresponse.md)**
 
 ### Errors
 
@@ -613,7 +613,7 @@ res = s.keys.set_permissions(request={
     ],
 })
 
-if res is not None:
+if res.response_bodies is not None:
     # handle response
     pass
 
@@ -628,7 +628,7 @@ if res is not None:
 
 ### Response
 
-**[List[models.SetPermissionsResponseBody]](../../models/.md)**
+**[models.SetPermissionsResponse](../../models/setpermissionsresponse.md)**
 
 ### Errors
 
@@ -671,7 +671,7 @@ res = s.keys.add_roles(request={
     ],
 })
 
-if res is not None:
+if res.response_bodies is not None:
     # handle response
     pass
 
@@ -686,7 +686,7 @@ if res is not None:
 
 ### Response
 
-**[List[models.AddRolesResponseBody]](../../models/.md)**
+**[models.AddRolesResponse](../../models/addrolesresponse.md)**
 
 ### Errors
 
@@ -725,7 +725,7 @@ res = s.keys.remove_roles(request={
     ],
 })
 
-if res is not None:
+if res.object is not None:
     # handle response
     pass
 
@@ -740,7 +740,7 @@ if res is not None:
 
 ### Response
 
-**[models.RemoveRolesResponseBody](../../models/removerolesresponsebody.md)**
+**[models.RemoveRolesResponse](../../models/removerolesresponse.md)**
 
 ### Errors
 
@@ -783,7 +783,7 @@ res = s.keys.set_roles(request={
     ],
 })
 
-if res is not None:
+if res.response_bodies is not None:
     # handle response
     pass
 
@@ -798,7 +798,7 @@ if res is not None:
 
 ### Response
 
-**[List[models.SetRolesResponseBody]](../../models/.md)**
+**[models.SetRolesResponse](../../models/setrolesresponse.md)**
 
 ### Errors
 

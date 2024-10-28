@@ -31,7 +31,7 @@ res = s.permissions.create(request={
     "description": "record.write can create new dns records for our domains.",
 })
 
-if res is not None:
+if res.object is not None:
     # handle response
     pass
 
@@ -46,7 +46,7 @@ if res is not None:
 
 ### Response
 
-**[models.CreatePermissionResponseBody](../../models/createpermissionresponsebody.md)**
+**[models.CreatePermissionResponse](../../models/createpermissionresponse.md)**
 
 ### Errors
 
@@ -77,7 +77,7 @@ res = s.permissions.delete(request={
     "permission_id": "perm_123",
 })
 
-if res is not None:
+if res.object is not None:
     # handle response
     pass
 
@@ -92,7 +92,7 @@ if res is not None:
 
 ### Response
 
-**[models.DeletePermissionResponseBody](../../models/deletepermissionresponsebody.md)**
+**[models.DeletePermissionResponse](../../models/deletepermissionresponse.md)**
 
 ### Errors
 
@@ -121,7 +121,7 @@ s = Unkey(
 
 res = s.permissions.get(permission_id="perm_123")
 
-if res is not None:
+if res.object is not None:
     # handle response
     pass
 
@@ -136,7 +136,7 @@ if res is not None:
 
 ### Response
 
-**[models.GetPermissionResponseBody](../../models/getpermissionresponsebody.md)**
+**[models.GetPermissionResponse](../../models/getpermissionresponse.md)**
 
 ### Errors
 
@@ -165,7 +165,7 @@ s = Unkey(
 
 res = s.permissions.list()
 
-if res is not None:
+if res.response_bodies is not None:
     # handle response
     pass
 
@@ -179,7 +179,7 @@ if res is not None:
 
 ### Response
 
-**[List[models.ListPermissionsResponseBody]](../../models/.md)**
+**[models.ListPermissionsResponse](../../models/listpermissionsresponse.md)**
 
 ### Errors
 
@@ -211,7 +211,7 @@ res = s.permissions.create_role(request={
     "description": "dns.records.manager can read and write dns records for our domains.",
 })
 
-if res is not None:
+if res.object is not None:
     # handle response
     pass
 
@@ -226,7 +226,7 @@ if res is not None:
 
 ### Response
 
-**[models.CreateRoleResponseBody](../../models/createroleresponsebody.md)**
+**[models.CreateRoleResponse](../../models/createroleresponse.md)**
 
 ### Errors
 
@@ -257,7 +257,7 @@ res = s.permissions.delete_role(request={
     "role_id": "role_123",
 })
 
-if res is not None:
+if res.object is not None:
     # handle response
     pass
 
@@ -272,7 +272,7 @@ if res is not None:
 
 ### Response
 
-**[models.DeleteRoleResponseBody](../../models/deleteroleresponsebody.md)**
+**[models.DeleteRoleResponse](../../models/deleteroleresponse.md)**
 
 ### Errors
 
@@ -301,7 +301,7 @@ s = Unkey(
 
 res = s.permissions.get_role(role_id="role_123")
 
-if res is not None:
+if res.object is not None:
     # handle response
     pass
 
@@ -316,7 +316,7 @@ if res is not None:
 
 ### Response
 
-**[models.GetRoleResponseBody](../../models/getroleresponsebody.md)**
+**[models.GetRoleResponse](../../models/getroleresponse.md)**
 
 ### Errors
 
@@ -345,7 +345,7 @@ s = Unkey(
 
 res = s.permissions.list_roles()
 
-if res is not None:
+if res.response_bodies is not None:
     # handle response
     pass
 
@@ -359,7 +359,7 @@ if res is not None:
 
 ### Response
 
-**[List[models.ListRolesResponseBody]](../../models/.md)**
+**[models.ListRolesResponse](../../models/listrolesresponse.md)**
 
 ### Errors
 

@@ -34,7 +34,7 @@ res = s.ratelimits.limit(request={
     ],
 })
 
-if res is not None:
+if res.object is not None:
     # handle response
     pass
 
@@ -49,7 +49,7 @@ if res is not None:
 
 ### Response
 
-**[models.LimitResponseBody](../../models/limitresponsebody.md)**
+**[models.LimitResponse](../../models/limitresponse.md)**
 
 ### Errors
 

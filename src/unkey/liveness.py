@@ -15,7 +15,7 @@ class Liveness(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
-    ) -> models.V1LivenessResponseBody:
+    ) -> models.V1LivenessResponse:
         r"""
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -80,7 +80,12 @@ class Liveness(BaseSDK):
 
         data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return utils.unmarshal_json(http_res.text, models.V1LivenessResponseBody)
+            return models.V1LivenessResponse(
+                object=utils.unmarshal_json(
+                    http_res.text, Optional[models.V1LivenessResponseBody]
+                ),
+                http_meta=models.HTTPMetadata(request=req, response=http_res),
+            )
         if utils.match_response(http_res, "400", "application/json"):
             data = utils.unmarshal_json(http_res.text, models.ErrBadRequestData)
             raise models.ErrBadRequest(data=data)
@@ -125,7 +130,7 @@ class Liveness(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
-    ) -> models.V1LivenessResponseBody:
+    ) -> models.V1LivenessResponse:
         r"""
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -190,7 +195,12 @@ class Liveness(BaseSDK):
 
         data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return utils.unmarshal_json(http_res.text, models.V1LivenessResponseBody)
+            return models.V1LivenessResponse(
+                object=utils.unmarshal_json(
+                    http_res.text, Optional[models.V1LivenessResponseBody]
+                ),
+                http_meta=models.HTTPMetadata(request=req, response=http_res),
+            )
         if utils.match_response(http_res, "400", "application/json"):
             data = utils.unmarshal_json(http_res.text, models.ErrBadRequestData)
             raise models.ErrBadRequest(data=data)
