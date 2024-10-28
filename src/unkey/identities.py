@@ -19,7 +19,7 @@ class Identities(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
-    ) -> models.CreateIdentityResponseBody:
+    ) -> models.CreateIdentityResponse:
         r"""
         :param request: The request object to send.
         :param retries: Override the default retry configuration for this method
@@ -93,8 +93,11 @@ class Identities(BaseSDK):
 
         data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return utils.unmarshal_json(
-                http_res.text, models.CreateIdentityResponseBody
+            return models.CreateIdentityResponse(
+                object=utils.unmarshal_json(
+                    http_res.text, Optional[models.CreateIdentityResponseBody]
+                ),
+                http_meta=models.HTTPMetadata(request=req, response=http_res),
             )
         if utils.match_response(http_res, "400", "application/json"):
             data = utils.unmarshal_json(http_res.text, models.ErrBadRequestData)
@@ -143,7 +146,7 @@ class Identities(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
-    ) -> models.CreateIdentityResponseBody:
+    ) -> models.CreateIdentityResponse:
         r"""
         :param request: The request object to send.
         :param retries: Override the default retry configuration for this method
@@ -217,8 +220,11 @@ class Identities(BaseSDK):
 
         data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return utils.unmarshal_json(
-                http_res.text, models.CreateIdentityResponseBody
+            return models.CreateIdentityResponse(
+                object=utils.unmarshal_json(
+                    http_res.text, Optional[models.CreateIdentityResponseBody]
+                ),
+                http_meta=models.HTTPMetadata(request=req, response=http_res),
             )
         if utils.match_response(http_res, "400", "application/json"):
             data = utils.unmarshal_json(http_res.text, models.ErrBadRequestData)
@@ -266,7 +272,7 @@ class Identities(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
-    ) -> models.GetIdentityResponseBody:
+    ) -> models.GetIdentityResponse:
         r"""
         :param identity_id:
         :param external_id:
@@ -339,7 +345,12 @@ class Identities(BaseSDK):
 
         data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return utils.unmarshal_json(http_res.text, models.GetIdentityResponseBody)
+            return models.GetIdentityResponse(
+                object=utils.unmarshal_json(
+                    http_res.text, Optional[models.GetIdentityResponseBody]
+                ),
+                http_meta=models.HTTPMetadata(request=req, response=http_res),
+            )
         if utils.match_response(http_res, "400", "application/json"):
             data = utils.unmarshal_json(http_res.text, models.ErrBadRequestData)
             raise models.ErrBadRequest(data=data)
@@ -386,7 +397,7 @@ class Identities(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
-    ) -> models.GetIdentityResponseBody:
+    ) -> models.GetIdentityResponse:
         r"""
         :param identity_id:
         :param external_id:
@@ -459,7 +470,12 @@ class Identities(BaseSDK):
 
         data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return utils.unmarshal_json(http_res.text, models.GetIdentityResponseBody)
+            return models.GetIdentityResponse(
+                object=utils.unmarshal_json(
+                    http_res.text, Optional[models.GetIdentityResponseBody]
+                ),
+                http_meta=models.HTTPMetadata(request=req, response=http_res),
+            )
         if utils.match_response(http_res, "400", "application/json"):
             data = utils.unmarshal_json(http_res.text, models.ErrBadRequestData)
             raise models.ErrBadRequest(data=data)
@@ -598,9 +614,10 @@ class Identities(BaseSDK):
         data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return models.ListIdentitiesResponse(
-                result=utils.unmarshal_json(
-                    http_res.text, models.ListIdentitiesResponseBody
+                object=utils.unmarshal_json(
+                    http_res.text, Optional[models.ListIdentitiesResponseBody]
                 ),
+                http_meta=models.HTTPMetadata(request=req, response=http_res),
                 next=next_func,
             )
         if utils.match_response(http_res, "400", "application/json"):
@@ -741,9 +758,10 @@ class Identities(BaseSDK):
         data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return models.ListIdentitiesResponse(
-                result=utils.unmarshal_json(
-                    http_res.text, models.ListIdentitiesResponseBody
+                object=utils.unmarshal_json(
+                    http_res.text, Optional[models.ListIdentitiesResponseBody]
                 ),
+                http_meta=models.HTTPMetadata(request=req, response=http_res),
                 next=next_func,
             )
         if utils.match_response(http_res, "400", "application/json"):
@@ -793,7 +811,7 @@ class Identities(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
-    ) -> models.UpdateIdentityResponseBody:
+    ) -> models.UpdateIdentityResponse:
         r"""
         :param request: The request object to send.
         :param retries: Override the default retry configuration for this method
@@ -867,8 +885,11 @@ class Identities(BaseSDK):
 
         data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return utils.unmarshal_json(
-                http_res.text, models.UpdateIdentityResponseBody
+            return models.UpdateIdentityResponse(
+                object=utils.unmarshal_json(
+                    http_res.text, Optional[models.UpdateIdentityResponseBody]
+                ),
+                http_meta=models.HTTPMetadata(request=req, response=http_res),
             )
         if utils.match_response(http_res, "400", "application/json"):
             data = utils.unmarshal_json(http_res.text, models.ErrBadRequestData)
@@ -917,7 +938,7 @@ class Identities(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
-    ) -> models.UpdateIdentityResponseBody:
+    ) -> models.UpdateIdentityResponse:
         r"""
         :param request: The request object to send.
         :param retries: Override the default retry configuration for this method
@@ -991,8 +1012,11 @@ class Identities(BaseSDK):
 
         data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return utils.unmarshal_json(
-                http_res.text, models.UpdateIdentityResponseBody
+            return models.UpdateIdentityResponse(
+                object=utils.unmarshal_json(
+                    http_res.text, Optional[models.UpdateIdentityResponseBody]
+                ),
+                http_meta=models.HTTPMetadata(request=req, response=http_res),
             )
         if utils.match_response(http_res, "400", "application/json"):
             data = utils.unmarshal_json(http_res.text, models.ErrBadRequestData)
@@ -1041,7 +1065,7 @@ class Identities(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
-    ) -> models.DeleteIdentityResponseBody:
+    ) -> models.DeleteIdentityResponse:
         r"""
         :param request: The request object to send.
         :param retries: Override the default retry configuration for this method
@@ -1115,8 +1139,11 @@ class Identities(BaseSDK):
 
         data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return utils.unmarshal_json(
-                http_res.text, models.DeleteIdentityResponseBody
+            return models.DeleteIdentityResponse(
+                object=utils.unmarshal_json(
+                    http_res.text, Optional[models.DeleteIdentityResponseBody]
+                ),
+                http_meta=models.HTTPMetadata(request=req, response=http_res),
             )
         if utils.match_response(http_res, "400", "application/json"):
             data = utils.unmarshal_json(http_res.text, models.ErrBadRequestData)
@@ -1165,7 +1192,7 @@ class Identities(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
-    ) -> models.DeleteIdentityResponseBody:
+    ) -> models.DeleteIdentityResponse:
         r"""
         :param request: The request object to send.
         :param retries: Override the default retry configuration for this method
@@ -1239,8 +1266,11 @@ class Identities(BaseSDK):
 
         data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return utils.unmarshal_json(
-                http_res.text, models.DeleteIdentityResponseBody
+            return models.DeleteIdentityResponse(
+                object=utils.unmarshal_json(
+                    http_res.text, Optional[models.DeleteIdentityResponseBody]
+                ),
+                http_meta=models.HTTPMetadata(request=req, response=http_res),
             )
         if utils.match_response(http_res, "400", "application/json"):
             data = utils.unmarshal_json(http_res.text, models.ErrBadRequestData)

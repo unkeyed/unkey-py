@@ -5,8 +5,11 @@ management:
   docVersion: 1.0.0
   speakeasyVersion: 1.422.1
   generationVersion: 2.438.15
-  releaseVersion: 0.1.0
-  configChecksum: beaad268bb8c745122cb865db76c6bf5
+  releaseVersion: 0.1.1
+  configChecksum: 9c66e586ba01918c7530870d3cdb2ecb
+  repoURL: https://github.com/unkeyed/unkey-py.git
+  installationURL: https://github.com/unkeyed/unkey-py.git
+  published: true
 features:
   python:
     additionalDependencies: 1.0.0
@@ -42,38 +45,51 @@ generatedFiles:
   - USAGE.md
   - docs/models/addpermissionspermissions.md
   - docs/models/addpermissionsrequestbody.md
+  - docs/models/addpermissionsresponse.md
   - docs/models/addrolesrequestbody.md
+  - docs/models/addrolesresponse.md
   - docs/models/addrolesresponsebody.md
   - docs/models/addrolesroles.md
   - docs/models/and_.md
   - docs/models/authorization.md
   - docs/models/code.md
   - docs/models/createapirequestbody.md
+  - docs/models/createapiresponse.md
   - docs/models/createapiresponsebody.md
   - docs/models/createidentityratelimits.md
   - docs/models/createidentityrequestbody.md
+  - docs/models/createidentityresponse.md
   - docs/models/createidentityresponsebody.md
   - docs/models/createkeyinterval.md
   - docs/models/createkeyratelimit.md
   - docs/models/createkeyrefill.md
   - docs/models/createkeyrequestbody.md
+  - docs/models/createkeyresponse.md
   - docs/models/createkeyresponsebody.md
   - docs/models/createkeytype.md
   - docs/models/createpermissionrequestbody.md
+  - docs/models/createpermissionresponse.md
   - docs/models/createpermissionresponsebody.md
   - docs/models/createrolerequestbody.md
+  - docs/models/createroleresponse.md
   - docs/models/createroleresponsebody.md
   - docs/models/deleteapirequestbody.md
+  - docs/models/deleteapiresponse.md
   - docs/models/deleteapiresponsebody.md
   - docs/models/deleteidentityrequestbody.md
+  - docs/models/deleteidentityresponse.md
   - docs/models/deleteidentityresponsebody.md
   - docs/models/deletekeyrequestbody.md
+  - docs/models/deletekeyresponse.md
   - docs/models/deletekeyresponsebody.md
   - docs/models/deletekeysrequestbody.md
+  - docs/models/deletekeysresponse.md
   - docs/models/deletekeysresponsebody.md
   - docs/models/deletepermissionrequestbody.md
+  - docs/models/deletepermissionresponse.md
   - docs/models/deletepermissionresponsebody.md
   - docs/models/deleterolerequestbody.md
+  - docs/models/deleteroleresponse.md
   - docs/models/deleteroleresponsebody.md
   - docs/models/errbadrequest.md
   - docs/models/errbadrequestcode.md
@@ -100,23 +116,31 @@ generatedFiles:
   - docs/models/errunauthorizedcode.md
   - docs/models/errunauthorizederror.md
   - docs/models/getapirequest.md
+  - docs/models/getapiresponse.md
   - docs/models/getapiresponsebody.md
   - docs/models/getidentityratelimits.md
   - docs/models/getidentityrequest.md
+  - docs/models/getidentityresponse.md
   - docs/models/getidentityresponsebody.md
   - docs/models/getkeyrequest.md
+  - docs/models/getkeyresponse.md
   - docs/models/getpermissionrequest.md
+  - docs/models/getpermissionresponse.md
   - docs/models/getpermissionresponsebody.md
   - docs/models/getrolerequest.md
+  - docs/models/getroleresponse.md
   - docs/models/getroleresponsebody.md
   - docs/models/getverificationsrequest.md
+  - docs/models/getverificationsresponse.md
   - docs/models/getverificationsresponsebody.md
   - docs/models/granularity.md
   - docs/models/hash.md
+  - docs/models/httpmetadata.md
   - docs/models/identity.md
   - docs/models/interval.md
   - docs/models/key.md
   - docs/models/limitrequestbody.md
+  - docs/models/limitresponse.md
   - docs/models/limitresponsebody.md
   - docs/models/listidentitiesidentities.md
   - docs/models/listidentitiesratelimits.md
@@ -124,8 +148,11 @@ generatedFiles:
   - docs/models/listidentitiesresponse.md
   - docs/models/listidentitiesresponsebody.md
   - docs/models/listkeysrequest.md
+  - docs/models/listkeysresponse.md
   - docs/models/listkeysresponsebody.md
+  - docs/models/listpermissionsresponse.md
   - docs/models/listpermissionsresponsebody.md
+  - docs/models/listrolesresponse.md
   - docs/models/listrolesresponsebody.md
   - docs/models/op.md
   - docs/models/or_.md
@@ -135,8 +162,10 @@ generatedFiles:
   - docs/models/refill.md
   - docs/models/removepermissionspermissions.md
   - docs/models/removepermissionsrequestbody.md
+  - docs/models/removepermissionsresponse.md
   - docs/models/removepermissionsresponsebody.md
   - docs/models/removerolesrequestbody.md
+  - docs/models/removerolesresponse.md
   - docs/models/removerolesresponsebody.md
   - docs/models/removerolesroles.md
   - docs/models/requestbody.md
@@ -147,23 +176,28 @@ generatedFiles:
   - docs/models/services.md
   - docs/models/setpermissionspermissions.md
   - docs/models/setpermissionsrequestbody.md
+  - docs/models/setpermissionsresponse.md
   - docs/models/setpermissionsresponsebody.md
   - docs/models/setrolesrequestbody.md
+  - docs/models/setrolesresponse.md
   - docs/models/setrolesresponsebody.md
   - docs/models/setrolesroles.md
   - docs/models/type.md
   - docs/models/updateidentityidentitiesratelimits.md
   - docs/models/updateidentityratelimits.md
   - docs/models/updateidentityrequestbody.md
+  - docs/models/updateidentityresponse.md
   - docs/models/updateidentityresponsebody.md
   - docs/models/updatekeyinterval.md
   - docs/models/updatekeypermissions.md
   - docs/models/updatekeyratelimit.md
   - docs/models/updatekeyrefill.md
   - docs/models/updatekeyrequestbody.md
+  - docs/models/updatekeyresponse.md
   - docs/models/updatekeyresponsebody.md
   - docs/models/updatekeytype.md
   - docs/models/updateremainingrequestbody.md
+  - docs/models/updateremainingresponse.md
   - docs/models/updateremainingresponsebody.md
   - docs/models/utils/retryconfig.md
   - docs/models/v1keysverifykeyrequest.md
@@ -171,10 +205,12 @@ generatedFiles:
   - docs/models/v1keysverifykeyresponse.md
   - docs/models/v1keysverifykeyresponseidentity.md
   - docs/models/v1keysverifykeyresponseratelimit.md
+  - docs/models/v1livenessresponse.md
   - docs/models/v1livenessresponsebody.md
   - docs/models/v1migrationscreatekeysinterval.md
   - docs/models/v1migrationscreatekeysratelimit.md
   - docs/models/v1migrationscreatekeysrefill.md
+  - docs/models/v1migrationscreatekeysresponse.md
   - docs/models/v1migrationscreatekeysresponsebody.md
   - docs/models/v1migrationscreatekeystype.md
   - docs/models/v1migrationsenqueuekeyshash.md
@@ -183,13 +219,16 @@ generatedFiles:
   - docs/models/v1migrationsenqueuekeysratelimit.md
   - docs/models/v1migrationsenqueuekeysrefill.md
   - docs/models/v1migrationsenqueuekeysrequestbody.md
+  - docs/models/v1migrationsenqueuekeysresponse.md
   - docs/models/v1migrationsenqueuekeysresponsebody.md
   - docs/models/v1migrationsenqueuekeystype.md
   - docs/models/v1migrationsenqueuekeysvariant.md
   - docs/models/variant.md
   - docs/models/verifications.md
+  - docs/models/verifykeyresponse.md
   - docs/models/whoamiidentity.md
   - docs/models/whoamirequestbody.md
+  - docs/models/whoamiresponse.md
   - docs/models/whoamiresponsebody.md
   - docs/sdks/apis/README.md
   - docs/sdks/identities/README.md
@@ -246,6 +285,7 @@ generatedFiles:
   - src/unkey/models/getpermissionop.py
   - src/unkey/models/getroleop.py
   - src/unkey/models/getverificationsop.py
+  - src/unkey/models/httpmetadata.py
   - src/unkey/models/key.py
   - src/unkey/models/limitop.py
   - src/unkey/models/listidentitiesop.py
@@ -267,6 +307,7 @@ generatedFiles:
   - src/unkey/models/v1_migrations_enqueuekeysop.py
   - src/unkey/models/v1keysverifykeyrequest.py
   - src/unkey/models/v1keysverifykeyresponse.py
+  - src/unkey/models/verifykeyop.py
   - src/unkey/models/whoamiop.py
   - src/unkey/permissions.py
   - src/unkey/py.typed

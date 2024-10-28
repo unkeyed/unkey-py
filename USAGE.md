@@ -10,7 +10,7 @@ s = Unkey(
 
 res = s.liveness.check()
 
-if res is not None:
+if res.object is not None:
     # handle response
     pass
 ```
@@ -29,7 +29,7 @@ async def main():
         bearer_auth=os.getenv("UNKEY_BEARER_AUTH", ""),
     )
     res = await s.liveness.check_async()
-    if res is not None:
+    if res.object is not None:
         # handle response
         pass
 

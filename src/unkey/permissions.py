@@ -19,7 +19,7 @@ class Permissions(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
-    ) -> models.CreatePermissionResponseBody:
+    ) -> models.CreatePermissionResponse:
         r"""
         :param request: The request object to send.
         :param retries: Override the default retry configuration for this method
@@ -93,8 +93,11 @@ class Permissions(BaseSDK):
 
         data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return utils.unmarshal_json(
-                http_res.text, models.CreatePermissionResponseBody
+            return models.CreatePermissionResponse(
+                object=utils.unmarshal_json(
+                    http_res.text, Optional[models.CreatePermissionResponseBody]
+                ),
+                http_meta=models.HTTPMetadata(request=req, response=http_res),
             )
         if utils.match_response(http_res, "400", "application/json"):
             data = utils.unmarshal_json(http_res.text, models.ErrBadRequestData)
@@ -144,7 +147,7 @@ class Permissions(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
-    ) -> models.CreatePermissionResponseBody:
+    ) -> models.CreatePermissionResponse:
         r"""
         :param request: The request object to send.
         :param retries: Override the default retry configuration for this method
@@ -218,8 +221,11 @@ class Permissions(BaseSDK):
 
         data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return utils.unmarshal_json(
-                http_res.text, models.CreatePermissionResponseBody
+            return models.CreatePermissionResponse(
+                object=utils.unmarshal_json(
+                    http_res.text, Optional[models.CreatePermissionResponseBody]
+                ),
+                http_meta=models.HTTPMetadata(request=req, response=http_res),
             )
         if utils.match_response(http_res, "400", "application/json"):
             data = utils.unmarshal_json(http_res.text, models.ErrBadRequestData)
@@ -269,7 +275,7 @@ class Permissions(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
-    ) -> models.DeletePermissionResponseBody:
+    ) -> models.DeletePermissionResponse:
         r"""
         :param request: The request object to send.
         :param retries: Override the default retry configuration for this method
@@ -343,8 +349,11 @@ class Permissions(BaseSDK):
 
         data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return utils.unmarshal_json(
-                http_res.text, models.DeletePermissionResponseBody
+            return models.DeletePermissionResponse(
+                object=utils.unmarshal_json(
+                    http_res.text, Optional[models.DeletePermissionResponseBody]
+                ),
+                http_meta=models.HTTPMetadata(request=req, response=http_res),
             )
         if utils.match_response(http_res, "400", "application/json"):
             data = utils.unmarshal_json(http_res.text, models.ErrBadRequestData)
@@ -394,7 +403,7 @@ class Permissions(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
-    ) -> models.DeletePermissionResponseBody:
+    ) -> models.DeletePermissionResponse:
         r"""
         :param request: The request object to send.
         :param retries: Override the default retry configuration for this method
@@ -468,8 +477,11 @@ class Permissions(BaseSDK):
 
         data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return utils.unmarshal_json(
-                http_res.text, models.DeletePermissionResponseBody
+            return models.DeletePermissionResponse(
+                object=utils.unmarshal_json(
+                    http_res.text, Optional[models.DeletePermissionResponseBody]
+                ),
+                http_meta=models.HTTPMetadata(request=req, response=http_res),
             )
         if utils.match_response(http_res, "400", "application/json"):
             data = utils.unmarshal_json(http_res.text, models.ErrBadRequestData)
@@ -516,7 +528,7 @@ class Permissions(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
-    ) -> models.GetPermissionResponseBody:
+    ) -> models.GetPermissionResponse:
         r"""
         :param permission_id:
         :param retries: Override the default retry configuration for this method
@@ -587,7 +599,12 @@ class Permissions(BaseSDK):
 
         data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return utils.unmarshal_json(http_res.text, models.GetPermissionResponseBody)
+            return models.GetPermissionResponse(
+                object=utils.unmarshal_json(
+                    http_res.text, Optional[models.GetPermissionResponseBody]
+                ),
+                http_meta=models.HTTPMetadata(request=req, response=http_res),
+            )
         if utils.match_response(http_res, "400", "application/json"):
             data = utils.unmarshal_json(http_res.text, models.ErrBadRequestData)
             raise models.ErrBadRequest(data=data)
@@ -633,7 +650,7 @@ class Permissions(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
-    ) -> models.GetPermissionResponseBody:
+    ) -> models.GetPermissionResponse:
         r"""
         :param permission_id:
         :param retries: Override the default retry configuration for this method
@@ -704,7 +721,12 @@ class Permissions(BaseSDK):
 
         data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return utils.unmarshal_json(http_res.text, models.GetPermissionResponseBody)
+            return models.GetPermissionResponse(
+                object=utils.unmarshal_json(
+                    http_res.text, Optional[models.GetPermissionResponseBody]
+                ),
+                http_meta=models.HTTPMetadata(request=req, response=http_res),
+            )
         if utils.match_response(http_res, "400", "application/json"):
             data = utils.unmarshal_json(http_res.text, models.ErrBadRequestData)
             raise models.ErrBadRequest(data=data)
@@ -749,7 +771,7 @@ class Permissions(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
-    ) -> List[models.ListPermissionsResponseBody]:
+    ) -> models.ListPermissionsResponse:
         r"""
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -814,8 +836,11 @@ class Permissions(BaseSDK):
 
         data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return utils.unmarshal_json(
-                http_res.text, List[models.ListPermissionsResponseBody]
+            return models.ListPermissionsResponse(
+                response_bodies=utils.unmarshal_json(
+                    http_res.text, Optional[List[models.ListPermissionsResponseBody]]
+                ),
+                http_meta=models.HTTPMetadata(request=req, response=http_res),
             )
         if utils.match_response(http_res, "400", "application/json"):
             data = utils.unmarshal_json(http_res.text, models.ErrBadRequestData)
@@ -861,7 +886,7 @@ class Permissions(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
-    ) -> List[models.ListPermissionsResponseBody]:
+    ) -> models.ListPermissionsResponse:
         r"""
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -926,8 +951,11 @@ class Permissions(BaseSDK):
 
         data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return utils.unmarshal_json(
-                http_res.text, List[models.ListPermissionsResponseBody]
+            return models.ListPermissionsResponse(
+                response_bodies=utils.unmarshal_json(
+                    http_res.text, Optional[List[models.ListPermissionsResponseBody]]
+                ),
+                http_meta=models.HTTPMetadata(request=req, response=http_res),
             )
         if utils.match_response(http_res, "400", "application/json"):
             data = utils.unmarshal_json(http_res.text, models.ErrBadRequestData)
@@ -976,7 +1004,7 @@ class Permissions(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
-    ) -> models.CreateRoleResponseBody:
+    ) -> models.CreateRoleResponse:
         r"""
         :param request: The request object to send.
         :param retries: Override the default retry configuration for this method
@@ -1050,7 +1078,12 @@ class Permissions(BaseSDK):
 
         data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return utils.unmarshal_json(http_res.text, models.CreateRoleResponseBody)
+            return models.CreateRoleResponse(
+                object=utils.unmarshal_json(
+                    http_res.text, Optional[models.CreateRoleResponseBody]
+                ),
+                http_meta=models.HTTPMetadata(request=req, response=http_res),
+            )
         if utils.match_response(http_res, "400", "application/json"):
             data = utils.unmarshal_json(http_res.text, models.ErrBadRequestData)
             raise models.ErrBadRequest(data=data)
@@ -1098,7 +1131,7 @@ class Permissions(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
-    ) -> models.CreateRoleResponseBody:
+    ) -> models.CreateRoleResponse:
         r"""
         :param request: The request object to send.
         :param retries: Override the default retry configuration for this method
@@ -1172,7 +1205,12 @@ class Permissions(BaseSDK):
 
         data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return utils.unmarshal_json(http_res.text, models.CreateRoleResponseBody)
+            return models.CreateRoleResponse(
+                object=utils.unmarshal_json(
+                    http_res.text, Optional[models.CreateRoleResponseBody]
+                ),
+                http_meta=models.HTTPMetadata(request=req, response=http_res),
+            )
         if utils.match_response(http_res, "400", "application/json"):
             data = utils.unmarshal_json(http_res.text, models.ErrBadRequestData)
             raise models.ErrBadRequest(data=data)
@@ -1220,7 +1258,7 @@ class Permissions(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
-    ) -> models.DeleteRoleResponseBody:
+    ) -> models.DeleteRoleResponse:
         r"""
         :param request: The request object to send.
         :param retries: Override the default retry configuration for this method
@@ -1294,7 +1332,12 @@ class Permissions(BaseSDK):
 
         data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return utils.unmarshal_json(http_res.text, models.DeleteRoleResponseBody)
+            return models.DeleteRoleResponse(
+                object=utils.unmarshal_json(
+                    http_res.text, Optional[models.DeleteRoleResponseBody]
+                ),
+                http_meta=models.HTTPMetadata(request=req, response=http_res),
+            )
         if utils.match_response(http_res, "400", "application/json"):
             data = utils.unmarshal_json(http_res.text, models.ErrBadRequestData)
             raise models.ErrBadRequest(data=data)
@@ -1342,7 +1385,7 @@ class Permissions(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
-    ) -> models.DeleteRoleResponseBody:
+    ) -> models.DeleteRoleResponse:
         r"""
         :param request: The request object to send.
         :param retries: Override the default retry configuration for this method
@@ -1416,7 +1459,12 @@ class Permissions(BaseSDK):
 
         data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return utils.unmarshal_json(http_res.text, models.DeleteRoleResponseBody)
+            return models.DeleteRoleResponse(
+                object=utils.unmarshal_json(
+                    http_res.text, Optional[models.DeleteRoleResponseBody]
+                ),
+                http_meta=models.HTTPMetadata(request=req, response=http_res),
+            )
         if utils.match_response(http_res, "400", "application/json"):
             data = utils.unmarshal_json(http_res.text, models.ErrBadRequestData)
             raise models.ErrBadRequest(data=data)
@@ -1462,7 +1510,7 @@ class Permissions(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
-    ) -> models.GetRoleResponseBody:
+    ) -> models.GetRoleResponse:
         r"""
         :param role_id:
         :param retries: Override the default retry configuration for this method
@@ -1533,7 +1581,12 @@ class Permissions(BaseSDK):
 
         data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return utils.unmarshal_json(http_res.text, models.GetRoleResponseBody)
+            return models.GetRoleResponse(
+                object=utils.unmarshal_json(
+                    http_res.text, Optional[models.GetRoleResponseBody]
+                ),
+                http_meta=models.HTTPMetadata(request=req, response=http_res),
+            )
         if utils.match_response(http_res, "400", "application/json"):
             data = utils.unmarshal_json(http_res.text, models.ErrBadRequestData)
             raise models.ErrBadRequest(data=data)
@@ -1579,7 +1632,7 @@ class Permissions(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
-    ) -> models.GetRoleResponseBody:
+    ) -> models.GetRoleResponse:
         r"""
         :param role_id:
         :param retries: Override the default retry configuration for this method
@@ -1650,7 +1703,12 @@ class Permissions(BaseSDK):
 
         data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return utils.unmarshal_json(http_res.text, models.GetRoleResponseBody)
+            return models.GetRoleResponse(
+                object=utils.unmarshal_json(
+                    http_res.text, Optional[models.GetRoleResponseBody]
+                ),
+                http_meta=models.HTTPMetadata(request=req, response=http_res),
+            )
         if utils.match_response(http_res, "400", "application/json"):
             data = utils.unmarshal_json(http_res.text, models.ErrBadRequestData)
             raise models.ErrBadRequest(data=data)
@@ -1695,7 +1753,7 @@ class Permissions(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
-    ) -> List[models.ListRolesResponseBody]:
+    ) -> models.ListRolesResponse:
         r"""
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -1760,8 +1818,11 @@ class Permissions(BaseSDK):
 
         data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return utils.unmarshal_json(
-                http_res.text, List[models.ListRolesResponseBody]
+            return models.ListRolesResponse(
+                response_bodies=utils.unmarshal_json(
+                    http_res.text, Optional[List[models.ListRolesResponseBody]]
+                ),
+                http_meta=models.HTTPMetadata(request=req, response=http_res),
             )
         if utils.match_response(http_res, "400", "application/json"):
             data = utils.unmarshal_json(http_res.text, models.ErrBadRequestData)
@@ -1807,7 +1868,7 @@ class Permissions(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
-    ) -> List[models.ListRolesResponseBody]:
+    ) -> models.ListRolesResponse:
         r"""
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -1872,8 +1933,11 @@ class Permissions(BaseSDK):
 
         data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return utils.unmarshal_json(
-                http_res.text, List[models.ListRolesResponseBody]
+            return models.ListRolesResponse(
+                response_bodies=utils.unmarshal_json(
+                    http_res.text, Optional[List[models.ListRolesResponseBody]]
+                ),
+                http_meta=models.HTTPMetadata(request=req, response=http_res),
             )
         if utils.match_response(http_res, "400", "application/json"):
             data = utils.unmarshal_json(http_res.text, models.ErrBadRequestData)

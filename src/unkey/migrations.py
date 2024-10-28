@@ -16,7 +16,7 @@ class Migrations(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
-    ) -> models.V1MigrationsCreateKeysResponseBody:
+    ) -> models.V1MigrationsCreateKeysResponse:
         r"""
         :param request: The request object to send.
         :param retries: Override the default retry configuration for this method
@@ -90,8 +90,11 @@ class Migrations(BaseSDK):
 
         data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return utils.unmarshal_json(
-                http_res.text, models.V1MigrationsCreateKeysResponseBody
+            return models.V1MigrationsCreateKeysResponse(
+                object=utils.unmarshal_json(
+                    http_res.text, Optional[models.V1MigrationsCreateKeysResponseBody]
+                ),
+                http_meta=models.HTTPMetadata(request=req, response=http_res),
             )
         if utils.match_response(http_res, "400", "application/json"):
             data = utils.unmarshal_json(http_res.text, models.ErrBadRequestData)
@@ -138,7 +141,7 @@ class Migrations(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
-    ) -> models.V1MigrationsCreateKeysResponseBody:
+    ) -> models.V1MigrationsCreateKeysResponse:
         r"""
         :param request: The request object to send.
         :param retries: Override the default retry configuration for this method
@@ -212,8 +215,11 @@ class Migrations(BaseSDK):
 
         data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return utils.unmarshal_json(
-                http_res.text, models.V1MigrationsCreateKeysResponseBody
+            return models.V1MigrationsCreateKeysResponse(
+                object=utils.unmarshal_json(
+                    http_res.text, Optional[models.V1MigrationsCreateKeysResponseBody]
+                ),
+                http_meta=models.HTTPMetadata(request=req, response=http_res),
             )
         if utils.match_response(http_res, "400", "application/json"):
             data = utils.unmarshal_json(http_res.text, models.ErrBadRequestData)
@@ -263,7 +269,7 @@ class Migrations(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
-    ) -> models.V1MigrationsEnqueueKeysResponseBody:
+    ) -> models.V1MigrationsEnqueueKeysResponse:
         r"""
         :param request: The request object to send.
         :param retries: Override the default retry configuration for this method
@@ -339,8 +345,11 @@ class Migrations(BaseSDK):
 
         data: Any = None
         if utils.match_response(http_res, "202", "application/json"):
-            return utils.unmarshal_json(
-                http_res.text, models.V1MigrationsEnqueueKeysResponseBody
+            return models.V1MigrationsEnqueueKeysResponse(
+                object=utils.unmarshal_json(
+                    http_res.text, Optional[models.V1MigrationsEnqueueKeysResponseBody]
+                ),
+                http_meta=models.HTTPMetadata(request=req, response=http_res),
             )
         if utils.match_response(http_res, "400", "application/json"):
             data = utils.unmarshal_json(http_res.text, models.ErrBadRequestData)
@@ -390,7 +399,7 @@ class Migrations(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
-    ) -> models.V1MigrationsEnqueueKeysResponseBody:
+    ) -> models.V1MigrationsEnqueueKeysResponse:
         r"""
         :param request: The request object to send.
         :param retries: Override the default retry configuration for this method
@@ -466,8 +475,11 @@ class Migrations(BaseSDK):
 
         data: Any = None
         if utils.match_response(http_res, "202", "application/json"):
-            return utils.unmarshal_json(
-                http_res.text, models.V1MigrationsEnqueueKeysResponseBody
+            return models.V1MigrationsEnqueueKeysResponse(
+                object=utils.unmarshal_json(
+                    http_res.text, Optional[models.V1MigrationsEnqueueKeysResponseBody]
+                ),
+                http_meta=models.HTTPMetadata(request=req, response=http_res),
             )
         if utils.match_response(http_res, "400", "application/json"):
             data = utils.unmarshal_json(http_res.text, models.ErrBadRequestData)
