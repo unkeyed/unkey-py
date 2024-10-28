@@ -12,6 +12,9 @@ targets:
     unkey:
         target: python
         source: Unkey-OAS
+        publish:
+            pypi:
+                token: $pypi_token
         codeSamples:
             registry:
                 location: registry.speakeasyapi.dev/unkey/unkey/unkey-oas-code-samples
