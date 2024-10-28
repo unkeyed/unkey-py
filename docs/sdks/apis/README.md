@@ -25,7 +25,7 @@ s = Unkey(
 
 res = s.apis.get(api_id="api_1234")
 
-if res is not None:
+if res.object is not None:
     # handle response
     pass
 
@@ -40,7 +40,7 @@ if res is not None:
 
 ### Response
 
-**[models.GetAPIResponseBody](../../models/getapiresponsebody.md)**
+**[models.GetAPIResponse](../../models/getapiresponse.md)**
 
 ### Errors
 
@@ -71,7 +71,7 @@ res = s.apis.create(request={
     "name": "my-api",
 })
 
-if res is not None:
+if res.object is not None:
     # handle response
     pass
 
@@ -86,7 +86,7 @@ if res is not None:
 
 ### Response
 
-**[models.CreateAPIResponseBody](../../models/createapiresponsebody.md)**
+**[models.CreateAPIResponse](../../models/createapiresponse.md)**
 
 ### Errors
 
@@ -118,7 +118,7 @@ res = s.apis.list_keys(request={
     "limit": 100,
 })
 
-if res is not None:
+if res.object is not None:
     # handle response
     pass
 
@@ -133,7 +133,7 @@ if res is not None:
 
 ### Response
 
-**[models.ListKeysResponseBody](../../models/listkeysresponsebody.md)**
+**[models.ListKeysResponse](../../models/listkeysresponse.md)**
 
 ### Errors
 
@@ -164,7 +164,7 @@ res = s.apis.delete(request={
     "api_id": "api_1234",
 })
 
-if res is not None:
+if res.object is not None:
     # handle response
     pass
 
@@ -179,7 +179,7 @@ if res is not None:
 
 ### Response
 
-**[models.DeleteAPIResponseBody](../../models/deleteapiresponsebody.md)**
+**[models.DeleteAPIResponse](../../models/deleteapiresponse.md)**
 
 ### Errors
 
@@ -210,7 +210,7 @@ res = s.apis.delete_keys(request={
     "api_id": "api_1234",
 })
 
-if res is not None:
+if res.object is not None:
     # handle response
     pass
 
@@ -225,7 +225,7 @@ if res is not None:
 
 ### Response
 
-**[models.DeleteKeysResponseBody](../../models/deletekeysresponsebody.md)**
+**[models.DeleteKeysResponse](../../models/deletekeysresponse.md)**
 
 ### Errors
 

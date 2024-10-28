@@ -39,7 +39,7 @@ res = s.identities.create(request={
     ],
 })
 
-if res is not None:
+if res.object is not None:
     # handle response
     pass
 
@@ -54,7 +54,7 @@ if res is not None:
 
 ### Response
 
-**[models.CreateIdentityResponseBody](../../models/createidentityresponsebody.md)**
+**[models.CreateIdentityResponse](../../models/createidentityresponse.md)**
 
 ### Errors
 
@@ -83,7 +83,7 @@ s = Unkey(
 
 res = s.identities.get(identity_id="id_1234", external_id="id_1234")
 
-if res is not None:
+if res.object is not None:
     # handle response
     pass
 
@@ -99,7 +99,7 @@ if res is not None:
 
 ### Response
 
-**[models.GetIdentityResponseBody](../../models/getidentityresponsebody.md)**
+**[models.GetIdentityResponse](../../models/getidentityresponse.md)**
 
 ### Errors
 
@@ -128,7 +128,7 @@ s = Unkey(
 
 res = s.identities.list(limit=100)
 
-if res is not None:
+if res.object is not None:
     while True:
         # handle items
 
@@ -198,7 +198,7 @@ res = s.identities.update(request={
     ],
 })
 
-if res is not None:
+if res.object is not None:
     # handle response
     pass
 
@@ -213,7 +213,7 @@ if res is not None:
 
 ### Response
 
-**[models.UpdateIdentityResponseBody](../../models/updateidentityresponsebody.md)**
+**[models.UpdateIdentityResponse](../../models/updateidentityresponse.md)**
 
 ### Errors
 
@@ -244,7 +244,7 @@ res = s.identities.delete(request={
     "identity_id": "id_1234",
 })
 
-if res is not None:
+if res.object is not None:
     # handle response
     pass
 
@@ -259,7 +259,7 @@ if res is not None:
 
 ### Response
 
-**[models.DeleteIdentityResponseBody](../../models/deleteidentityresponsebody.md)**
+**[models.DeleteIdentityResponse](../../models/deleteidentityresponse.md)**
 
 ### Errors
 

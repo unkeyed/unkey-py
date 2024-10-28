@@ -55,7 +55,7 @@ res = s.migrations.create_keys(request=[
     },
 ])
 
-if res is not None:
+if res.object is not None:
     # handle response
     pass
 
@@ -70,7 +70,7 @@ if res is not None:
 
 ### Response
 
-**[models.V1MigrationsCreateKeysResponseBody](../../models/v1migrationscreatekeysresponsebody.md)**
+**[models.V1MigrationsCreateKeysResponse](../../models/v1migrationscreatekeysresponse.md)**
 
 ### Errors
 
@@ -134,7 +134,7 @@ res = s.migrations.enqueue(request={
     ],
 })
 
-if res is not None:
+if res.object is not None:
     # handle response
     pass
 
@@ -149,7 +149,7 @@ if res is not None:
 
 ### Response
 
-**[models.V1MigrationsEnqueueKeysResponseBody](../../models/v1migrationsenqueuekeysresponsebody.md)**
+**[models.V1MigrationsEnqueueKeysResponse](../../models/v1migrationsenqueuekeysresponse.md)**
 
 ### Errors
 
