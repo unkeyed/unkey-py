@@ -3,10 +3,10 @@ id: 8618b570-44d2-4c9e-aa91-d78e8fe5330e
 management:
   docChecksum: 6a3c4265582b7a6d51d438f935f03946
   docVersion: 1.0.0
-  speakeasyVersion: 1.422.1
-  generationVersion: 2.438.15
-  releaseVersion: 0.1.1
-  configChecksum: 9c66e586ba01918c7530870d3cdb2ecb
+  speakeasyVersion: 1.423.1
+  generationVersion: 2.442.11
+  releaseVersion: 0.2.0
+  configChecksum: 6f8d3a2df81e982a349004e60ee623a2
   repoURL: https://github.com/unkeyed/unkey-py.git
   installationURL: https://github.com/unkeyed/unkey-py.git
   published: true
@@ -33,6 +33,7 @@ features:
     responseFormat: 1.0.1
     retries: 3.0.2
     sdkHooks: 1.0.0
+    tests: 1.6.0
     unions: 3.0.2
 generatedFiles:
   - .devcontainer/README.md

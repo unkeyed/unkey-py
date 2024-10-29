@@ -3,7 +3,7 @@
 import importlib.metadata
 
 __title__: str = "unkey"
-__version__: str = "0.1.1"
+__version__: str = "0.2.0"
 
 try:
     if __package__ is not None:
