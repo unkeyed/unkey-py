@@ -44,7 +44,7 @@ The SDK can be installed with either *pip* or *poetry* package managers.
 *PIP* is the default package installer for Python, enabling easy installation and management of packages from PyPI via the command line.
 
 ```bash
-pip install unkey
+pip install unkey.py
 ```
 
 ### Poetry
@@ -52,7 +52,7 @@ pip install unkey
 *Poetry* is a modern tool that simplifies dependency management and package publishing by using a single `pyproject.toml` file to handle project metadata and dependencies.
 
 ```bash
-poetry add unkey
+poetry add unkey.py
 ```
 <!-- End SDK Installation [installation] -->
 
@@ -74,7 +74,7 @@ Generally, the SDK will work well with most IDEs out of the box. However, when u
 ```python
 # Synchronous Example
 import os
-from unkey import Unkey
+from unkey_py import Unkey
 
 s = Unkey(
     bearer_auth=os.getenv("UNKEY_BEARER_AUTH", ""),
@@ -94,7 +94,7 @@ The same SDK client can also be used to make asychronous requests by importing a
 # Asynchronous Example
 import asyncio
 import os
-from unkey import Unkey
+from unkey_py import Unkey
 
 async def main():
     s = Unkey(
@@ -186,7 +186,7 @@ return value of `Next` is `None`, then there are no more pages to be fetched.
 Here's an example of one such pagination call:
 ```python
 import os
-from unkey import Unkey
+from unkey_py import Unkey
 
 s = Unkey(
     bearer_auth=os.getenv("UNKEY_BEARER_AUTH", ""),
@@ -213,8 +213,8 @@ Some of the endpoints in this SDK support retries. If you use the SDK without an
 To change the default retry strategy for a single API call, simply provide a `RetryConfig` object to the call:
 ```python
 import os
-from unkey import Unkey
 from unkey.utils import BackoffStrategy, RetryConfig
+from unkey_py import Unkey
 
 s = Unkey(
     bearer_auth=os.getenv("UNKEY_BEARER_AUTH", ""),
@@ -232,8 +232,8 @@ if res.object is not None:
 If you'd like to override the default retry strategy for all operations that support retries, you can use the `retry_config` optional parameter when initializing the SDK:
 ```python
 import os
-from unkey import Unkey
 from unkey.utils import BackoffStrategy, RetryConfig
+from unkey_py import Unkey
 
 s = Unkey(
     retry_config=RetryConfig("backoff", BackoffStrategy(1, 50, 1.1, 100), False),
@@ -280,7 +280,7 @@ When custom error responses are specified for an operation, the SDK may also rai
 
 ```python
 import os
-from unkey import Unkey, models
+from unkey_py import Unkey, models
 
 s = Unkey(
     bearer_auth=os.getenv("UNKEY_BEARER_AUTH", ""),
@@ -336,7 +336,7 @@ You can override the default server globally by passing a server index to the `s
 
 ```python
 import os
-from unkey import Unkey
+from unkey_py import Unkey
 
 s = Unkey(
     server_idx=0,
@@ -357,7 +357,7 @@ if res.object is not None:
 The default server can also be overridden globally by passing a URL to the `server_url: str` optional parameter when initializing the SDK client instance. For example:
 ```python
 import os
-from unkey import Unkey
+from unkey_py import Unkey
 
 s = Unkey(
     server_url="https://api.unkey.dev",
@@ -382,7 +382,7 @@ This allows you to wrap the client with your own custom logic, such as adding cu
 
 For example, you could specify a header for every request that this sdk makes as follows:
 ```python
-from unkey import Unkey
+from unkey_py import Unkey
 import httpx
 
 http_client = httpx.Client(headers={"x-custom-header": "someValue"})
@@ -391,8 +391,8 @@ s = Unkey(client=http_client)
 
 or you could wrap the client with your own custom logic:
 ```python
-from unkey import Unkey
-from unkey.httpclient import AsyncHttpClient
+from unkey_py import Unkey
+from unkey_py.httpclient import AsyncHttpClient
 import httpx
 
 class CustomClient(AsyncHttpClient):
@@ -468,7 +468,7 @@ This SDK supports the following security scheme globally:
 To authenticate with the API the `bearer_auth` parameter must be set when initializing the SDK client instance. For example:
 ```python
 import os
-from unkey import Unkey
+from unkey_py import Unkey
 
 s = Unkey(
     bearer_auth=os.getenv("UNKEY_BEARER_AUTH", ""),
@@ -490,11 +490,11 @@ You can setup your SDK to emit debug logs for SDK requests and responses.
 
 You can pass your own logger class directly into your SDK.
 ```python
-from unkey import Unkey
+from unkey_py import Unkey
 import logging
 
 logging.basicConfig(level=logging.DEBUG)
-s = Unkey(debug_logger=logging.getLogger("unkey"))
+s = Unkey(debug_logger=logging.getLogger("unkey_py"))
 ```
 
 You can also enable a default debug logger by setting an environment variable `UNKEY_DEBUG` to true.

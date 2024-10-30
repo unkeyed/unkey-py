@@ -26,7 +26,7 @@
 
 ```python
 import os
-from unkey import Unkey
+from unkey_py import Unkey
 
 s = Unkey(
     bearer_auth=os.getenv("UNKEY_BEARER_AUTH", ""),
@@ -71,7 +71,7 @@ if res.key is not None:
 
 ```python
 import os
-from unkey import Unkey
+from unkey_py import Unkey
 
 s = Unkey(
     bearer_auth=os.getenv("UNKEY_BEARER_AUTH", ""),
@@ -117,7 +117,7 @@ if res.object is not None:
 
 ```python
 import os
-from unkey import Unkey
+from unkey_py import Unkey
 
 s = Unkey(
     bearer_auth=os.getenv("UNKEY_BEARER_AUTH", ""),
@@ -163,8 +163,8 @@ if res.object is not None:
 
 ```python
 import os
-import unkey
-from unkey import Unkey
+import unkey_py
+from unkey_py import Unkey
 
 s = Unkey(
     bearer_auth=os.getenv("UNKEY_BEARER_AUTH", ""),
@@ -189,12 +189,12 @@ res = s.keys.create(request={
     "expires": 1623869797161,
     "remaining": 1000,
     "refill": {
-        "interval": unkey.CreateKeyInterval.DAILY,
+        "interval": unkey_py.CreateKeyInterval.DAILY,
         "amount": 100,
     },
     "ratelimit": {
         "limit": 10,
-        "type": unkey.CreateKeyType.FAST,
+        "type": unkey_py.CreateKeyType.FAST,
         "duration": 60000,
     },
     "enabled": False,
@@ -236,7 +236,7 @@ if res.object is not None:
 
 ```python
 import os
-from unkey import Unkey
+from unkey_py import Unkey
 
 s = Unkey(
     bearer_auth=os.getenv("UNKEY_BEARER_AUTH", ""),
@@ -295,8 +295,8 @@ if res.v1_keys_verify_key_response is not None:
 
 ```python
 import os
-import unkey
-from unkey import Unkey
+import unkey_py
+from unkey_py import Unkey
 
 s = Unkey(
     bearer_auth=os.getenv("UNKEY_BEARER_AUTH", ""),
@@ -316,13 +316,13 @@ res = s.keys.update(request={
     "expires": 0,
     "ratelimit": {
         "limit": 10,
-        "type": unkey.UpdateKeyType.FAST,
+        "type": unkey_py.UpdateKeyType.FAST,
         "refill_rate": 1,
         "refill_interval": 60,
     },
     "remaining": 1000,
     "refill": {
-        "interval": unkey.UpdateKeyInterval.DAILY,
+        "interval": unkey_py.UpdateKeyInterval.DAILY,
         "amount": 100,
     },
     "enabled": True,
@@ -388,8 +388,8 @@ if res.object is not None:
 
 ```python
 import os
-import unkey
-from unkey import Unkey
+import unkey_py
+from unkey_py import Unkey
 
 s = Unkey(
     bearer_auth=os.getenv("UNKEY_BEARER_AUTH", ""),
@@ -397,7 +397,7 @@ s = Unkey(
 
 res = s.keys.update_remaining(request={
     "key_id": "key_123",
-    "op": unkey.Op.SET,
+    "op": unkey_py.Op.SET,
     "value": 1,
 })
 
@@ -437,8 +437,8 @@ if res.object is not None:
 
 ```python
 import os
-import unkey
-from unkey import Unkey
+import unkey_py
+from unkey_py import Unkey
 
 s = Unkey(
     bearer_auth=os.getenv("UNKEY_BEARER_AUTH", ""),
@@ -449,7 +449,7 @@ res = s.keys.get_verifications(request={
     "owner_id": "chronark",
     "start": 1620000000000,
     "end": 1620000000000,
-    "granularity": unkey.Granularity.DAY,
+    "granularity": unkey_py.Granularity.DAY,
 })
 
 if res.object is not None:
@@ -488,7 +488,7 @@ if res.object is not None:
 
 ```python
 import os
-from unkey import Unkey
+from unkey_py import Unkey
 
 s = Unkey(
     bearer_auth=os.getenv("UNKEY_BEARER_AUTH", ""),
@@ -537,7 +537,7 @@ if res.response_bodies is not None:
 
 ```python
 import os
-from unkey import Unkey
+from unkey_py import Unkey
 
 s = Unkey(
     bearer_auth=os.getenv("UNKEY_BEARER_AUTH", ""),
@@ -591,7 +591,7 @@ if res.object is not None:
 
 ```python
 import os
-from unkey import Unkey
+from unkey_py import Unkey
 
 s = Unkey(
     bearer_auth=os.getenv("UNKEY_BEARER_AUTH", ""),
@@ -649,7 +649,7 @@ if res.response_bodies is not None:
 
 ```python
 import os
-from unkey import Unkey
+from unkey_py import Unkey
 
 s = Unkey(
     bearer_auth=os.getenv("UNKEY_BEARER_AUTH", ""),
@@ -707,7 +707,7 @@ if res.response_bodies is not None:
 
 ```python
 import os
-from unkey import Unkey
+from unkey_py import Unkey
 
 s = Unkey(
     bearer_auth=os.getenv("UNKEY_BEARER_AUTH", ""),
@@ -761,7 +761,7 @@ if res.object is not None:
 
 ```python
 import os
-from unkey import Unkey
+from unkey_py import Unkey
 
 s = Unkey(
     bearer_auth=os.getenv("UNKEY_BEARER_AUTH", ""),
