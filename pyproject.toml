@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "unkey.py"
-version = "0.2.1"
+version = "0.8.0"
 description = "Python Client SDK for unkey.com."
 authors = ["Speakeasy",]
 readme = "README-PYPI.md"

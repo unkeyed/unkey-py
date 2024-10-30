@@ -5,8 +5,8 @@ management:
   docVersion: 1.0.0
   speakeasyVersion: 1.423.2
   generationVersion: 2.442.11
-  releaseVersion: 0.2.1
-  configChecksum: ab6b2b4d99cbe9ccc8b9e716725cb36f
+  releaseVersion: 0.8.0
+  configChecksum: 4dc520c051d585a9dc026c094bddabf8
   repoURL: https://github.com/unkeyed/unkey-py.git
   installationURL: https://github.com/unkeyed/unkey-py.git
   published: true
