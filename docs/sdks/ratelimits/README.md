@@ -13,7 +13,7 @@
 
 ```python
 import os
-from unkey import Unkey
+from unkey_py import Unkey
 
 s = Unkey(
     bearer_auth=os.getenv("UNKEY_BEARER_AUTH", ""),

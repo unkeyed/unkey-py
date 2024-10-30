@@ -2,7 +2,7 @@
 ```python
 # Synchronous Example
 import os
-from unkey import Unkey
+from unkey_py import Unkey
 
 s = Unkey(
     bearer_auth=os.getenv("UNKEY_BEARER_AUTH", ""),
@@ -22,7 +22,7 @@ The same SDK client can also be used to make asychronous requests by importing a
 # Asynchronous Example
 import asyncio
 import os
-from unkey import Unkey
+from unkey_py import Unkey
 
 async def main():
     s = Unkey(

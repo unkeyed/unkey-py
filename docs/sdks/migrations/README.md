@@ -14,8 +14,8 @@
 
 ```python
 import os
-import unkey
-from unkey import Unkey
+import unkey_py
+from unkey_py import Unkey
 
 s = Unkey(
     bearer_auth=os.getenv("UNKEY_BEARER_AUTH", ""),
@@ -42,14 +42,14 @@ res = s.migrations.create_keys(request=[
         "expires": 1623869797161,
         "remaining": 1000,
         "refill": {
-            "interval": unkey.V1MigrationsCreateKeysInterval.DAILY,
+            "interval": unkey_py.V1MigrationsCreateKeysInterval.DAILY,
             "amount": 100,
         },
         "ratelimit": {
             "limit": 10,
             "refill_rate": 1,
             "refill_interval": 60,
-            "type": unkey.V1MigrationsCreateKeysType.FAST,
+            "type": unkey_py.V1MigrationsCreateKeysType.FAST,
         },
         "enabled": False,
     },
@@ -91,8 +91,8 @@ if res.object is not None:
 
 ```python
 import os
-import unkey
-from unkey import Unkey
+import unkey_py
+from unkey_py import Unkey
 
 s = Unkey(
     bearer_auth=os.getenv("UNKEY_BEARER_AUTH", ""),
@@ -121,13 +121,13 @@ res = s.migrations.enqueue(request={
             "expires": 1623869797161,
             "remaining": 1000,
             "refill": {
-                "interval": unkey.V1MigrationsEnqueueKeysInterval.DAILY,
+                "interval": unkey_py.V1MigrationsEnqueueKeysInterval.DAILY,
                 "amount": 100,
             },
             "ratelimit": {
                 "limit": 10,
                 "duration": 60000,
-                "type": unkey.V1MigrationsEnqueueKeysType.FAST,
+                "type": unkey_py.V1MigrationsEnqueueKeysType.FAST,
             },
             "enabled": False,
         },
