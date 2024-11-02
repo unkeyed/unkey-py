@@ -189,8 +189,9 @@ res = s.keys.create(request={
     "expires": 1623869797161,
     "remaining": 1000,
     "refill": {
-        "interval": unkey_py.CreateKeyInterval.DAILY,
+        "interval": unkey_py.CreateKeyInterval.MONTHLY,
         "amount": 100,
+        "refill_day": 15,
     },
     "ratelimit": {
         "limit": 10,

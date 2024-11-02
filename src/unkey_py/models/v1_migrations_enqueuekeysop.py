@@ -48,6 +48,8 @@ class V1MigrationsEnqueueKeysRefillTypedDict(TypedDict):
     r"""Unkey will automatically refill verifications at the set interval."""
     amount: int
     r"""The number of verifications to refill for each occurrence is determined individually for each key."""
+    refill_day: NotRequired[float]
+    r"""The day verifications will refill each month, when interval is set to 'monthly'"""
 
 
 class V1MigrationsEnqueueKeysRefill(BaseModel):
@@ -58,6 +60,9 @@ class V1MigrationsEnqueueKeysRefill(BaseModel):
 
     amount: int
     r"""The number of verifications to refill for each occurrence is determined individually for each key."""
+
+    refill_day: Annotated[Optional[float], pydantic.Field(alias="refillDay")] = None
+    r"""The day verifications will refill each month, when interval is set to 'monthly'"""
 
 
 @deprecated(

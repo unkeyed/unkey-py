@@ -23,6 +23,10 @@ class CreateKeyRefillTypedDict(TypedDict):
     r"""Unkey will automatically refill verifications at the set interval."""
     amount: int
     r"""The number of verifications to refill for each occurrence is determined individually for each key."""
+    refill_day: NotRequired[float]
+    r"""The day of the month, when we will refill the remaining verifications. To refill on the 15th of each month, set 'refillDay': 15.
+    If the day does not exist, for example you specified the 30th and it's february, we will refill them on the last day of the month instead.
+    """
 
 
 class CreateKeyRefill(BaseModel):
@@ -33,6 +37,11 @@ class CreateKeyRefill(BaseModel):
 
     amount: int
     r"""The number of verifications to refill for each occurrence is determined individually for each key."""
+
+    refill_day: Annotated[Optional[float], pydantic.Field(alias="refillDay")] = None
+    r"""The day of the month, when we will refill the remaining verifications. To refill on the 15th of each month, set 'refillDay': 15.
+    If the day does not exist, for example you specified the 30th and it's february, we will refill them on the last day of the month instead.
+    """
 
 
 @deprecated(
