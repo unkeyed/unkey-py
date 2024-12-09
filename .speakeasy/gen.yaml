@@ -14,14 +14,16 @@ generation:
     requestResponseComponentNamesFeb2024: true
   auth:
     oAuth2ClientCredentialsEnabled: true
+    oAuth2PasswordEnabled: false
 python:
-  version: 0.8.0
+  version: 0.9.0
   additionalDependencies:
     dev: {}
     main: {}
   authors:
     - Speakeasy
   clientServerStatusCodesAsErrors: true
+  defaultErrorName: SDKError
   description: Python Client SDK for unkey.com.
   enumFormat: enum
   envVarPrefix: UNKEY

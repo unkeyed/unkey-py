@@ -3,7 +3,7 @@
 from __future__ import annotations
 import pydantic
 from typing import List, Union
-from typing_extensions import Annotated, TypedDict
+from typing_extensions import Annotated, TypeAliasType, TypedDict
 from unkey_py.types import BaseModel
 
 
@@ -23,9 +23,11 @@ class And(BaseModel):
     and_: Annotated[List[PermissionQuery], pydantic.Field(alias="and")]
 
 
-PermissionQueryTypedDict = Union[AndTypedDict, OrTypedDict, str]
+PermissionQueryTypedDict = TypeAliasType(
+    "PermissionQueryTypedDict", Union[AndTypedDict, OrTypedDict, str]
+)
 r"""A query for which permissions you require"""
 
 
-PermissionQuery = Union[And, Or, str]
+PermissionQuery = TypeAliasType("PermissionQuery", Union[And, Or, str])
 r"""A query for which permissions you require"""

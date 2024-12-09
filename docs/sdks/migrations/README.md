@@ -13,51 +13,49 @@
 ### Example Usage
 
 ```python
-import os
 import unkey_py
 from unkey_py import Unkey
 
-s = Unkey(
-    bearer_auth=os.getenv("UNKEY_BEARER_AUTH", ""),
-)
+with Unkey(
+    bearer_auth="UNKEY_ROOT_KEY",
+) as s:
+    res = s.migrations.create_keys(request=[
+        {
+            "api_id": "api_123",
+            "name": "my key",
+            "start": "unkey_32kq",
+            "owner_id": "team_123",
+            "meta": {
+                "billingTier": "PRO",
+                "trialEnds": "2023-06-16T17:16:37.161Z",
+            },
+            "roles": [
+                "admin",
+                "finance",
+            ],
+            "permissions": [
+                "domains.create_record",
+                "say_hello",
+            ],
+            "expires": 1623869797161,
+            "remaining": 1000,
+            "refill": {
+                "interval": unkey_py.V1MigrationsCreateKeysInterval.DAILY,
+                "amount": 100,
+            },
+            "ratelimit": {
+                "limit": 10,
+                "refill_rate": 1,
+                "refill_interval": 60,
+                "type": unkey_py.V1MigrationsCreateKeysType.FAST,
+            },
+            "enabled": False,
+        },
+    ])
 
-res = s.migrations.create_keys(request=[
-    {
-        "api_id": "api_123",
-        "name": "my key",
-        "start": "unkey_32kq",
-        "owner_id": "team_123",
-        "meta": {
-            "billingTier": "PRO",
-            "trialEnds": "2023-06-16T17:16:37.161Z",
-        },
-        "roles": [
-            "admin",
-            "finance",
-        ],
-        "permissions": [
-            "domains.create_record",
-            "say_hello",
-        ],
-        "expires": 1623869797161,
-        "remaining": 1000,
-        "refill": {
-            "interval": unkey_py.V1MigrationsCreateKeysInterval.DAILY,
-            "amount": 100,
-        },
-        "ratelimit": {
-            "limit": 10,
-            "refill_rate": 1,
-            "refill_interval": 60,
-            "type": unkey_py.V1MigrationsCreateKeysType.FAST,
-        },
-        "enabled": False,
-    },
-])
-
-if res.object is not None:
-    # handle response
-    pass
+    if res.object is not None:
+        # handle response
+        pass
 
 ```
 
@@ -90,53 +88,51 @@ if res.object is not None:
 ### Example Usage
 
 ```python
-import os
 import unkey_py
 from unkey_py import Unkey
 
-s = Unkey(
-    bearer_auth=os.getenv("UNKEY_BEARER_AUTH", ""),
-)
+with Unkey(
+    bearer_auth="UNKEY_ROOT_KEY",
+) as s:
+    res = s.migrations.enqueue(request={
+        "migration_id": "<id>",
+        "api_id": "<id>",
+        "keys": [
+            {
+                "name": "my key",
+                "start": "unkey_32kq",
+                "owner_id": "team_123",
+                "meta": {
+                    "billingTier": "PRO",
+                    "trialEnds": "2023-06-16T17:16:37.161Z",
+                },
+                "roles": [
+                    "admin",
+                    "finance",
+                ],
+                "permissions": [
+                    "domains.create_record",
+                    "say_hello",
+                ],
+                "expires": 1623869797161,
+                "remaining": 1000,
+                "refill": {
+                    "interval": unkey_py.V1MigrationsEnqueueKeysInterval.DAILY,
+                    "amount": 100,
+                },
+                "ratelimit": {
+                    "limit": 10,
+                    "duration": 60000,
+                    "type": unkey_py.V1MigrationsEnqueueKeysType.FAST,
+                },
+                "enabled": False,
+            },
+        ],
+    })
 
-res = s.migrations.enqueue(request={
-    "migration_id": "<id>",
-    "api_id": "<id>",
-    "keys": [
-        {
-            "name": "my key",
-            "start": "unkey_32kq",
-            "owner_id": "team_123",
-            "meta": {
-                "billingTier": "PRO",
-                "trialEnds": "2023-06-16T17:16:37.161Z",
-            },
-            "roles": [
-                "admin",
-                "finance",
-            ],
-            "permissions": [
-                "domains.create_record",
-                "say_hello",
-            ],
-            "expires": 1623869797161,
-            "remaining": 1000,
-            "refill": {
-                "interval": unkey_py.V1MigrationsEnqueueKeysInterval.DAILY,
-                "amount": 100,
-            },
-            "ratelimit": {
-                "limit": 10,
-                "duration": 60000,
-                "type": unkey_py.V1MigrationsEnqueueKeysType.FAST,
-            },
-            "enabled": False,
-        },
-    ],
-})
-
-if res.object is not None:
-    # handle response
-    pass
+    if res.object is not None:
+        # handle response
+        pass
 
 ```
 

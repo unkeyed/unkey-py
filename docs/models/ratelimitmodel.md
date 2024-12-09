@@ -1,4 +1,4 @@
-# Ratelimit
+# RatelimitModel
 
 Unkey comes with per-key ratelimiting out of the box.
 

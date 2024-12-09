@@ -15,6 +15,7 @@ from unkey_py.keys import Keys
 from unkey_py.liveness import Liveness
 from unkey_py.migrations import Migrations
 from unkey_py.permissions import Permissions
+from unkey_py.ratelimit import Ratelimit
 from unkey_py.ratelimits import Ratelimits
 from unkey_py.types import OptionalNullable, UNSET
 
@@ -24,6 +25,7 @@ class Unkey(BaseSDK):
     keys: Keys
     apis: Apis
     ratelimits: Ratelimits
+    ratelimit: Ratelimit
     migrations: Migrations
     permissions: Permissions
     identities: Identities
@@ -111,6 +113,21 @@ class Unkey(BaseSDK):
         self.keys = Keys(self.sdk_configuration)
         self.apis = Apis(self.sdk_configuration)
         self.ratelimits = Ratelimits(self.sdk_configuration)
+        self.ratelimit = Ratelimit(self.sdk_configuration)
         self.migrations = Migrations(self.sdk_configuration)
         self.permissions = Permissions(self.sdk_configuration)
         self.identities = Identities(self.sdk_configuration)
+
+    def __enter__(self):
+        return self
+
+    async def __aenter__(self):
+        return self
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        if self.sdk_configuration.client is not None:
+            self.sdk_configuration.client.close()
+
+    async def __aexit__(self, exc_type, exc_val, exc_tb):
+        if self.sdk_configuration.async_client is not None:
+            await self.sdk_configuration.async_client.aclose()

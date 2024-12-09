@@ -3,13 +3,14 @@
 from __future__ import annotations
 from enum import Enum
 import pydantic
+from pydantic import model_serializer
 from typing import Any, Dict, List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
-from unkey_py.types import BaseModel
+from unkey_py.types import BaseModel, Nullable, OptionalNullable, UNSET_SENTINEL
 
 
 class Interval(str, Enum):
-    r"""Determines the rate at which verifications will be refilled."""
+    r"""Determines the rate at which verifications will be refilled. When 'daily' is set for 'interval' 'refillDay' will be set to null."""
 
     DAILY = "daily"
     MONTHLY = "monthly"
@@ -19,9 +20,11 @@ class RefillTypedDict(TypedDict):
     r"""Unkey allows you to refill remaining verifications on a key on a regular interval."""
 
     interval: Interval
-    r"""Determines the rate at which verifications will be refilled."""
+    r"""Determines the rate at which verifications will be refilled. When 'daily' is set for 'interval' 'refillDay' will be set to null."""
     amount: int
     r"""Resets `remaining` to this value every interval."""
+    refill_day: NotRequired[Nullable[float]]
+    r"""The day verifications will refill each month, when interval is set to 'monthly'. Value is not zero-indexed making 1 the first day of the month. If left blank it will default to the first day of the month. When 'daily' is set for 'interval' 'refillDay' will be set to null."""
     last_refill_at: NotRequired[int]
     r"""The unix timestamp in miliseconds when the key was last refilled."""
 
@@ -30,15 +33,50 @@ class Refill(BaseModel):
     r"""Unkey allows you to refill remaining verifications on a key on a regular interval."""
 
     interval: Interval
-    r"""Determines the rate at which verifications will be refilled."""
+    r"""Determines the rate at which verifications will be refilled. When 'daily' is set for 'interval' 'refillDay' will be set to null."""
 
     amount: int
     r"""Resets `remaining` to this value every interval."""
+
+    refill_day: Annotated[
+        OptionalNullable[float], pydantic.Field(alias="refillDay")
+    ] = 1
+    r"""The day verifications will refill each month, when interval is set to 'monthly'. Value is not zero-indexed making 1 the first day of the month. If left blank it will default to the first day of the month. When 'daily' is set for 'interval' 'refillDay' will be set to null."""
 
     last_refill_at: Annotated[Optional[int], pydantic.Field(alias="lastRefillAt")] = (
         None
     )
     r"""The unix timestamp in miliseconds when the key was last refilled."""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = ["refillDay", "lastRefillAt"]
+        nullable_fields = ["refillDay"]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in self.model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
 
 
 class Type(str, Enum):
@@ -50,7 +88,7 @@ class Type(str, Enum):
     CONSISTENT = "consistent"
 
 
-class RatelimitTypedDict(TypedDict):
+class RatelimitModelTypedDict(TypedDict):
     r"""Unkey comes with per-key ratelimiting out of the box."""
 
     async_: bool
@@ -68,7 +106,7 @@ class RatelimitTypedDict(TypedDict):
     r"""Determines the speed at which tokens are refilled, in milliseconds."""
 
 
-class Ratelimit(BaseModel):
+class RatelimitModel(BaseModel):
     r"""Unkey comes with per-key ratelimiting out of the box."""
 
     async_: Annotated[bool, pydantic.Field(alias="async")]
@@ -142,7 +180,7 @@ class KeyTypedDict(TypedDict):
     r"""The number of requests that can be made with this key before it becomes invalid. If this field is null or undefined, the key has no request limit."""
     refill: NotRequired[RefillTypedDict]
     r"""Unkey allows you to refill remaining verifications on a key on a regular interval."""
-    ratelimit: NotRequired[RatelimitTypedDict]
+    ratelimit: NotRequired[RatelimitModelTypedDict]
     r"""Unkey comes with per-key ratelimiting out of the box."""
     roles: NotRequired[List[str]]
     r"""All roles this key belongs to"""
@@ -193,7 +231,7 @@ class Key(BaseModel):
     refill: Optional[Refill] = None
     r"""Unkey allows you to refill remaining verifications on a key on a regular interval."""
 
-    ratelimit: Optional[Ratelimit] = None
+    ratelimit: Optional[RatelimitModel] = None
     r"""Unkey comes with per-key ratelimiting out of the box."""
 
     roles: Optional[List[str]] = None

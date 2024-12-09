@@ -17,8 +17,6 @@ class ServicesTypedDict(TypedDict):
     r"""The name of the connected ratelimit service"""
     usagelimit: str
     r"""The name of the connected usagelimit service"""
-    analytics: str
-    r"""The name of the connected analytics service"""
 
 
 class Services(BaseModel):
@@ -33,9 +31,6 @@ class Services(BaseModel):
 
     usagelimit: str
     r"""The name of the connected usagelimit service"""
-
-    analytics: str
-    r"""The name of the connected analytics service"""
 
 
 class V1LivenessResponseBodyTypedDict(TypedDict):

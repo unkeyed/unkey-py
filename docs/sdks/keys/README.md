@@ -25,18 +25,16 @@
 ### Example Usage
 
 ```python
-import os
 from unkey_py import Unkey
 
-s = Unkey(
-    bearer_auth=os.getenv("UNKEY_BEARER_AUTH", ""),
-)
+with Unkey(
+    bearer_auth="UNKEY_ROOT_KEY",
+) as s:
+    res = s.keys.get(key_id="key_1234")
 
-res = s.keys.get(key_id="key_1234")
-
-if res.key is not None:
-    # handle response
-    pass
+    if res.key is not None:
+        # handle response
+        pass
 
 ```
 
@@ -70,20 +68,18 @@ if res.key is not None:
 ### Example Usage
 
 ```python
-import os
 from unkey_py import Unkey
 
-s = Unkey(
-    bearer_auth=os.getenv("UNKEY_BEARER_AUTH", ""),
-)
+with Unkey(
+    bearer_auth="UNKEY_ROOT_KEY",
+) as s:
+    res = s.keys.whoami(request={
+        "key": "sk_123",
+    })
 
-res = s.keys.whoami(request={
-    "key": "sk_123",
-})
-
-if res.object is not None:
-    # handle response
-    pass
+    if res.object is not None:
+        # handle response
+        pass
 
 ```
 
@@ -116,20 +112,18 @@ if res.object is not None:
 ### Example Usage
 
 ```python
-import os
 from unkey_py import Unkey
 
-s = Unkey(
-    bearer_auth=os.getenv("UNKEY_BEARER_AUTH", ""),
-)
+with Unkey(
+    bearer_auth="UNKEY_ROOT_KEY",
+) as s:
+    res = s.keys.delete(request={
+        "key_id": "key_1234",
+    })
 
-res = s.keys.delete(request={
-    "key_id": "key_1234",
-})
-
-if res.object is not None:
-    # handle response
-    pass
+    if res.object is not None:
+        # handle response
+        pass
 
 ```
 
@@ -162,47 +156,46 @@ if res.object is not None:
 ### Example Usage
 
 ```python
-import os
 import unkey_py
 from unkey_py import Unkey
 
-s = Unkey(
-    bearer_auth=os.getenv("UNKEY_BEARER_AUTH", ""),
-)
+with Unkey(
+    bearer_auth="UNKEY_ROOT_KEY",
+) as s:
+    res = s.keys.create(request={
+        "api_id": "api_123",
+        "name": "my key",
+        "external_id": "team_123",
+        "meta": {
+            "billingTier": "PRO",
+            "trialEnds": "2023-06-16T17:16:37.161Z",
+        },
+        "roles": [
+            "admin",
+            "finance",
+        ],
+        "permissions": [
+            "domains.create_record",
+            "say_hello",
+        ],
+        "expires": 1623869797161,
+        "remaining": 1000,
+        "refill": {
+            "interval": unkey_py.CreateKeyInterval.MONTHLY,
+            "amount": 100,
+            "refill_day": 15,
+        },
+        "ratelimit": {
+            "limit": 10,
+            "type": unkey_py.CreateKeyType.FAST,
+            "duration": 60000,
+        },
+        "enabled": False,
+    })
 
-res = s.keys.create(request={
-    "api_id": "api_123",
-    "name": "my key",
-    "external_id": "team_123",
-    "meta": {
-        "billingTier": "PRO",
-        "trialEnds": "2023-06-16T17:16:37.161Z",
-    },
-    "roles": [
-        "admin",
-        "finance",
-    ],
-    "permissions": [
-        "domains.create_record",
-        "say_hello",
-    ],
-    "expires": 1623869797161,
-    "remaining": 1000,
-    "refill": {
-        "interval": unkey_py.CreateKeyInterval.DAILY,
-        "amount": 100,
-    },
-    "ratelimit": {
-        "limit": 10,
-        "type": unkey_py.CreateKeyType.FAST,
-        "duration": 60000,
-    },
-    "enabled": False,
-})
-
-if res.object is not None:
-    # handle response
-    pass
+    if res.object is not None:
+        # handle response
+        pass
 
 ```
 
@@ -235,33 +228,31 @@ if res.object is not None:
 ### Example Usage
 
 ```python
-import os
 from unkey_py import Unkey
 
-s = Unkey(
-    bearer_auth=os.getenv("UNKEY_BEARER_AUTH", ""),
-)
+with Unkey(
+    bearer_auth="UNKEY_ROOT_KEY",
+) as s:
+    res = s.keys.verify(request={
+        "key": "sk_1234",
+        "api_id": "api_1234",
+        "ratelimits": [
+            {
+                "name": "tokens",
+                "limit": 500,
+                "duration": 3600000,
+            },
+            {
+                "name": "tokens",
+                "limit": 20000,
+                "duration": 86400000,
+            },
+        ],
+    })
 
-res = s.keys.verify(request={
-    "key": "sk_1234",
-    "api_id": "api_1234",
-    "ratelimits": [
-        {
-            "name": "tokens",
-            "limit": 500,
-            "duration": 3600000,
-        },
-        {
-            "name": "tokens",
-            "limit": 20000,
-            "duration": 86400000,
-        },
-    ],
-})
-
-if res.v1_keys_verify_key_response is not None:
-    # handle response
-    pass
+    if res.v1_keys_verify_key_response is not None:
+        # handle response
+        pass
 
 ```
 
@@ -294,67 +285,65 @@ if res.v1_keys_verify_key_response is not None:
 ### Example Usage
 
 ```python
-import os
 import unkey_py
 from unkey_py import Unkey
 
-s = Unkey(
-    bearer_auth=os.getenv("UNKEY_BEARER_AUTH", ""),
-)
-
-res = s.keys.update(request={
-    "key_id": "key_123",
-    "name": "Customer X",
-    "external_id": "user_123",
-    "meta": {
+with Unkey(
+    bearer_auth="UNKEY_ROOT_KEY",
+) as s:
+    res = s.keys.update(request={
+        "key_id": "key_123",
+        "name": "Customer X",
+        "external_id": "user_123",
+        "meta": {
+            "roles": [
+                "admin",
+                "user",
+            ],
+            "stripeCustomerId": "cus_1234",
+        },
+        "expires": 0,
+        "ratelimit": {
+            "limit": 10,
+            "type": unkey_py.UpdateKeyType.FAST,
+            "refill_rate": 1,
+            "refill_interval": 60,
+        },
+        "remaining": 1000,
+        "refill": {
+            "interval": unkey_py.UpdateKeyInterval.DAILY,
+            "amount": 100,
+        },
+        "enabled": True,
         "roles": [
-            "admin",
-            "user",
+            {
+                "id": "perm_123",
+            },
+            {
+                "name": "dns.record.create",
+            },
+            {
+                "name": "dns.record.delete",
+                "create": True,
+            },
         ],
-        "stripeCustomerId": "cus_1234",
-    },
-    "expires": 0,
-    "ratelimit": {
-        "limit": 10,
-        "type": unkey_py.UpdateKeyType.FAST,
-        "refill_rate": 1,
-        "refill_interval": 60,
-    },
-    "remaining": 1000,
-    "refill": {
-        "interval": unkey_py.UpdateKeyInterval.DAILY,
-        "amount": 100,
-    },
-    "enabled": True,
-    "roles": [
-        {
-            "id": "perm_123",
-        },
-        {
-            "name": "dns.record.create",
-        },
-        {
-            "name": "dns.record.delete",
-            "create": True,
-        },
-    ],
-    "permissions": [
-        {
-            "id": "perm_123",
-        },
-        {
-            "name": "dns.record.create",
-        },
-        {
-            "name": "dns.record.delete",
-            "create": True,
-        },
-    ],
-})
+        "permissions": [
+            {
+                "id": "perm_123",
+            },
+            {
+                "name": "dns.record.create",
+            },
+            {
+                "name": "dns.record.delete",
+                "create": True,
+            },
+        ],
+    })
 
-if res.object is not None:
-    # handle response
-    pass
+    if res.object is not None:
+        # handle response
+        pass
 
 ```
 
@@ -387,23 +376,21 @@ if res.object is not None:
 ### Example Usage
 
 ```python
-import os
 import unkey_py
 from unkey_py import Unkey
 
-s = Unkey(
-    bearer_auth=os.getenv("UNKEY_BEARER_AUTH", ""),
-)
+with Unkey(
+    bearer_auth="UNKEY_ROOT_KEY",
+) as s:
+    res = s.keys.update_remaining(request={
+        "key_id": "key_123",
+        "op": unkey_py.Op.SET,
+        "value": 1,
+    })
 
-res = s.keys.update_remaining(request={
-    "key_id": "key_123",
-    "op": unkey_py.Op.SET,
-    "value": 1,
-})
-
-if res.object is not None:
-    # handle response
-    pass
+    if res.object is not None:
+        # handle response
+        pass
 
 ```
 
@@ -436,25 +423,23 @@ if res.object is not None:
 ### Example Usage
 
 ```python
-import os
 import unkey_py
 from unkey_py import Unkey
 
-s = Unkey(
-    bearer_auth=os.getenv("UNKEY_BEARER_AUTH", ""),
-)
+with Unkey(
+    bearer_auth="UNKEY_ROOT_KEY",
+) as s:
+    res = s.keys.get_verifications(request={
+        "key_id": "key_1234",
+        "owner_id": "chronark",
+        "start": 1620000000000,
+        "end": 1620000000000,
+        "granularity": unkey_py.Granularity.DAY,
+    })
 
-res = s.keys.get_verifications(request={
-    "key_id": "key_1234",
-    "owner_id": "chronark",
-    "start": 1620000000000,
-    "end": 1620000000000,
-    "granularity": unkey_py.Granularity.DAY,
-})
-
-if res.object is not None:
-    # handle response
-    pass
+    if res.object is not None:
+        # handle response
+        pass
 
 ```
 
@@ -487,23 +472,21 @@ if res.object is not None:
 ### Example Usage
 
 ```python
-import os
 from unkey_py import Unkey
 
-s = Unkey(
-    bearer_auth=os.getenv("UNKEY_BEARER_AUTH", ""),
-)
+with Unkey(
+    bearer_auth="UNKEY_ROOT_KEY",
+) as s:
+    res = s.keys.add_permissions(request={
+        "key_id": "<id>",
+        "permissions": [
+            {},
+        ],
+    })
 
-res = s.keys.add_permissions(request={
-    "key_id": "<id>",
-    "permissions": [
-        {},
-    ],
-})
-
-if res.response_bodies is not None:
-    # handle response
-    pass
+    if res.response_bodies is not None:
+        # handle response
+        pass
 
 ```
 
@@ -536,28 +519,26 @@ if res.response_bodies is not None:
 ### Example Usage
 
 ```python
-import os
 from unkey_py import Unkey
 
-s = Unkey(
-    bearer_auth=os.getenv("UNKEY_BEARER_AUTH", ""),
-)
+with Unkey(
+    bearer_auth="UNKEY_ROOT_KEY",
+) as s:
+    res = s.keys.remove_permissions(request={
+        "key_id": "<id>",
+        "permissions": [
+            {
+                "id": "perm_123",
+            },
+            {
+                "name": "dns.record.create",
+            },
+        ],
+    })
 
-res = s.keys.remove_permissions(request={
-    "key_id": "<id>",
-    "permissions": [
-        {
-            "id": "perm_123",
-        },
-        {
-            "name": "dns.record.create",
-        },
-    ],
-})
-
-if res.object is not None:
-    # handle response
-    pass
+    if res.object is not None:
+        # handle response
+        pass
 
 ```
 
@@ -590,32 +571,30 @@ if res.object is not None:
 ### Example Usage
 
 ```python
-import os
 from unkey_py import Unkey
 
-s = Unkey(
-    bearer_auth=os.getenv("UNKEY_BEARER_AUTH", ""),
-)
+with Unkey(
+    bearer_auth="UNKEY_ROOT_KEY",
+) as s:
+    res = s.keys.set_permissions(request={
+        "key_id": "<id>",
+        "permissions": [
+            {
+                "id": "perm_123",
+            },
+            {
+                "name": "dns.record.create",
+            },
+            {
+                "name": "dns.record.delete",
+                "create": True,
+            },
+        ],
+    })
 
-res = s.keys.set_permissions(request={
-    "key_id": "<id>",
-    "permissions": [
-        {
-            "id": "perm_123",
-        },
-        {
-            "name": "dns.record.create",
-        },
-        {
-            "name": "dns.record.delete",
-            "create": True,
-        },
-    ],
-})
-
-if res.response_bodies is not None:
-    # handle response
-    pass
+    if res.response_bodies is not None:
+        # handle response
+        pass
 
 ```
 
@@ -648,32 +627,30 @@ if res.response_bodies is not None:
 ### Example Usage
 
 ```python
-import os
 from unkey_py import Unkey
 
-s = Unkey(
-    bearer_auth=os.getenv("UNKEY_BEARER_AUTH", ""),
-)
+with Unkey(
+    bearer_auth="UNKEY_ROOT_KEY",
+) as s:
+    res = s.keys.add_roles(request={
+        "key_id": "<id>",
+        "roles": [
+            {
+                "id": "role_123",
+            },
+            {
+                "name": "dns.record.create",
+            },
+            {
+                "name": "dns.record.delete",
+                "create": True,
+            },
+        ],
+    })
 
-res = s.keys.add_roles(request={
-    "key_id": "<id>",
-    "roles": [
-        {
-            "id": "role_123",
-        },
-        {
-            "name": "dns.record.create",
-        },
-        {
-            "name": "dns.record.delete",
-            "create": True,
-        },
-    ],
-})
-
-if res.response_bodies is not None:
-    # handle response
-    pass
+    if res.response_bodies is not None:
+        # handle response
+        pass
 
 ```
 
@@ -706,28 +683,26 @@ if res.response_bodies is not None:
 ### Example Usage
 
 ```python
-import os
 from unkey_py import Unkey
 
-s = Unkey(
-    bearer_auth=os.getenv("UNKEY_BEARER_AUTH", ""),
-)
+with Unkey(
+    bearer_auth="UNKEY_ROOT_KEY",
+) as s:
+    res = s.keys.remove_roles(request={
+        "key_id": "<id>",
+        "roles": [
+            {
+                "id": "role_123",
+            },
+            {
+                "name": "dns.record.create",
+            },
+        ],
+    })
 
-res = s.keys.remove_roles(request={
-    "key_id": "<id>",
-    "roles": [
-        {
-            "id": "role_123",
-        },
-        {
-            "name": "dns.record.create",
-        },
-    ],
-})
-
-if res.object is not None:
-    # handle response
-    pass
+    if res.object is not None:
+        # handle response
+        pass
 
 ```
 
@@ -760,32 +735,30 @@ if res.object is not None:
 ### Example Usage
 
 ```python
-import os
 from unkey_py import Unkey
 
-s = Unkey(
-    bearer_auth=os.getenv("UNKEY_BEARER_AUTH", ""),
-)
+with Unkey(
+    bearer_auth="UNKEY_ROOT_KEY",
+) as s:
+    res = s.keys.set_roles(request={
+        "key_id": "<id>",
+        "roles": [
+            {
+                "id": "role_123",
+            },
+            {
+                "name": "dns.record.create",
+            },
+            {
+                "name": "dns.record.delete",
+                "create": True,
+            },
+        ],
+    })
 
-res = s.keys.set_roles(request={
-    "key_id": "<id>",
-    "roles": [
-        {
-            "id": "role_123",
-        },
-        {
-            "name": "dns.record.create",
-        },
-        {
-            "name": "dns.record.delete",
-            "create": True,
-        },
-    ],
-})
-
-if res.response_bodies is not None:
-    # handle response
-    pass
+    if res.response_bodies is not None:
+        # handle response
+        pass
 
 ```
 

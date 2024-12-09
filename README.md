@@ -20,18 +20,23 @@ Developer-friendly & type-safe Python SDK for Unkey's API.
 
 <!-- Start Table of Contents [toc] -->
 ## Table of Contents
+<!-- $toc-max-depth=2 -->
+* [unkey](#unkey)
+  * [SDK Installation](#sdk-installation)
+  * [IDE Support](#ide-support)
+  * [SDK Example Usage](#sdk-example-usage)
+  * [Available Resources and Operations](#available-resources-and-operations)
+  * [Pagination](#pagination)
+  * [Retries](#retries)
+  * [Error Handling](#error-handling)
+  * [Server Selection](#server-selection)
+  * [Custom HTTP Client](#custom-http-client)
+  * [Authentication](#authentication)
+  * [Debugging](#debugging)
+* [Development](#development)
+  * [Maturity](#maturity)
+  * [Contributions](#contributions)
 
-* [SDK Installation](#sdk-installation)
-* [IDE Support](#ide-support)
-* [SDK Example Usage](#sdk-example-usage)
-* [Available Resources and Operations](#available-resources-and-operations)
-* [Pagination](#pagination)
-* [Retries](#retries)
-* [Error Handling](#error-handling)
-* [Server Selection](#server-selection)
-* [Custom HTTP Client](#custom-http-client)
-* [Authentication](#authentication)
-* [Debugging](#debugging)
 <!-- End Table of Contents [toc] -->
 
 <!-- Start SDK Installation [installation] -->
@@ -73,18 +78,16 @@ Generally, the SDK will work well with most IDEs out of the box. However, when u
 
 ```python
 # Synchronous Example
-import os
 from unkey_py import Unkey
 
-s = Unkey(
-    bearer_auth=os.getenv("UNKEY_BEARER_AUTH", ""),
-)
+with Unkey(
+    bearer_auth="UNKEY_ROOT_KEY",
+) as s:
+    res = s.liveness.check()
 
-res = s.liveness.check()
-
-if res.object is not None:
-    # handle response
-    pass
+    if res.object is not None:
+        # handle response
+        pass
 ```
 
 </br>
@@ -93,17 +96,17 @@ The same SDK client can also be used to make asychronous requests by importing a
 ```python
 # Asynchronous Example
 import asyncio
-import os
 from unkey_py import Unkey
 
 async def main():
-    s = Unkey(
-        bearer_auth=os.getenv("UNKEY_BEARER_AUTH", ""),
-    )
-    res = await s.liveness.check_async()
-    if res.object is not None:
-        # handle response
-        pass
+    async with Unkey(
+        bearer_auth="UNKEY_ROOT_KEY",
+    ) as s:
+        res = await s.liveness.check_async()
+
+        if res.object is not None:
+            # handle response
+            pass
 
 asyncio.run(main())
 ```
@@ -168,9 +171,16 @@ asyncio.run(main())
 * [get_role](docs/sdks/permissions/README.md#get_role)
 * [list_roles](docs/sdks/permissions/README.md#list_roles)
 
+### [ratelimit](docs/sdks/ratelimit/README.md)
+
+* [ratelimit_set_override](docs/sdks/ratelimit/README.md#ratelimit_set_override)
+* [list_overrides](docs/sdks/ratelimit/README.md#list_overrides)
+* [get_override](docs/sdks/ratelimit/README.md#get_override)
+
 ### [ratelimits](docs/sdks/ratelimits/README.md)
 
 * [limit](docs/sdks/ratelimits/README.md#limit)
+* [delete_override](docs/sdks/ratelimits/README.md#delete_override)
 
 
 </details>
@@ -185,22 +195,20 @@ return value of `Next` is `None`, then there are no more pages to be fetched.
 
 Here's an example of one such pagination call:
 ```python
-import os
 from unkey_py import Unkey
 
-s = Unkey(
-    bearer_auth=os.getenv("UNKEY_BEARER_AUTH", ""),
-)
+with Unkey(
+    bearer_auth="UNKEY_ROOT_KEY",
+) as s:
+    res = s.identities.list(limit=100)
 
-res = s.identities.list(limit=100)
+    if res.object is not None:
+        while True:
+            # handle items
 
-if res.object is not None:
-    while True:
-        # handle items
-
-        res = res.next()
-        if res is None:
-            break
+            res = res.next()
+            if res is None:
+                break
 
 ```
 <!-- End Pagination [pagination] -->
@@ -212,39 +220,35 @@ Some of the endpoints in this SDK support retries. If you use the SDK without an
 
 To change the default retry strategy for a single API call, simply provide a `RetryConfig` object to the call:
 ```python
-import os
 from unkey.utils import BackoffStrategy, RetryConfig
 from unkey_py import Unkey
 
-s = Unkey(
-    bearer_auth=os.getenv("UNKEY_BEARER_AUTH", ""),
-)
+with Unkey(
+    bearer_auth="UNKEY_ROOT_KEY",
+) as s:
+    res = s.liveness.check(,
+        RetryConfig("backoff", BackoffStrategy(1, 50, 1.1, 100), False))
 
-res = s.liveness.check(,
-    RetryConfig("backoff", BackoffStrategy(1, 50, 1.1, 100), False))
-
-if res.object is not None:
-    # handle response
-    pass
+    if res.object is not None:
+        # handle response
+        pass
 
 ```
 
 If you'd like to override the default retry strategy for all operations that support retries, you can use the `retry_config` optional parameter when initializing the SDK:
 ```python
-import os
 from unkey.utils import BackoffStrategy, RetryConfig
 from unkey_py import Unkey
 
-s = Unkey(
+with Unkey(
     retry_config=RetryConfig("backoff", BackoffStrategy(1, 50, 1.1, 100), False),
-    bearer_auth=os.getenv("UNKEY_BEARER_AUTH", ""),
-)
+    bearer_auth="UNKEY_ROOT_KEY",
+) as s:
+    res = s.liveness.check()
 
-res = s.liveness.check()
-
-if res.object is not None:
-    # handle response
-    pass
+    if res.object is not None:
+        # handle response
+        pass
 
 ```
 <!-- End Retries [retries] -->
@@ -265,110 +269,78 @@ By default, an API error will raise a models.SDKError exception, which has the f
 
 When custom error responses are specified for an operation, the SDK may also raise their associated exceptions. You can refer to respective *Errors* tables in SDK docs for more details on possible exception types for each operation. For example, the `check_async` method may raise the following exceptions:
 
-| Error Type                    | Status Code                   | Content Type                  |
-| ----------------------------- | ----------------------------- | ----------------------------- |
-| models.ErrBadRequest          | 400                           | application/json              |
-| models.ErrUnauthorized        | 401                           | application/json              |
-| models.ErrForbidden           | 403                           | application/json              |
-| models.ErrNotFound            | 404                           | application/json              |
-| models.ErrConflict            | 409                           | application/json              |
-| models.ErrTooManyRequests     | 429                           | application/json              |
-| models.ErrInternalServerError | 500                           | application/json              |
-| models.SDKError               | 4XX, 5XX                      | \*/\*                         |
+| Error Type                    | Status Code | Content Type     |
+| ----------------------------- | ----------- | ---------------- |
+| models.ErrBadRequest          | 400         | application/json |
+| models.ErrUnauthorized        | 401         | application/json |
+| models.ErrForbidden           | 403         | application/json |
+| models.ErrNotFound            | 404         | application/json |
+| models.ErrConflict            | 409         | application/json |
+| models.ErrTooManyRequests     | 429         | application/json |
+| models.ErrInternalServerError | 500         | application/json |
+| models.SDKError               | 4XX, 5XX    | \*/\*            |
 
 ### Example
 
 ```python
-import os
 from unkey_py import Unkey, models
 
-s = Unkey(
-    bearer_auth=os.getenv("UNKEY_BEARER_AUTH", ""),
-)
+with Unkey(
+    bearer_auth="UNKEY_ROOT_KEY",
+) as s:
+    res = None
+    try:
+        res = s.liveness.check()
 
-res = None
-try:
-    res = s.liveness.check()
+        if res.object is not None:
+            # handle response
+            pass
 
-    if res.object is not None:
-        # handle response
-        pass
-
-except models.ErrBadRequest as e:
-    # handle e.data: models.ErrBadRequestData
-    raise(e)
-except models.ErrUnauthorized as e:
-    # handle e.data: models.ErrUnauthorizedData
-    raise(e)
-except models.ErrForbidden as e:
-    # handle e.data: models.ErrForbiddenData
-    raise(e)
-except models.ErrNotFound as e:
-    # handle e.data: models.ErrNotFoundData
-    raise(e)
-except models.ErrConflict as e:
-    # handle e.data: models.ErrConflictData
-    raise(e)
-except models.ErrTooManyRequests as e:
-    # handle e.data: models.ErrTooManyRequestsData
-    raise(e)
-except models.ErrInternalServerError as e:
-    # handle e.data: models.ErrInternalServerErrorData
-    raise(e)
-except models.SDKError as e:
-    # handle exception
-    raise(e)
+    except models.ErrBadRequest as e:
+        # handle e.data: models.ErrBadRequestData
+        raise(e)
+    except models.ErrUnauthorized as e:
+        # handle e.data: models.ErrUnauthorizedData
+        raise(e)
+    except models.ErrForbidden as e:
+        # handle e.data: models.ErrForbiddenData
+        raise(e)
+    except models.ErrNotFound as e:
+        # handle e.data: models.ErrNotFoundData
+        raise(e)
+    except models.ErrConflict as e:
+        # handle e.data: models.ErrConflictData
+        raise(e)
+    except models.ErrTooManyRequests as e:
+        # handle e.data: models.ErrTooManyRequestsData
+        raise(e)
+    except models.ErrInternalServerError as e:
+        # handle e.data: models.ErrInternalServerErrorData
+        raise(e)
+    except models.SDKError as e:
+        # handle exception
+        raise(e)
 ```
 <!-- End Error Handling [errors] -->
 
 <!-- Start Server Selection [server] -->
 ## Server Selection
 
-### Select Server by Index
-
-You can override the default server globally by passing a server index to the `server_idx: int` optional parameter when initializing the SDK client instance. The selected server will then be used as the default on the operations that use it. This table lists the indexes associated with the available servers:
-
-| # | Server | Variables |
-| - | ------ | --------- |
-| 0 | `https://api.unkey.dev` | None |
-
-#### Example
-
-```python
-import os
-from unkey_py import Unkey
-
-s = Unkey(
-    server_idx=0,
-    bearer_auth=os.getenv("UNKEY_BEARER_AUTH", ""),
-)
-
-res = s.liveness.check()
-
-if res.object is not None:
-    # handle response
-    pass
-
-```
-
-
 ### Override Server URL Per-Client
 
 The default server can also be overridden globally by passing a URL to the `server_url: str` optional parameter when initializing the SDK client instance. For example:
 ```python
-import os
 from unkey_py import Unkey
 
-s = Unkey(
+with Unkey(
     server_url="https://api.unkey.dev",
-    bearer_auth=os.getenv("UNKEY_BEARER_AUTH", ""),
-)
+    bearer_auth="UNKEY_ROOT_KEY",
+) as s:
+    res = s.liveness.check()
 
-res = s.liveness.check()
-
-if res.object is not None:
-    # handle response
-    pass
+    if res.object is not None:
+        # handle response
+        pass
 
 ```
 <!-- End Server Selection [server] -->
@@ -461,24 +433,22 @@ s = Unkey(async_client=CustomClient(httpx.AsyncClient()))
 
 This SDK supports the following security scheme globally:
 
-| Name                 | Type                 | Scheme               | Environment Variable |
-| -------------------- | -------------------- | -------------------- | -------------------- |
-| `bearer_auth`        | http                 | HTTP Bearer          | `UNKEY_BEARER_AUTH`  |
+| Name          | Type | Scheme      | Environment Variable |
+| ------------- | ---- | ----------- | -------------------- |
+| `bearer_auth` | http | HTTP Bearer | `UNKEY_BEARER_AUTH`  |
 
 To authenticate with the API the `bearer_auth` parameter must be set when initializing the SDK client instance. For example:
 ```python
-import os
 from unkey_py import Unkey
 
-s = Unkey(
-    bearer_auth=os.getenv("UNKEY_BEARER_AUTH", ""),
-)
+with Unkey(
+    bearer_auth="UNKEY_ROOT_KEY",
+) as s:
+    res = s.liveness.check()
 
-res = s.liveness.check()
-
-if res.object is not None:
-    # handle response
-    pass
+    if res.object is not None:
+        # handle response
+        pass
 
 ```
 <!-- End Authentication [security] -->

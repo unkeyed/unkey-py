@@ -16,18 +16,16 @@
 ### Example Usage
 
 ```python
-import os
 from unkey_py import Unkey
 
-s = Unkey(
-    bearer_auth=os.getenv("UNKEY_BEARER_AUTH", ""),
-)
+with Unkey(
+    bearer_auth="UNKEY_ROOT_KEY",
+) as s:
+    res = s.apis.get(api_id="api_1234")
 
-res = s.apis.get(api_id="api_1234")
-
-if res.object is not None:
-    # handle response
-    pass
+    if res.object is not None:
+        # handle response
+        pass
 
 ```
 
@@ -60,20 +58,18 @@ if res.object is not None:
 ### Example Usage
 
 ```python
-import os
 from unkey_py import Unkey
 
-s = Unkey(
-    bearer_auth=os.getenv("UNKEY_BEARER_AUTH", ""),
-)
+with Unkey(
+    bearer_auth="UNKEY_ROOT_KEY",
+) as s:
+    res = s.apis.create(request={
+        "name": "my-api",
+    })
 
-res = s.apis.create(request={
-    "name": "my-api",
-})
-
-if res.object is not None:
-    # handle response
-    pass
+    if res.object is not None:
+        # handle response
+        pass
 
 ```
 
@@ -106,21 +102,19 @@ if res.object is not None:
 ### Example Usage
 
 ```python
-import os
 from unkey_py import Unkey
 
-s = Unkey(
-    bearer_auth=os.getenv("UNKEY_BEARER_AUTH", ""),
-)
+with Unkey(
+    bearer_auth="UNKEY_ROOT_KEY",
+) as s:
+    res = s.apis.list_keys(request={
+        "api_id": "api_1234",
+        "limit": 100,
+    })
 
-res = s.apis.list_keys(request={
-    "api_id": "api_1234",
-    "limit": 100,
-})
-
-if res.object is not None:
-    # handle response
-    pass
+    if res.object is not None:
+        # handle response
+        pass
 
 ```
 
@@ -153,20 +147,18 @@ if res.object is not None:
 ### Example Usage
 
 ```python
-import os
 from unkey_py import Unkey
 
-s = Unkey(
-    bearer_auth=os.getenv("UNKEY_BEARER_AUTH", ""),
-)
+with Unkey(
+    bearer_auth="UNKEY_ROOT_KEY",
+) as s:
+    res = s.apis.delete(request={
+        "api_id": "api_1234",
+    })
 
-res = s.apis.delete(request={
-    "api_id": "api_1234",
-})
-
-if res.object is not None:
-    # handle response
-    pass
+    if res.object is not None:
+        # handle response
+        pass
 
 ```
 
@@ -199,20 +191,18 @@ if res.object is not None:
 ### Example Usage
 
 ```python
-import os
 from unkey_py import Unkey
 
-s = Unkey(
-    bearer_auth=os.getenv("UNKEY_BEARER_AUTH", ""),
-)
+with Unkey(
+    bearer_auth="UNKEY_ROOT_KEY",
+) as s:
+    res = s.apis.delete_keys(request={
+        "api_id": "api_1234",
+    })
 
-res = s.apis.delete_keys(request={
-    "api_id": "api_1234",
-})
-
-if res.object is not None:
-    # handle response
-    pass
+    if res.object is not None:
+        # handle response
+        pass
 
 ```
 
