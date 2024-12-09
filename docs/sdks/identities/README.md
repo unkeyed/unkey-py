@@ -16,32 +16,30 @@
 ### Example Usage
 
 ```python
-import os
 from unkey_py import Unkey
 
-s = Unkey(
-    bearer_auth=os.getenv("UNKEY_BEARER_AUTH", ""),
-)
+with Unkey(
+    bearer_auth="UNKEY_ROOT_KEY",
+) as s:
+    res = s.identities.create(request={
+        "external_id": "user_123",
+        "ratelimits": [
+            {
+                "name": "tokens",
+                "limit": 10,
+                "duration": 1000,
+            },
+            {
+                "name": "tokens",
+                "limit": 10,
+                "duration": 1000,
+            },
+        ],
+    })
 
-res = s.identities.create(request={
-    "external_id": "user_123",
-    "ratelimits": [
-        {
-            "name": "tokens",
-            "limit": 10,
-            "duration": 1000,
-        },
-        {
-            "name": "tokens",
-            "limit": 10,
-            "duration": 1000,
-        },
-    ],
-})
-
-if res.object is not None:
-    # handle response
-    pass
+    if res.object is not None:
+        # handle response
+        pass
 
 ```
 
@@ -74,18 +72,16 @@ if res.object is not None:
 ### Example Usage
 
 ```python
-import os
 from unkey_py import Unkey
 
-s = Unkey(
-    bearer_auth=os.getenv("UNKEY_BEARER_AUTH", ""),
-)
+with Unkey(
+    bearer_auth="UNKEY_ROOT_KEY",
+) as s:
+    res = s.identities.get(identity_id="id_1234", external_id="id_1234")
 
-res = s.identities.get(identity_id="id_1234", external_id="id_1234")
-
-if res.object is not None:
-    # handle response
-    pass
+    if res.object is not None:
+        # handle response
+        pass
 
 ```
 
@@ -119,22 +115,20 @@ if res.object is not None:
 ### Example Usage
 
 ```python
-import os
 from unkey_py import Unkey
 
-s = Unkey(
-    bearer_auth=os.getenv("UNKEY_BEARER_AUTH", ""),
-)
+with Unkey(
+    bearer_auth="UNKEY_ROOT_KEY",
+) as s:
+    res = s.identities.list(limit=100)
 
-res = s.identities.list(limit=100)
+    if res.object is not None:
+        while True:
+            # handle items
 
-if res.object is not None:
-    while True:
-        # handle items
-
-        res = res.next()
-        if res is None:
-            break
+            res = res.next()
+            if res is None:
+                break
 
 ```
 
@@ -169,38 +163,36 @@ if res.object is not None:
 ### Example Usage
 
 ```python
-import os
 from unkey_py import Unkey
 
-s = Unkey(
-    bearer_auth=os.getenv("UNKEY_BEARER_AUTH", ""),
-)
+with Unkey(
+    bearer_auth="UNKEY_ROOT_KEY",
+) as s:
+    res = s.identities.update(request={
+        "identity_id": "id_1234",
+        "external_id": "user_1234",
+        "ratelimits": [
+            {
+                "name": "tokens",
+                "limit": 10,
+                "duration": 1000,
+            },
+            {
+                "name": "tokens",
+                "limit": 10,
+                "duration": 1000,
+            },
+            {
+                "name": "tokens",
+                "limit": 10,
+                "duration": 1000,
+            },
+        ],
+    })
 
-res = s.identities.update(request={
-    "identity_id": "id_1234",
-    "external_id": "user_1234",
-    "ratelimits": [
-        {
-            "name": "tokens",
-            "limit": 10,
-            "duration": 1000,
-        },
-        {
-            "name": "tokens",
-            "limit": 10,
-            "duration": 1000,
-        },
-        {
-            "name": "tokens",
-            "limit": 10,
-            "duration": 1000,
-        },
-    ],
-})
-
-if res.object is not None:
-    # handle response
-    pass
+    if res.object is not None:
+        # handle response
+        pass
 
 ```
 
@@ -233,20 +225,18 @@ if res.object is not None:
 ### Example Usage
 
 ```python
-import os
 from unkey_py import Unkey
 
-s = Unkey(
-    bearer_auth=os.getenv("UNKEY_BEARER_AUTH", ""),
-)
+with Unkey(
+    bearer_auth="UNKEY_ROOT_KEY",
+) as s:
+    res = s.identities.delete(request={
+        "identity_id": "id_1234",
+    })
 
-res = s.identities.delete(request={
-    "identity_id": "id_1234",
-})
-
-if res.object is not None:
-    # handle response
-    pass
+    if res.object is not None:
+        # handle response
+        pass
 
 ```
 
