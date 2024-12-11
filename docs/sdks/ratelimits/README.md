@@ -17,8 +17,8 @@ from unkey_py import Unkey
 
 with Unkey(
     bearer_auth="UNKEY_ROOT_KEY",
-) as s:
-    res = s.ratelimits.limit(request={
+) as unkey:
+    res = unkey.ratelimits.limit(request={
         "identifier": "user_123",
         "limit": 10,
         "duration": 60000,
@@ -72,8 +72,8 @@ from unkey_py import Unkey
 
 with Unkey(
     bearer_auth="UNKEY_ROOT_KEY",
-) as s:
-    res = s.ratelimits.delete_override(request={
+) as unkey:
+    res = unkey.ratelimits.delete_override(request={
         "identifier": "user_123",
         "namespace_id": "rlns_1234",
         "namespace_name": "email.outbound",

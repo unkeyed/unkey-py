@@ -5,8 +5,8 @@ from unkey_py import Unkey
 
 with Unkey(
     bearer_auth="UNKEY_ROOT_KEY",
-) as s:
-    res = s.liveness.check()
+) as unkey:
+    res = unkey.liveness.check()
 
     if res.object is not None:
         # handle response
@@ -24,8 +24,8 @@ from unkey_py import Unkey
 async def main():
     async with Unkey(
         bearer_auth="UNKEY_ROOT_KEY",
-    ) as s:
-        res = await s.liveness.check_async()
+    ) as unkey:
+        res = await unkey.liveness.check_async()
 
         if res.object is not None:
             # handle response

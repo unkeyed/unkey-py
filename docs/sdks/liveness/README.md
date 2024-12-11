@@ -16,8 +16,8 @@ from unkey_py import Unkey
 
 with Unkey(
     bearer_auth="UNKEY_ROOT_KEY",
-) as s:
-    res = s.liveness.check()
+) as unkey:
+    res = unkey.liveness.check()
 
     if res.object is not None:
         # handle response
