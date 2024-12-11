@@ -9,17 +9,16 @@ from unkey_py.utils import get_security_from_env
 
 
 class Ratelimit(BaseSDK):
-    def ratelimit_set_override(
+    def set_override(
         self,
         *,
         request: Union[
-            models.RatelimitSetOverrideRequestBody,
-            models.RatelimitSetOverrideRequestBodyTypedDict,
+            models.SetOverrideRequestBody, models.SetOverrideRequestBodyTypedDict
         ],
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
-    ) -> models.RatelimitSetOverrideResponse:
+    ) -> models.SetOverrideResponse:
         r"""
         :param request: The request object to send.
         :param retries: Override the default retry configuration for this method
@@ -35,8 +34,8 @@ class Ratelimit(BaseSDK):
             base_url = server_url
 
         if not isinstance(request, BaseModel):
-            request = utils.unmarshal(request, models.RatelimitSetOverrideRequestBody)
-        request = cast(models.RatelimitSetOverrideRequestBody, request)
+            request = utils.unmarshal(request, models.SetOverrideRequestBody)
+        request = cast(models.SetOverrideRequestBody, request)
 
         req = self.build_request(
             method="POST",
@@ -51,7 +50,7 @@ class Ratelimit(BaseSDK):
             accept_header_value="application/json",
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
-                request, False, False, "json", models.RatelimitSetOverrideRequestBody
+                request, False, False, "json", models.SetOverrideRequestBody
             ),
             timeout_ms=timeout_ms,
         )
@@ -70,7 +69,7 @@ class Ratelimit(BaseSDK):
 
         http_res = self.do_request(
             hook_ctx=HookContext(
-                operation_id="ratelimit.setOverride",
+                operation_id="setOverride",
                 oauth2_scopes=[],
                 security_source=get_security_from_env(
                     self.sdk_configuration.security, models.Security
@@ -93,9 +92,9 @@ class Ratelimit(BaseSDK):
 
         data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return models.RatelimitSetOverrideResponse(
+            return models.SetOverrideResponse(
                 object=utils.unmarshal_json(
-                    http_res.text, Optional[models.RatelimitSetOverrideResponseBody]
+                    http_res.text, Optional[models.SetOverrideResponseBody]
                 ),
                 http_meta=models.HTTPMetadata(request=req, response=http_res),
             )
@@ -137,17 +136,16 @@ class Ratelimit(BaseSDK):
             http_res,
         )
 
-    async def ratelimit_set_override_async(
+    async def set_override_async(
         self,
         *,
         request: Union[
-            models.RatelimitSetOverrideRequestBody,
-            models.RatelimitSetOverrideRequestBodyTypedDict,
+            models.SetOverrideRequestBody, models.SetOverrideRequestBodyTypedDict
         ],
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
-    ) -> models.RatelimitSetOverrideResponse:
+    ) -> models.SetOverrideResponse:
         r"""
         :param request: The request object to send.
         :param retries: Override the default retry configuration for this method
@@ -163,8 +161,8 @@ class Ratelimit(BaseSDK):
             base_url = server_url
 
         if not isinstance(request, BaseModel):
-            request = utils.unmarshal(request, models.RatelimitSetOverrideRequestBody)
-        request = cast(models.RatelimitSetOverrideRequestBody, request)
+            request = utils.unmarshal(request, models.SetOverrideRequestBody)
+        request = cast(models.SetOverrideRequestBody, request)
 
         req = self.build_request_async(
             method="POST",
@@ -179,7 +177,7 @@ class Ratelimit(BaseSDK):
             accept_header_value="application/json",
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
-                request, False, False, "json", models.RatelimitSetOverrideRequestBody
+                request, False, False, "json", models.SetOverrideRequestBody
             ),
             timeout_ms=timeout_ms,
         )
@@ -198,7 +196,7 @@ class Ratelimit(BaseSDK):
 
         http_res = await self.do_request_async(
             hook_ctx=HookContext(
-                operation_id="ratelimit.setOverride",
+                operation_id="setOverride",
                 oauth2_scopes=[],
                 security_source=get_security_from_env(
                     self.sdk_configuration.security, models.Security
@@ -221,9 +219,9 @@ class Ratelimit(BaseSDK):
 
         data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return models.RatelimitSetOverrideResponse(
+            return models.SetOverrideResponse(
                 object=utils.unmarshal_json(
-                    http_res.text, Optional[models.RatelimitSetOverrideResponseBody]
+                    http_res.text, Optional[models.SetOverrideResponseBody]
                 ),
                 http_meta=models.HTTPMetadata(request=req, response=http_res),
             )

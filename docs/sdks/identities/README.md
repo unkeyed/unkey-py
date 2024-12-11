@@ -20,8 +20,8 @@ from unkey_py import Unkey
 
 with Unkey(
     bearer_auth="UNKEY_ROOT_KEY",
-) as s:
-    res = s.identities.create(request={
+) as unkey:
+    res = unkey.identities.create(request={
         "external_id": "user_123",
         "ratelimits": [
             {
@@ -76,8 +76,8 @@ from unkey_py import Unkey
 
 with Unkey(
     bearer_auth="UNKEY_ROOT_KEY",
-) as s:
-    res = s.identities.get(identity_id="id_1234", external_id="id_1234")
+) as unkey:
+    res = unkey.identities.get(identity_id="id_1234", external_id="id_1234")
 
     if res.object is not None:
         # handle response
@@ -119,8 +119,8 @@ from unkey_py import Unkey
 
 with Unkey(
     bearer_auth="UNKEY_ROOT_KEY",
-) as s:
-    res = s.identities.list(limit=100)
+) as unkey:
+    res = unkey.identities.list(limit=100)
 
     if res.object is not None:
         while True:
@@ -167,8 +167,8 @@ from unkey_py import Unkey
 
 with Unkey(
     bearer_auth="UNKEY_ROOT_KEY",
-) as s:
-    res = s.identities.update(request={
+) as unkey:
+    res = unkey.identities.update(request={
         "identity_id": "id_1234",
         "external_id": "user_1234",
         "ratelimits": [
@@ -229,8 +229,8 @@ from unkey_py import Unkey
 
 with Unkey(
     bearer_auth="UNKEY_ROOT_KEY",
-) as s:
-    res = s.identities.delete(request={
+) as unkey:
+    res = unkey.identities.delete(request={
         "identity_id": "id_1234",
     })
 

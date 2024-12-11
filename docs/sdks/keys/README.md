@@ -29,8 +29,8 @@ from unkey_py import Unkey
 
 with Unkey(
     bearer_auth="UNKEY_ROOT_KEY",
-) as s:
-    res = s.keys.get(key_id="key_1234")
+) as unkey:
+    res = unkey.keys.get(key_id="key_1234")
 
     if res.key is not None:
         # handle response
@@ -72,8 +72,8 @@ from unkey_py import Unkey
 
 with Unkey(
     bearer_auth="UNKEY_ROOT_KEY",
-) as s:
-    res = s.keys.whoami(request={
+) as unkey:
+    res = unkey.keys.whoami(request={
         "key": "sk_123",
     })
 
@@ -116,8 +116,8 @@ from unkey_py import Unkey
 
 with Unkey(
     bearer_auth="UNKEY_ROOT_KEY",
-) as s:
-    res = s.keys.delete(request={
+) as unkey:
+    res = unkey.keys.delete(request={
         "key_id": "key_1234",
     })
 
@@ -161,8 +161,8 @@ from unkey_py import Unkey
 
 with Unkey(
     bearer_auth="UNKEY_ROOT_KEY",
-) as s:
-    res = s.keys.create(request={
+) as unkey:
+    res = unkey.keys.create(request={
         "api_id": "api_123",
         "name": "my key",
         "external_id": "team_123",
@@ -232,8 +232,8 @@ from unkey_py import Unkey
 
 with Unkey(
     bearer_auth="UNKEY_ROOT_KEY",
-) as s:
-    res = s.keys.verify(request={
+) as unkey:
+    res = unkey.keys.verify(request={
         "key": "sk_1234",
         "api_id": "api_1234",
         "ratelimits": [
@@ -290,8 +290,8 @@ from unkey_py import Unkey
 
 with Unkey(
     bearer_auth="UNKEY_ROOT_KEY",
-) as s:
-    res = s.keys.update(request={
+) as unkey:
+    res = unkey.keys.update(request={
         "key_id": "key_123",
         "name": "Customer X",
         "external_id": "user_123",
@@ -381,8 +381,8 @@ from unkey_py import Unkey
 
 with Unkey(
     bearer_auth="UNKEY_ROOT_KEY",
-) as s:
-    res = s.keys.update_remaining(request={
+) as unkey:
+    res = unkey.keys.update_remaining(request={
         "key_id": "key_123",
         "op": unkey_py.Op.SET,
         "value": 1,
@@ -428,8 +428,8 @@ from unkey_py import Unkey
 
 with Unkey(
     bearer_auth="UNKEY_ROOT_KEY",
-) as s:
-    res = s.keys.get_verifications(request={
+) as unkey:
+    res = unkey.keys.get_verifications(request={
         "key_id": "key_1234",
         "owner_id": "chronark",
         "start": 1620000000000,
@@ -476,8 +476,8 @@ from unkey_py import Unkey
 
 with Unkey(
     bearer_auth="UNKEY_ROOT_KEY",
-) as s:
-    res = s.keys.add_permissions(request={
+) as unkey:
+    res = unkey.keys.add_permissions(request={
         "key_id": "<id>",
         "permissions": [
             {},
@@ -523,8 +523,8 @@ from unkey_py import Unkey
 
 with Unkey(
     bearer_auth="UNKEY_ROOT_KEY",
-) as s:
-    res = s.keys.remove_permissions(request={
+) as unkey:
+    res = unkey.keys.remove_permissions(request={
         "key_id": "<id>",
         "permissions": [
             {
@@ -575,8 +575,8 @@ from unkey_py import Unkey
 
 with Unkey(
     bearer_auth="UNKEY_ROOT_KEY",
-) as s:
-    res = s.keys.set_permissions(request={
+) as unkey:
+    res = unkey.keys.set_permissions(request={
         "key_id": "<id>",
         "permissions": [
             {
@@ -631,8 +631,8 @@ from unkey_py import Unkey
 
 with Unkey(
     bearer_auth="UNKEY_ROOT_KEY",
-) as s:
-    res = s.keys.add_roles(request={
+) as unkey:
+    res = unkey.keys.add_roles(request={
         "key_id": "<id>",
         "roles": [
             {
@@ -687,8 +687,8 @@ from unkey_py import Unkey
 
 with Unkey(
     bearer_auth="UNKEY_ROOT_KEY",
-) as s:
-    res = s.keys.remove_roles(request={
+) as unkey:
+    res = unkey.keys.remove_roles(request={
         "key_id": "<id>",
         "roles": [
             {
@@ -739,8 +739,8 @@ from unkey_py import Unkey
 
 with Unkey(
     bearer_auth="UNKEY_ROOT_KEY",
-) as s:
-    res = s.keys.set_roles(request={
+) as unkey:
+    res = unkey.keys.set_roles(request={
         "key_id": "<id>",
         "roles": [
             {

@@ -5,11 +5,11 @@
 
 ### Available Operations
 
-* [ratelimit_set_override](#ratelimit_set_override)
+* [set_override](#set_override)
 * [list_overrides](#list_overrides)
 * [get_override](#get_override)
 
-## ratelimit_set_override
+## set_override
 
 ### Example Usage
 
@@ -18,8 +18,8 @@ from unkey_py import Unkey
 
 with Unkey(
     bearer_auth="UNKEY_ROOT_KEY",
-) as s:
-    res = s.ratelimit.ratelimit_set_override(request={
+) as unkey:
+    res = unkey.ratelimit.set_override(request={
         "identifier": "user_123",
         "limit": 10,
         "duration": 60000,
@@ -35,14 +35,14 @@ with Unkey(
 
 ### Parameters
 
-| Parameter                                                                                 | Type                                                                                      | Required                                                                                  | Description                                                                               |
-| ----------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- |
-| `request`                                                                                 | [models.RatelimitSetOverrideRequestBody](../../models/ratelimitsetoverriderequestbody.md) | :heavy_check_mark:                                                                        | The request object to use for the request.                                                |
-| `retries`                                                                                 | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                          | :heavy_minus_sign:                                                                        | Configuration to override the default retry behavior of the client.                       |
+| Parameter                                                               | Type                                                                    | Required                                                                | Description                                                             |
+| ----------------------------------------------------------------------- | ----------------------------------------------------------------------- | ----------------------------------------------------------------------- | ----------------------------------------------------------------------- |
+| `request`                                                               | [models.SetOverrideRequestBody](../../models/setoverriderequestbody.md) | :heavy_check_mark:                                                      | The request object to use for the request.                              |
+| `retries`                                                               | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)        | :heavy_minus_sign:                                                      | Configuration to override the default retry behavior of the client.     |
 
 ### Response
 
-**[models.RatelimitSetOverrideResponse](../../models/ratelimitsetoverrideresponse.md)**
+**[models.SetOverrideResponse](../../models/setoverrideresponse.md)**
 
 ### Errors
 
@@ -66,8 +66,8 @@ from unkey_py import Unkey
 
 with Unkey(
     bearer_auth="UNKEY_ROOT_KEY",
-) as s:
-    res = s.ratelimit.list_overrides(namespace_id="rlns_1234", namespace_name="email.outbound", limit=100)
+) as unkey:
+    res = unkey.ratelimit.list_overrides(namespace_id="rlns_1234", namespace_name="email.outbound", limit=100)
 
     if res.object is not None:
         # handle response
@@ -111,8 +111,8 @@ from unkey_py import Unkey
 
 with Unkey(
     bearer_auth="UNKEY_ROOT_KEY",
-) as s:
-    res = s.ratelimit.get_override(identifier="user_123", namespace_id="rlns_1234", namespace_name="email.outbound")
+) as unkey:
+    res = unkey.ratelimit.get_override(identifier="user_123", namespace_id="rlns_1234", namespace_name="email.outbound")
 
     if res.object is not None:
         # handle response
