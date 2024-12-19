@@ -18,8 +18,9 @@ from unkey_py import Unkey
 
 with Unkey(
     bearer_auth="UNKEY_ROOT_KEY",
-) as s:
-    res = s.migrations.create_keys(request=[
+) as unkey:
+
+    res = unkey.migrations.create_keys(request=[
         {
             "api_id": "api_123",
             "name": "my key",
@@ -53,9 +54,10 @@ with Unkey(
         },
     ])
 
-    if res.object is not None:
-        # handle response
-        pass
+    assert res.object is not None
+
+    # Handle response
+    print(res.object)
 
 ```
 
@@ -93,8 +95,9 @@ from unkey_py import Unkey
 
 with Unkey(
     bearer_auth="UNKEY_ROOT_KEY",
-) as s:
-    res = s.migrations.enqueue(request={
+) as unkey:
+
+    res = unkey.migrations.enqueue(request={
         "migration_id": "<id>",
         "api_id": "<id>",
         "keys": [
@@ -130,9 +133,10 @@ with Unkey(
         ],
     })
 
-    if res.object is not None:
-        # handle response
-        pass
+    assert res.object is not None
+
+    # Handle response
+    print(res.object)
 
 ```
 
