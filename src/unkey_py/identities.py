@@ -2,7 +2,7 @@
 
 from .basesdk import BaseSDK
 from jsonpath import JSONPath
-from typing import Any, Dict, Optional, Union, cast
+from typing import Any, Dict, Mapping, Optional, Union, cast
 from unkey_py import models, utils
 from unkey_py._hooks import HookContext
 from unkey_py.types import BaseModel, OptionalNullable, UNSET
@@ -19,12 +19,14 @@ class Identities(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.CreateIdentityResponse:
         r"""
         :param request: The request object to send.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
         """
         base_url = None
         url_variables = None
@@ -49,6 +51,7 @@ class Identities(BaseSDK):
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
+            http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
                 request, False, False, "json", models.CreateIdentityRequestBody
@@ -146,12 +149,14 @@ class Identities(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.CreateIdentityResponse:
         r"""
         :param request: The request object to send.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
         """
         base_url = None
         url_variables = None
@@ -176,6 +181,7 @@ class Identities(BaseSDK):
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
+            http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
                 request, False, False, "json", models.CreateIdentityRequestBody
@@ -272,6 +278,7 @@ class Identities(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.GetIdentityResponse:
         r"""
         :param identity_id:
@@ -279,6 +286,7 @@ class Identities(BaseSDK):
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
         """
         base_url = None
         url_variables = None
@@ -304,6 +312,7 @@ class Identities(BaseSDK):
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
+            http_headers=http_headers,
             security=self.sdk_configuration.security,
             timeout_ms=timeout_ms,
         )
@@ -397,6 +406,7 @@ class Identities(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.GetIdentityResponse:
         r"""
         :param identity_id:
@@ -404,6 +414,7 @@ class Identities(BaseSDK):
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
         """
         base_url = None
         url_variables = None
@@ -429,6 +440,7 @@ class Identities(BaseSDK):
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
+            http_headers=http_headers,
             security=self.sdk_configuration.security,
             timeout_ms=timeout_ms,
         )
@@ -523,6 +535,7 @@ class Identities(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
     ) -> Optional[models.ListIdentitiesResponse]:
         r"""
         :param environment:
@@ -531,6 +544,7 @@ class Identities(BaseSDK):
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
         """
         base_url = None
         url_variables = None
@@ -557,6 +571,7 @@ class Identities(BaseSDK):
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
+            http_headers=http_headers,
             security=self.sdk_configuration.security,
             timeout_ms=timeout_ms,
         )
@@ -667,6 +682,7 @@ class Identities(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
     ) -> Optional[models.ListIdentitiesResponse]:
         r"""
         :param environment:
@@ -675,6 +691,7 @@ class Identities(BaseSDK):
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
         """
         base_url = None
         url_variables = None
@@ -701,6 +718,7 @@ class Identities(BaseSDK):
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
+            http_headers=http_headers,
             security=self.sdk_configuration.security,
             timeout_ms=timeout_ms,
         )
@@ -811,12 +829,14 @@ class Identities(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.UpdateIdentityResponse:
         r"""
         :param request: The request object to send.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
         """
         base_url = None
         url_variables = None
@@ -841,6 +861,7 @@ class Identities(BaseSDK):
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
+            http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
                 request, False, True, "json", Optional[models.UpdateIdentityRequestBody]
@@ -938,12 +959,14 @@ class Identities(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.UpdateIdentityResponse:
         r"""
         :param request: The request object to send.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
         """
         base_url = None
         url_variables = None
@@ -968,6 +991,7 @@ class Identities(BaseSDK):
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
+            http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
                 request, False, True, "json", Optional[models.UpdateIdentityRequestBody]
@@ -1065,12 +1089,14 @@ class Identities(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.DeleteIdentityResponse:
         r"""
         :param request: The request object to send.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
         """
         base_url = None
         url_variables = None
@@ -1095,6 +1121,7 @@ class Identities(BaseSDK):
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
+            http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
                 request, False, False, "json", models.DeleteIdentityRequestBody
@@ -1192,12 +1219,14 @@ class Identities(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.DeleteIdentityResponse:
         r"""
         :param request: The request object to send.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
         """
         base_url = None
         url_variables = None
@@ -1222,6 +1251,7 @@ class Identities(BaseSDK):
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
+            http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
                 request, False, False, "json", models.DeleteIdentityRequestBody

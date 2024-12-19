@@ -23,15 +23,17 @@ from unkey_py import Unkey
 
 with Unkey(
     bearer_auth="UNKEY_ROOT_KEY",
-) as s:
-    res = s.permissions.create(request={
+) as unkey:
+
+    res = unkey.permissions.create(request={
         "name": "record.write",
         "description": "record.write can create new dns records for our domains.",
     })
 
-    if res.object is not None:
-        # handle response
-        pass
+    assert res.object is not None
+
+    # Handle response
+    print(res.object)
 
 ```
 
@@ -68,14 +70,16 @@ from unkey_py import Unkey
 
 with Unkey(
     bearer_auth="UNKEY_ROOT_KEY",
-) as s:
-    res = s.permissions.delete(request={
+) as unkey:
+
+    res = unkey.permissions.delete(request={
         "permission_id": "perm_123",
     })
 
-    if res.object is not None:
-        # handle response
-        pass
+    assert res.object is not None
+
+    # Handle response
+    print(res.object)
 
 ```
 
@@ -112,12 +116,14 @@ from unkey_py import Unkey
 
 with Unkey(
     bearer_auth="UNKEY_ROOT_KEY",
-) as s:
-    res = s.permissions.get(permission_id="perm_123")
+) as unkey:
 
-    if res.object is not None:
-        # handle response
-        pass
+    res = unkey.permissions.get(permission_id="perm_123")
+
+    assert res.object is not None
+
+    # Handle response
+    print(res.object)
 
 ```
 
@@ -154,12 +160,14 @@ from unkey_py import Unkey
 
 with Unkey(
     bearer_auth="UNKEY_ROOT_KEY",
-) as s:
-    res = s.permissions.list()
+) as unkey:
 
-    if res.response_bodies is not None:
-        # handle response
-        pass
+    res = unkey.permissions.list()
+
+    assert res.response_bodies is not None
+
+    # Handle response
+    print(res.response_bodies)
 
 ```
 
@@ -195,15 +203,17 @@ from unkey_py import Unkey
 
 with Unkey(
     bearer_auth="UNKEY_ROOT_KEY",
-) as s:
-    res = s.permissions.create_role(request={
+) as unkey:
+
+    res = unkey.permissions.create_role(request={
         "name": "dns.records.manager",
         "description": "dns.records.manager can read and write dns records for our domains.",
     })
 
-    if res.object is not None:
-        # handle response
-        pass
+    assert res.object is not None
+
+    # Handle response
+    print(res.object)
 
 ```
 
@@ -240,14 +250,16 @@ from unkey_py import Unkey
 
 with Unkey(
     bearer_auth="UNKEY_ROOT_KEY",
-) as s:
-    res = s.permissions.delete_role(request={
+) as unkey:
+
+    res = unkey.permissions.delete_role(request={
         "role_id": "role_123",
     })
 
-    if res.object is not None:
-        # handle response
-        pass
+    assert res.object is not None
+
+    # Handle response
+    print(res.object)
 
 ```
 
@@ -284,12 +296,14 @@ from unkey_py import Unkey
 
 with Unkey(
     bearer_auth="UNKEY_ROOT_KEY",
-) as s:
-    res = s.permissions.get_role(role_id="role_123")
+) as unkey:
 
-    if res.object is not None:
-        # handle response
-        pass
+    res = unkey.permissions.get_role(role_id="role_123")
+
+    assert res.object is not None
+
+    # Handle response
+    print(res.object)
 
 ```
 
@@ -326,12 +340,14 @@ from unkey_py import Unkey
 
 with Unkey(
     bearer_auth="UNKEY_ROOT_KEY",
-) as s:
-    res = s.permissions.list_roles()
+) as unkey:
 
-    if res.response_bodies is not None:
-        # handle response
-        pass
+    res = unkey.permissions.list_roles()
+
+    assert res.response_bodies is not None
+
+    # Handle response
+    print(res.response_bodies)
 
 ```
 

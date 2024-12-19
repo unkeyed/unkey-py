@@ -5,12 +5,14 @@ from unkey_py import Unkey
 
 with Unkey(
     bearer_auth="UNKEY_ROOT_KEY",
-) as s:
-    res = s.liveness.check()
+) as unkey:
 
-    if res.object is not None:
-        # handle response
-        pass
+    res = unkey.liveness.check()
+
+    assert res.object is not None
+
+    # Handle response
+    print(res.object)
 ```
 
 </br>
@@ -24,12 +26,14 @@ from unkey_py import Unkey
 async def main():
     async with Unkey(
         bearer_auth="UNKEY_ROOT_KEY",
-    ) as s:
-        res = await s.liveness.check_async()
+    ) as unkey:
 
-        if res.object is not None:
-            # handle response
-            pass
+        res = await unkey.liveness.check_async()
+
+        assert res.object is not None
+
+        # Handle response
+        print(res.object)
 
 asyncio.run(main())
 ```
