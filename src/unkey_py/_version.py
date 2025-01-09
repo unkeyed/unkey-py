@@ -3,7 +3,7 @@
 import importlib.metadata
 
 __title__: str = "unkey.py"
-__version__: str = "0.9.0"
+__version__: str = "0.10.0"
 
 try:
     if __package__ is not None:

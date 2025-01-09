@@ -105,6 +105,14 @@ class V1KeysVerifyKeyRequestTypedDict(TypedDict):
     r"""The id of the api where the key belongs to. This is optional for now but will be required soon.
     The key will be verified against the api's configuration. If the key does not belong to the api, the verification will fail.
     """
+    tags: NotRequired[List[str]]
+    r"""Tags do not influence the outcome of a verification.
+    They can be added to filter or aggregate historical verification data for your analytics needs.
+    To unkey, a tag is simply a string, we don't enforce any schema but leave that up to you.
+    The only exception is that each tag must be between 1 and 128 characters long.
+    A typical setup would be to add key-value pairs of resources or locations, that you need later when querying.
+
+    """
     authorization: NotRequired[AuthorizationTypedDict]
     r"""Perform RBAC checks"""
     ratelimit: NotRequired[V1KeysVerifyKeyRequestRatelimitTypedDict]
@@ -123,6 +131,15 @@ class V1KeysVerifyKeyRequest(BaseModel):
     api_id: Annotated[Optional[str], pydantic.Field(alias="apiId")] = None
     r"""The id of the api where the key belongs to. This is optional for now but will be required soon.
     The key will be verified against the api's configuration. If the key does not belong to the api, the verification will fail.
+    """
+
+    tags: Optional[List[str]] = None
+    r"""Tags do not influence the outcome of a verification.
+    They can be added to filter or aggregate historical verification data for your analytics needs.
+    To unkey, a tag is simply a string, we don't enforce any schema but leave that up to you.
+    The only exception is that each tag must be between 1 and 128 characters long.
+    A typical setup would be to add key-value pairs of resources or locations, that you need later when querying.
+
     """
 
     authorization: Optional[Authorization] = None

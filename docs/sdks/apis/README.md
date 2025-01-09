@@ -20,12 +20,14 @@ from unkey_py import Unkey
 
 with Unkey(
     bearer_auth="UNKEY_ROOT_KEY",
-) as s:
-    res = s.apis.get(api_id="api_1234")
+) as unkey:
 
-    if res.object is not None:
-        # handle response
-        pass
+    res = unkey.apis.get(api_id="api_1234")
+
+    assert res.object is not None
+
+    # Handle response
+    print(res.object)
 
 ```
 
@@ -62,14 +64,16 @@ from unkey_py import Unkey
 
 with Unkey(
     bearer_auth="UNKEY_ROOT_KEY",
-) as s:
-    res = s.apis.create(request={
+) as unkey:
+
+    res = unkey.apis.create(request={
         "name": "my-api",
     })
 
-    if res.object is not None:
-        # handle response
-        pass
+    assert res.object is not None
+
+    # Handle response
+    print(res.object)
 
 ```
 
@@ -106,15 +110,17 @@ from unkey_py import Unkey
 
 with Unkey(
     bearer_auth="UNKEY_ROOT_KEY",
-) as s:
-    res = s.apis.list_keys(request={
+) as unkey:
+
+    res = unkey.apis.list_keys(request={
         "api_id": "api_1234",
         "limit": 100,
     })
 
-    if res.object is not None:
-        # handle response
-        pass
+    assert res.object is not None
+
+    # Handle response
+    print(res.object)
 
 ```
 
@@ -151,14 +157,16 @@ from unkey_py import Unkey
 
 with Unkey(
     bearer_auth="UNKEY_ROOT_KEY",
-) as s:
-    res = s.apis.delete(request={
+) as unkey:
+
+    res = unkey.apis.delete(request={
         "api_id": "api_1234",
     })
 
-    if res.object is not None:
-        # handle response
-        pass
+    assert res.object is not None
+
+    # Handle response
+    print(res.object)
 
 ```
 
@@ -195,14 +203,16 @@ from unkey_py import Unkey
 
 with Unkey(
     bearer_auth="UNKEY_ROOT_KEY",
-) as s:
-    res = s.apis.delete_keys(request={
+) as unkey:
+
+    res = unkey.apis.delete_keys(request={
         "api_id": "api_1234",
     })
 
-    if res.object is not None:
-        # handle response
-        pass
+    assert res.object is not None
+
+    # Handle response
+    print(res.object)
 
 ```
 
