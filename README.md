@@ -82,12 +82,14 @@ from unkey_py import Unkey
 
 with Unkey(
     bearer_auth="UNKEY_ROOT_KEY",
-) as s:
-    res = s.liveness.check()
+) as unkey:
 
-    if res.object is not None:
-        # handle response
-        pass
+    res = unkey.liveness.check()
+
+    assert res.object is not None
+
+    # Handle response
+    print(res.object)
 ```
 
 </br>
@@ -101,12 +103,14 @@ from unkey_py import Unkey
 async def main():
     async with Unkey(
         bearer_auth="UNKEY_ROOT_KEY",
-    ) as s:
-        res = await s.liveness.check_async()
+    ) as unkey:
 
-        if res.object is not None:
-            # handle response
-            pass
+        res = await unkey.liveness.check_async()
+
+        assert res.object is not None
+
+        # Handle response
+        print(res.object)
 
 asyncio.run(main())
 ```
@@ -173,7 +177,7 @@ asyncio.run(main())
 
 ### [ratelimit](docs/sdks/ratelimit/README.md)
 
-* [ratelimit_set_override](docs/sdks/ratelimit/README.md#ratelimit_set_override)
+* [set_override](docs/sdks/ratelimit/README.md#set_override)
 * [list_overrides](docs/sdks/ratelimit/README.md#list_overrides)
 * [get_override](docs/sdks/ratelimit/README.md#get_override)
 
@@ -199,16 +203,14 @@ from unkey_py import Unkey
 
 with Unkey(
     bearer_auth="UNKEY_ROOT_KEY",
-) as s:
-    res = s.identities.list(limit=100)
+) as unkey:
 
-    if res.object is not None:
-        while True:
-            # handle items
+    res = unkey.identities.list(limit=100)
 
-            res = res.next()
-            if res is None:
-                break
+    while res is not None:
+        # Handle items
+
+        res = res.next()
 
 ```
 <!-- End Pagination [pagination] -->
@@ -220,35 +222,39 @@ Some of the endpoints in this SDK support retries. If you use the SDK without an
 
 To change the default retry strategy for a single API call, simply provide a `RetryConfig` object to the call:
 ```python
-from unkey.utils import BackoffStrategy, RetryConfig
 from unkey_py import Unkey
+from unkey_py.utils import BackoffStrategy, RetryConfig
 
 with Unkey(
     bearer_auth="UNKEY_ROOT_KEY",
-) as s:
-    res = s.liveness.check(,
+) as unkey:
+
+    res = unkey.liveness.check(,
         RetryConfig("backoff", BackoffStrategy(1, 50, 1.1, 100), False))
 
-    if res.object is not None:
-        # handle response
-        pass
+    assert res.object is not None
+
+    # Handle response
+    print(res.object)
 
 ```
 
 If you'd like to override the default retry strategy for all operations that support retries, you can use the `retry_config` optional parameter when initializing the SDK:
 ```python
-from unkey.utils import BackoffStrategy, RetryConfig
 from unkey_py import Unkey
+from unkey_py.utils import BackoffStrategy, RetryConfig
 
 with Unkey(
     retry_config=RetryConfig("backoff", BackoffStrategy(1, 50, 1.1, 100), False),
     bearer_auth="UNKEY_ROOT_KEY",
-) as s:
-    res = s.liveness.check()
+) as unkey:
 
-    if res.object is not None:
-        # handle response
-        pass
+    res = unkey.liveness.check()
+
+    assert res.object is not None
+
+    # Handle response
+    print(res.object)
 
 ```
 <!-- End Retries [retries] -->
@@ -287,14 +293,16 @@ from unkey_py import Unkey, models
 
 with Unkey(
     bearer_auth="UNKEY_ROOT_KEY",
-) as s:
+) as unkey:
     res = None
     try:
-        res = s.liveness.check()
 
-        if res.object is not None:
-            # handle response
-            pass
+        res = unkey.liveness.check()
+
+        assert res.object is not None
+
+        # Handle response
+        print(res.object)
 
     except models.ErrBadRequest as e:
         # handle e.data: models.ErrBadRequestData
@@ -335,12 +343,14 @@ from unkey_py import Unkey
 with Unkey(
     server_url="https://api.unkey.dev",
     bearer_auth="UNKEY_ROOT_KEY",
-) as s:
-    res = s.liveness.check()
+) as unkey:
 
-    if res.object is not None:
-        # handle response
-        pass
+    res = unkey.liveness.check()
+
+    assert res.object is not None
+
+    # Handle response
+    print(res.object)
 
 ```
 <!-- End Server Selection [server] -->
@@ -443,12 +453,14 @@ from unkey_py import Unkey
 
 with Unkey(
     bearer_auth="UNKEY_ROOT_KEY",
-) as s:
-    res = s.liveness.check()
+) as unkey:
 
-    if res.object is not None:
-        # handle response
-        pass
+    res = unkey.liveness.check()
+
+    assert res.object is not None
+
+    # Handle response
+    print(res.object)
 
 ```
 <!-- End Authentication [security] -->

@@ -16,12 +16,14 @@ from unkey_py import Unkey
 
 with Unkey(
     bearer_auth="UNKEY_ROOT_KEY",
-) as s:
-    res = s.liveness.check()
+) as unkey:
 
-    if res.object is not None:
-        # handle response
-        pass
+    res = unkey.liveness.check()
+
+    assert res.object is not None
+
+    # Handle response
+    print(res.object)
 
 ```
 
