@@ -20,8 +20,9 @@ from unkey_py import Unkey
 
 with Unkey(
     bearer_auth="UNKEY_ROOT_KEY",
-) as s:
-    res = s.identities.create(request={
+) as unkey:
+
+    res = unkey.identities.create(request={
         "external_id": "user_123",
         "ratelimits": [
             {
@@ -37,9 +38,10 @@ with Unkey(
         ],
     })
 
-    if res.object is not None:
-        # handle response
-        pass
+    assert res.object is not None
+
+    # Handle response
+    print(res.object)
 
 ```
 
@@ -63,6 +65,7 @@ with Unkey(
 | models.ErrForbidden           | 403                           | application/json              |
 | models.ErrNotFound            | 404                           | application/json              |
 | models.ErrConflict            | 409                           | application/json              |
+| models.ErrPreconditionFailed  | 412                           | application/json              |
 | models.ErrTooManyRequests     | 429                           | application/json              |
 | models.ErrInternalServerError | 500                           | application/json              |
 | models.SDKError               | 4XX, 5XX                      | \*/\*                         |
@@ -76,12 +79,14 @@ from unkey_py import Unkey
 
 with Unkey(
     bearer_auth="UNKEY_ROOT_KEY",
-) as s:
-    res = s.identities.get(identity_id="id_1234", external_id="id_1234")
+) as unkey:
 
-    if res.object is not None:
-        # handle response
-        pass
+    res = unkey.identities.get(identity_id="id_1234", external_id="id_1234")
+
+    assert res.object is not None
+
+    # Handle response
+    print(res.object)
 
 ```
 
@@ -106,6 +111,7 @@ with Unkey(
 | models.ErrForbidden           | 403                           | application/json              |
 | models.ErrNotFound            | 404                           | application/json              |
 | models.ErrConflict            | 409                           | application/json              |
+| models.ErrPreconditionFailed  | 412                           | application/json              |
 | models.ErrTooManyRequests     | 429                           | application/json              |
 | models.ErrInternalServerError | 500                           | application/json              |
 | models.SDKError               | 4XX, 5XX                      | \*/\*                         |
@@ -119,16 +125,14 @@ from unkey_py import Unkey
 
 with Unkey(
     bearer_auth="UNKEY_ROOT_KEY",
-) as s:
-    res = s.identities.list(limit=100)
+) as unkey:
 
-    if res.object is not None:
-        while True:
-            # handle items
+    res = unkey.identities.list()
 
-            res = res.next()
-            if res is None:
-                break
+    while res is not None:
+        # Handle items
+
+        res = res.next()
 
 ```
 
@@ -154,6 +158,7 @@ with Unkey(
 | models.ErrForbidden           | 403                           | application/json              |
 | models.ErrNotFound            | 404                           | application/json              |
 | models.ErrConflict            | 409                           | application/json              |
+| models.ErrPreconditionFailed  | 412                           | application/json              |
 | models.ErrTooManyRequests     | 429                           | application/json              |
 | models.ErrInternalServerError | 500                           | application/json              |
 | models.SDKError               | 4XX, 5XX                      | \*/\*                         |
@@ -167,8 +172,9 @@ from unkey_py import Unkey
 
 with Unkey(
     bearer_auth="UNKEY_ROOT_KEY",
-) as s:
-    res = s.identities.update(request={
+) as unkey:
+
+    res = unkey.identities.update(request={
         "identity_id": "id_1234",
         "external_id": "user_1234",
         "ratelimits": [
@@ -190,9 +196,10 @@ with Unkey(
         ],
     })
 
-    if res.object is not None:
-        # handle response
-        pass
+    assert res.object is not None
+
+    # Handle response
+    print(res.object)
 
 ```
 
@@ -216,6 +223,7 @@ with Unkey(
 | models.ErrForbidden           | 403                           | application/json              |
 | models.ErrNotFound            | 404                           | application/json              |
 | models.ErrConflict            | 409                           | application/json              |
+| models.ErrPreconditionFailed  | 412                           | application/json              |
 | models.ErrTooManyRequests     | 429                           | application/json              |
 | models.ErrInternalServerError | 500                           | application/json              |
 | models.SDKError               | 4XX, 5XX                      | \*/\*                         |
@@ -229,14 +237,16 @@ from unkey_py import Unkey
 
 with Unkey(
     bearer_auth="UNKEY_ROOT_KEY",
-) as s:
-    res = s.identities.delete(request={
+) as unkey:
+
+    res = unkey.identities.delete(request={
         "identity_id": "id_1234",
     })
 
-    if res.object is not None:
-        # handle response
-        pass
+    assert res.object is not None
+
+    # Handle response
+    print(res.object)
 
 ```
 
@@ -260,6 +270,7 @@ with Unkey(
 | models.ErrForbidden           | 403                           | application/json              |
 | models.ErrNotFound            | 404                           | application/json              |
 | models.ErrConflict            | 409                           | application/json              |
+| models.ErrPreconditionFailed  | 412                           | application/json              |
 | models.ErrTooManyRequests     | 429                           | application/json              |
 | models.ErrInternalServerError | 500                           | application/json              |
 | models.SDKError               | 4XX, 5XX                      | \*/\*                         |

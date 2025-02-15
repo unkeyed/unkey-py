@@ -29,12 +29,14 @@ from unkey_py import Unkey
 
 with Unkey(
     bearer_auth="UNKEY_ROOT_KEY",
-) as s:
-    res = s.keys.get(key_id="key_1234")
+) as unkey:
 
-    if res.key is not None:
-        # handle response
-        pass
+    res = unkey.keys.get(key_id="key_1234")
+
+    assert res.key is not None
+
+    # Handle response
+    print(res.key)
 
 ```
 
@@ -59,6 +61,7 @@ with Unkey(
 | models.ErrForbidden           | 403                           | application/json              |
 | models.ErrNotFound            | 404                           | application/json              |
 | models.ErrConflict            | 409                           | application/json              |
+| models.ErrPreconditionFailed  | 412                           | application/json              |
 | models.ErrTooManyRequests     | 429                           | application/json              |
 | models.ErrInternalServerError | 500                           | application/json              |
 | models.SDKError               | 4XX, 5XX                      | \*/\*                         |
@@ -72,14 +75,16 @@ from unkey_py import Unkey
 
 with Unkey(
     bearer_auth="UNKEY_ROOT_KEY",
-) as s:
-    res = s.keys.whoami(request={
+) as unkey:
+
+    res = unkey.keys.whoami(request={
         "key": "sk_123",
     })
 
-    if res.object is not None:
-        # handle response
-        pass
+    assert res.object is not None
+
+    # Handle response
+    print(res.object)
 
 ```
 
@@ -103,6 +108,7 @@ with Unkey(
 | models.ErrForbidden           | 403                           | application/json              |
 | models.ErrNotFound            | 404                           | application/json              |
 | models.ErrConflict            | 409                           | application/json              |
+| models.ErrPreconditionFailed  | 412                           | application/json              |
 | models.ErrTooManyRequests     | 429                           | application/json              |
 | models.ErrInternalServerError | 500                           | application/json              |
 | models.SDKError               | 4XX, 5XX                      | \*/\*                         |
@@ -116,14 +122,16 @@ from unkey_py import Unkey
 
 with Unkey(
     bearer_auth="UNKEY_ROOT_KEY",
-) as s:
-    res = s.keys.delete(request={
+) as unkey:
+
+    res = unkey.keys.delete(request={
         "key_id": "key_1234",
     })
 
-    if res.object is not None:
-        # handle response
-        pass
+    assert res.object is not None
+
+    # Handle response
+    print(res.object)
 
 ```
 
@@ -147,6 +155,7 @@ with Unkey(
 | models.ErrForbidden           | 403                           | application/json              |
 | models.ErrNotFound            | 404                           | application/json              |
 | models.ErrConflict            | 409                           | application/json              |
+| models.ErrPreconditionFailed  | 412                           | application/json              |
 | models.ErrTooManyRequests     | 429                           | application/json              |
 | models.ErrInternalServerError | 500                           | application/json              |
 | models.SDKError               | 4XX, 5XX                      | \*/\*                         |
@@ -161,8 +170,9 @@ from unkey_py import Unkey
 
 with Unkey(
     bearer_auth="UNKEY_ROOT_KEY",
-) as s:
-    res = s.keys.create(request={
+) as unkey:
+
+    res = unkey.keys.create(request={
         "api_id": "api_123",
         "name": "my key",
         "external_id": "team_123",
@@ -187,15 +197,14 @@ with Unkey(
         },
         "ratelimit": {
             "limit": 10,
-            "type": unkey_py.CreateKeyType.FAST,
             "duration": 60000,
         },
-        "enabled": False,
     })
 
-    if res.object is not None:
-        # handle response
-        pass
+    assert res.object is not None
+
+    # Handle response
+    print(res.object)
 
 ```
 
@@ -219,6 +228,7 @@ with Unkey(
 | models.ErrForbidden           | 403                           | application/json              |
 | models.ErrNotFound            | 404                           | application/json              |
 | models.ErrConflict            | 409                           | application/json              |
+| models.ErrPreconditionFailed  | 412                           | application/json              |
 | models.ErrTooManyRequests     | 429                           | application/json              |
 | models.ErrInternalServerError | 500                           | application/json              |
 | models.SDKError               | 4XX, 5XX                      | \*/\*                         |
@@ -232,10 +242,15 @@ from unkey_py import Unkey
 
 with Unkey(
     bearer_auth="UNKEY_ROOT_KEY",
-) as s:
-    res = s.keys.verify(request={
+) as unkey:
+
+    res = unkey.keys.verify(request={
         "key": "sk_1234",
         "api_id": "api_1234",
+        "tags": [
+            "path=/v1/users/123",
+            "region=us-east-1",
+        ],
         "ratelimits": [
             {
                 "name": "tokens",
@@ -250,9 +265,10 @@ with Unkey(
         ],
     })
 
-    if res.v1_keys_verify_key_response is not None:
-        # handle response
-        pass
+    assert res.v1_keys_verify_key_response is not None
+
+    # Handle response
+    print(res.v1_keys_verify_key_response)
 
 ```
 
@@ -276,6 +292,7 @@ with Unkey(
 | models.ErrForbidden           | 403                           | application/json              |
 | models.ErrNotFound            | 404                           | application/json              |
 | models.ErrConflict            | 409                           | application/json              |
+| models.ErrPreconditionFailed  | 412                           | application/json              |
 | models.ErrTooManyRequests     | 429                           | application/json              |
 | models.ErrInternalServerError | 500                           | application/json              |
 | models.SDKError               | 4XX, 5XX                      | \*/\*                         |
@@ -290,8 +307,9 @@ from unkey_py import Unkey
 
 with Unkey(
     bearer_auth="UNKEY_ROOT_KEY",
-) as s:
-    res = s.keys.update(request={
+) as unkey:
+
+    res = unkey.keys.update(request={
         "key_id": "key_123",
         "name": "Customer X",
         "external_id": "user_123",
@@ -341,9 +359,10 @@ with Unkey(
         ],
     })
 
-    if res.object is not None:
-        # handle response
-        pass
+    assert res.object is not None
+
+    # Handle response
+    print(res.object)
 
 ```
 
@@ -367,6 +386,7 @@ with Unkey(
 | models.ErrForbidden           | 403                           | application/json              |
 | models.ErrNotFound            | 404                           | application/json              |
 | models.ErrConflict            | 409                           | application/json              |
+| models.ErrPreconditionFailed  | 412                           | application/json              |
 | models.ErrTooManyRequests     | 429                           | application/json              |
 | models.ErrInternalServerError | 500                           | application/json              |
 | models.SDKError               | 4XX, 5XX                      | \*/\*                         |
@@ -381,16 +401,18 @@ from unkey_py import Unkey
 
 with Unkey(
     bearer_auth="UNKEY_ROOT_KEY",
-) as s:
-    res = s.keys.update_remaining(request={
+) as unkey:
+
+    res = unkey.keys.update_remaining(request={
         "key_id": "key_123",
         "op": unkey_py.Op.SET,
         "value": 1,
     })
 
-    if res.object is not None:
-        # handle response
-        pass
+    assert res.object is not None
+
+    # Handle response
+    print(res.object)
 
 ```
 
@@ -414,6 +436,7 @@ with Unkey(
 | models.ErrForbidden           | 403                           | application/json              |
 | models.ErrNotFound            | 404                           | application/json              |
 | models.ErrConflict            | 409                           | application/json              |
+| models.ErrPreconditionFailed  | 412                           | application/json              |
 | models.ErrTooManyRequests     | 429                           | application/json              |
 | models.ErrInternalServerError | 500                           | application/json              |
 | models.SDKError               | 4XX, 5XX                      | \*/\*                         |
@@ -423,36 +446,36 @@ with Unkey(
 ### Example Usage
 
 ```python
-import unkey_py
 from unkey_py import Unkey
 
 with Unkey(
     bearer_auth="UNKEY_ROOT_KEY",
-) as s:
-    res = s.keys.get_verifications(request={
+) as unkey:
+
+    res = unkey.keys.get_verifications(request={
         "key_id": "key_1234",
         "owner_id": "chronark",
         "start": 1620000000000,
         "end": 1620000000000,
-        "granularity": unkey_py.Granularity.DAY,
     })
 
-    if res.object is not None:
-        # handle response
-        pass
+    assert res.object is not None
+
+    # Handle response
+    print(res.object)
 
 ```
 
 ### Parameters
 
-| Parameter                                                                 | Type                                                                      | Required                                                                  | Description                                                               |
-| ------------------------------------------------------------------------- | ------------------------------------------------------------------------- | ------------------------------------------------------------------------- | ------------------------------------------------------------------------- |
-| `request`                                                                 | [models.GetVerificationsRequest](../../models/getverificationsrequest.md) | :heavy_check_mark:                                                        | The request object to use for the request.                                |
-| `retries`                                                                 | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)          | :heavy_minus_sign:                                                        | Configuration to override the default retry behavior of the client.       |
+| Parameter                                                                         | Type                                                                              | Required                                                                          | Description                                                                       |
+| --------------------------------------------------------------------------------- | --------------------------------------------------------------------------------- | --------------------------------------------------------------------------------- | --------------------------------------------------------------------------------- |
+| `request`                                                                         | [models.KeysGetVerificationsRequest](../../models/keysgetverificationsrequest.md) | :heavy_check_mark:                                                                | The request object to use for the request.                                        |
+| `retries`                                                                         | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                  | :heavy_minus_sign:                                                                | Configuration to override the default retry behavior of the client.               |
 
 ### Response
 
-**[models.GetVerificationsResponse](../../models/getverificationsresponse.md)**
+**[models.KeysGetVerificationsResponse](../../models/keysgetverificationsresponse.md)**
 
 ### Errors
 
@@ -463,6 +486,7 @@ with Unkey(
 | models.ErrForbidden           | 403                           | application/json              |
 | models.ErrNotFound            | 404                           | application/json              |
 | models.ErrConflict            | 409                           | application/json              |
+| models.ErrPreconditionFailed  | 412                           | application/json              |
 | models.ErrTooManyRequests     | 429                           | application/json              |
 | models.ErrInternalServerError | 500                           | application/json              |
 | models.SDKError               | 4XX, 5XX                      | \*/\*                         |
@@ -476,17 +500,21 @@ from unkey_py import Unkey
 
 with Unkey(
     bearer_auth="UNKEY_ROOT_KEY",
-) as s:
-    res = s.keys.add_permissions(request={
+) as unkey:
+
+    res = unkey.keys.add_permissions(request={
         "key_id": "<id>",
         "permissions": [
+            {},
+            {},
             {},
         ],
     })
 
-    if res.response_bodies is not None:
-        # handle response
-        pass
+    assert res.response_bodies is not None
+
+    # Handle response
+    print(res.response_bodies)
 
 ```
 
@@ -510,6 +538,7 @@ with Unkey(
 | models.ErrForbidden           | 403                           | application/json              |
 | models.ErrNotFound            | 404                           | application/json              |
 | models.ErrConflict            | 409                           | application/json              |
+| models.ErrPreconditionFailed  | 412                           | application/json              |
 | models.ErrTooManyRequests     | 429                           | application/json              |
 | models.ErrInternalServerError | 500                           | application/json              |
 | models.SDKError               | 4XX, 5XX                      | \*/\*                         |
@@ -523,8 +552,9 @@ from unkey_py import Unkey
 
 with Unkey(
     bearer_auth="UNKEY_ROOT_KEY",
-) as s:
-    res = s.keys.remove_permissions(request={
+) as unkey:
+
+    res = unkey.keys.remove_permissions(request={
         "key_id": "<id>",
         "permissions": [
             {
@@ -536,9 +566,10 @@ with Unkey(
         ],
     })
 
-    if res.object is not None:
-        # handle response
-        pass
+    assert res.object is not None
+
+    # Handle response
+    print(res.object)
 
 ```
 
@@ -562,6 +593,7 @@ with Unkey(
 | models.ErrForbidden           | 403                           | application/json              |
 | models.ErrNotFound            | 404                           | application/json              |
 | models.ErrConflict            | 409                           | application/json              |
+| models.ErrPreconditionFailed  | 412                           | application/json              |
 | models.ErrTooManyRequests     | 429                           | application/json              |
 | models.ErrInternalServerError | 500                           | application/json              |
 | models.SDKError               | 4XX, 5XX                      | \*/\*                         |
@@ -575,8 +607,9 @@ from unkey_py import Unkey
 
 with Unkey(
     bearer_auth="UNKEY_ROOT_KEY",
-) as s:
-    res = s.keys.set_permissions(request={
+) as unkey:
+
+    res = unkey.keys.set_permissions(request={
         "key_id": "<id>",
         "permissions": [
             {
@@ -592,9 +625,10 @@ with Unkey(
         ],
     })
 
-    if res.response_bodies is not None:
-        # handle response
-        pass
+    assert res.response_bodies is not None
+
+    # Handle response
+    print(res.response_bodies)
 
 ```
 
@@ -618,6 +652,7 @@ with Unkey(
 | models.ErrForbidden           | 403                           | application/json              |
 | models.ErrNotFound            | 404                           | application/json              |
 | models.ErrConflict            | 409                           | application/json              |
+| models.ErrPreconditionFailed  | 412                           | application/json              |
 | models.ErrTooManyRequests     | 429                           | application/json              |
 | models.ErrInternalServerError | 500                           | application/json              |
 | models.SDKError               | 4XX, 5XX                      | \*/\*                         |
@@ -631,8 +666,9 @@ from unkey_py import Unkey
 
 with Unkey(
     bearer_auth="UNKEY_ROOT_KEY",
-) as s:
-    res = s.keys.add_roles(request={
+) as unkey:
+
+    res = unkey.keys.add_roles(request={
         "key_id": "<id>",
         "roles": [
             {
@@ -648,9 +684,10 @@ with Unkey(
         ],
     })
 
-    if res.response_bodies is not None:
-        # handle response
-        pass
+    assert res.response_bodies is not None
+
+    # Handle response
+    print(res.response_bodies)
 
 ```
 
@@ -674,6 +711,7 @@ with Unkey(
 | models.ErrForbidden           | 403                           | application/json              |
 | models.ErrNotFound            | 404                           | application/json              |
 | models.ErrConflict            | 409                           | application/json              |
+| models.ErrPreconditionFailed  | 412                           | application/json              |
 | models.ErrTooManyRequests     | 429                           | application/json              |
 | models.ErrInternalServerError | 500                           | application/json              |
 | models.SDKError               | 4XX, 5XX                      | \*/\*                         |
@@ -687,8 +725,9 @@ from unkey_py import Unkey
 
 with Unkey(
     bearer_auth="UNKEY_ROOT_KEY",
-) as s:
-    res = s.keys.remove_roles(request={
+) as unkey:
+
+    res = unkey.keys.remove_roles(request={
         "key_id": "<id>",
         "roles": [
             {
@@ -700,9 +739,10 @@ with Unkey(
         ],
     })
 
-    if res.object is not None:
-        # handle response
-        pass
+    assert res.object is not None
+
+    # Handle response
+    print(res.object)
 
 ```
 
@@ -726,6 +766,7 @@ with Unkey(
 | models.ErrForbidden           | 403                           | application/json              |
 | models.ErrNotFound            | 404                           | application/json              |
 | models.ErrConflict            | 409                           | application/json              |
+| models.ErrPreconditionFailed  | 412                           | application/json              |
 | models.ErrTooManyRequests     | 429                           | application/json              |
 | models.ErrInternalServerError | 500                           | application/json              |
 | models.SDKError               | 4XX, 5XX                      | \*/\*                         |
@@ -739,8 +780,9 @@ from unkey_py import Unkey
 
 with Unkey(
     bearer_auth="UNKEY_ROOT_KEY",
-) as s:
-    res = s.keys.set_roles(request={
+) as unkey:
+
+    res = unkey.keys.set_roles(request={
         "key_id": "<id>",
         "roles": [
             {
@@ -756,9 +798,10 @@ with Unkey(
         ],
     })
 
-    if res.response_bodies is not None:
-        # handle response
-        pass
+    assert res.response_bodies is not None
+
+    # Handle response
+    print(res.response_bodies)
 
 ```
 
@@ -782,6 +825,7 @@ with Unkey(
 | models.ErrForbidden           | 403                           | application/json              |
 | models.ErrNotFound            | 404                           | application/json              |
 | models.ErrConflict            | 409                           | application/json              |
+| models.ErrPreconditionFailed  | 412                           | application/json              |
 | models.ErrTooManyRequests     | 429                           | application/json              |
 | models.ErrInternalServerError | 500                           | application/json              |
 | models.SDKError               | 4XX, 5XX                      | \*/\*                         |

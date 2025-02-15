@@ -16,12 +16,14 @@ from unkey_py import Unkey
 
 with Unkey(
     bearer_auth="UNKEY_ROOT_KEY",
-) as s:
-    res = s.liveness.check()
+) as unkey:
 
-    if res.object is not None:
-        # handle response
-        pass
+    res = unkey.liveness.check()
+
+    assert res.object is not None
+
+    # Handle response
+    print(res.object)
 
 ```
 
@@ -44,6 +46,7 @@ with Unkey(
 | models.ErrForbidden           | 403                           | application/json              |
 | models.ErrNotFound            | 404                           | application/json              |
 | models.ErrConflict            | 409                           | application/json              |
+| models.ErrPreconditionFailed  | 412                           | application/json              |
 | models.ErrTooManyRequests     | 429                           | application/json              |
 | models.ErrInternalServerError | 500                           | application/json              |
 | models.SDKError               | 4XX, 5XX                      | \*/\*                         |

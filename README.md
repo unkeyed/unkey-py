@@ -32,6 +32,7 @@ Developer-friendly & type-safe Python SDK for Unkey's API.
   * [Server Selection](#server-selection)
   * [Custom HTTP Client](#custom-http-client)
   * [Authentication](#authentication)
+  * [Resource Management](#resource-management)
   * [Debugging](#debugging)
 * [Development](#development)
   * [Maturity](#maturity)
@@ -41,6 +42,11 @@ Developer-friendly & type-safe Python SDK for Unkey's API.
 
 <!-- Start SDK Installation [installation] -->
 ## SDK Installation
+
+> [!NOTE]
+> **Python version upgrade policy**
+>
+> Once a Python version reaches its [official end of life date](https://devguide.python.org/versions/), a 3-month grace period is provided for users to upgrade. Following this grace period, the minimum python version supported in the SDK will be updated.
 
 The SDK can be installed with either *pip* or *poetry* package managers.
 
@@ -59,6 +65,37 @@ pip install unkey.py
 ```bash
 poetry add unkey.py
 ```
+
+### Shell and script usage with `uv`
+
+You can use this SDK in a Python shell with [uv](https://docs.astral.sh/uv/) and the `uvx` command that comes with it like so:
+
+```shell
+uvx --from unkey.py python
+```
+
+It's also possible to write a standalone Python script without needing to set up a whole project like so:
+
+```python
+#!/usr/bin/env -S uv run --script
+# /// script
+# requires-python = ">=3.9"
+# dependencies = [
+#     "unkey.py",
+# ]
+# ///
+
+from unkey_py import Unkey
+
+sdk = Unkey(
+  # SDK arguments
+)
+
+# Rest of script here...
+```
+
+Once that is saved to a file, you can run it with `uv run script.py` where
+`script.py` can be replaced with the actual file name.
 <!-- End SDK Installation [installation] -->
 
 <!-- Start IDE Support [idesupport] -->
@@ -82,12 +119,14 @@ from unkey_py import Unkey
 
 with Unkey(
     bearer_auth="UNKEY_ROOT_KEY",
-) as s:
-    res = s.liveness.check()
+) as unkey:
 
-    if res.object is not None:
-        # handle response
-        pass
+    res = unkey.liveness.check()
+
+    assert res.object is not None
+
+    # Handle response
+    print(res.object)
 ```
 
 </br>
@@ -101,12 +140,14 @@ from unkey_py import Unkey
 async def main():
     async with Unkey(
         bearer_auth="UNKEY_ROOT_KEY",
-    ) as s:
-        res = await s.liveness.check_async()
+    ) as unkey:
 
-        if res.object is not None:
-            # handle response
-            pass
+        res = await unkey.liveness.check_async()
+
+        assert res.object is not None
+
+        # Handle response
+        print(res.object)
 
 asyncio.run(main())
 ```
@@ -117,6 +158,10 @@ asyncio.run(main())
 
 <details open>
 <summary>Available methods</summary>
+
+### [analytics](docs/sdks/analytics/README.md)
+
+* [get_verifications](docs/sdks/analytics/README.md#get_verifications)
 
 ### [apis](docs/sdks/apis/README.md)
 
@@ -173,7 +218,7 @@ asyncio.run(main())
 
 ### [ratelimit](docs/sdks/ratelimit/README.md)
 
-* [ratelimit_set_override](docs/sdks/ratelimit/README.md#ratelimit_set_override)
+* [set_override](docs/sdks/ratelimit/README.md#set_override)
 * [list_overrides](docs/sdks/ratelimit/README.md#list_overrides)
 * [get_override](docs/sdks/ratelimit/README.md#get_override)
 
@@ -199,16 +244,14 @@ from unkey_py import Unkey
 
 with Unkey(
     bearer_auth="UNKEY_ROOT_KEY",
-) as s:
-    res = s.identities.list(limit=100)
+) as unkey:
 
-    if res.object is not None:
-        while True:
-            # handle items
+    res = unkey.identities.list()
 
-            res = res.next()
-            if res is None:
-                break
+    while res is not None:
+        # Handle items
+
+        res = res.next()
 
 ```
 <!-- End Pagination [pagination] -->
@@ -220,35 +263,39 @@ Some of the endpoints in this SDK support retries. If you use the SDK without an
 
 To change the default retry strategy for a single API call, simply provide a `RetryConfig` object to the call:
 ```python
-from unkey.utils import BackoffStrategy, RetryConfig
 from unkey_py import Unkey
+from unkey_py.utils import BackoffStrategy, RetryConfig
 
 with Unkey(
     bearer_auth="UNKEY_ROOT_KEY",
-) as s:
-    res = s.liveness.check(,
+) as unkey:
+
+    res = unkey.liveness.check(,
         RetryConfig("backoff", BackoffStrategy(1, 50, 1.1, 100), False))
 
-    if res.object is not None:
-        # handle response
-        pass
+    assert res.object is not None
+
+    # Handle response
+    print(res.object)
 
 ```
 
 If you'd like to override the default retry strategy for all operations that support retries, you can use the `retry_config` optional parameter when initializing the SDK:
 ```python
-from unkey.utils import BackoffStrategy, RetryConfig
 from unkey_py import Unkey
+from unkey_py.utils import BackoffStrategy, RetryConfig
 
 with Unkey(
     retry_config=RetryConfig("backoff", BackoffStrategy(1, 50, 1.1, 100), False),
     bearer_auth="UNKEY_ROOT_KEY",
-) as s:
-    res = s.liveness.check()
+) as unkey:
 
-    if res.object is not None:
-        # handle response
-        pass
+    res = unkey.liveness.check()
+
+    assert res.object is not None
+
+    # Handle response
+    print(res.object)
 
 ```
 <!-- End Retries [retries] -->
@@ -276,6 +323,7 @@ When custom error responses are specified for an operation, the SDK may also rai
 | models.ErrForbidden           | 403         | application/json |
 | models.ErrNotFound            | 404         | application/json |
 | models.ErrConflict            | 409         | application/json |
+| models.ErrPreconditionFailed  | 412         | application/json |
 | models.ErrTooManyRequests     | 429         | application/json |
 | models.ErrInternalServerError | 500         | application/json |
 | models.SDKError               | 4XX, 5XX    | \*/\*            |
@@ -287,14 +335,16 @@ from unkey_py import Unkey, models
 
 with Unkey(
     bearer_auth="UNKEY_ROOT_KEY",
-) as s:
+) as unkey:
     res = None
     try:
-        res = s.liveness.check()
 
-        if res.object is not None:
-            # handle response
-            pass
+        res = unkey.liveness.check()
+
+        assert res.object is not None
+
+        # Handle response
+        print(res.object)
 
     except models.ErrBadRequest as e:
         # handle e.data: models.ErrBadRequestData
@@ -310,6 +360,9 @@ with Unkey(
         raise(e)
     except models.ErrConflict as e:
         # handle e.data: models.ErrConflictData
+        raise(e)
+    except models.ErrPreconditionFailed as e:
+        # handle e.data: models.ErrPreconditionFailedData
         raise(e)
     except models.ErrTooManyRequests as e:
         # handle e.data: models.ErrTooManyRequestsData
@@ -335,12 +388,14 @@ from unkey_py import Unkey
 with Unkey(
     server_url="https://api.unkey.dev",
     bearer_auth="UNKEY_ROOT_KEY",
-) as s:
-    res = s.liveness.check()
+) as unkey:
 
-    if res.object is not None:
-        # handle response
-        pass
+    res = unkey.liveness.check()
+
+    assert res.object is not None
+
+    # Handle response
+    print(res.object)
 
 ```
 <!-- End Server Selection [server] -->
@@ -443,15 +498,42 @@ from unkey_py import Unkey
 
 with Unkey(
     bearer_auth="UNKEY_ROOT_KEY",
-) as s:
-    res = s.liveness.check()
+) as unkey:
 
-    if res.object is not None:
-        # handle response
-        pass
+    res = unkey.liveness.check()
+
+    assert res.object is not None
+
+    # Handle response
+    print(res.object)
 
 ```
 <!-- End Authentication [security] -->
+
+<!-- Start Resource Management [resource-management] -->
+## Resource Management
+
+The `Unkey` class implements the context manager protocol and registers a finalizer function to close the underlying sync and async HTTPX clients it uses under the hood. This will close HTTP connections, release memory and free up other resources held by the SDK. In short-lived Python programs and notebooks that make a few SDK method calls, resource management may not be a concern. However, in longer-lived programs, it is beneficial to create a single SDK instance via a [context manager][context-manager] and reuse it across the application.
+
+[context-manager]: https://docs.python.org/3/reference/datamodel.html#context-managers
+
+```python
+from unkey_py import Unkey
+def main():
+    with Unkey(
+        bearer_auth="UNKEY_ROOT_KEY",
+    ) as unkey:
+        # Rest of application here...
+
+
+# Or when using async:
+async def amain():
+    async with Unkey(
+        bearer_auth="UNKEY_ROOT_KEY",
+    ) as unkey:
+        # Rest of application here...
+```
+<!-- End Resource Management [resource-management] -->
 
 <!-- Start Debugging [debug] -->
 ## Debugging

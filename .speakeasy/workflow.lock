@@ -1,21 +1,21 @@
-speakeasyVersion: 1.453.4
+speakeasyVersion: 1.493.0
 sources:
     Unkey-OAS:
         sourceNamespace: unkey-oas
-        sourceRevisionDigest: sha256:8195101f876a2dee27540ad46a0ff11904f6f41eaab663ca7e6d6ec88adf8c68
-        sourceBlobDigest: sha256:2ec7e32aea77a854bdd608875cfcd1110ba479f365389e3707bfff61885ff102
+        sourceRevisionDigest: sha256:fa518a97a9de28a61cafad7715db070dd29875548fe33c4cb9304e8d3fa1a61d
+        sourceBlobDigest: sha256:31a7bbf552f587b96fd70ce26ef83972310736069ec8a2f21b276dc4a81da876
         tags:
             - latest
-            - speakeasy-sdk-regen-1730334330
+            - speakeasy-sdk-regen-1736900721
             - 1.0.0
 targets:
     unkey:
         source: Unkey-OAS
         sourceNamespace: unkey-oas
-        sourceRevisionDigest: sha256:8195101f876a2dee27540ad46a0ff11904f6f41eaab663ca7e6d6ec88adf8c68
-        sourceBlobDigest: sha256:2ec7e32aea77a854bdd608875cfcd1110ba479f365389e3707bfff61885ff102
+        sourceRevisionDigest: sha256:fa518a97a9de28a61cafad7715db070dd29875548fe33c4cb9304e8d3fa1a61d
+        sourceBlobDigest: sha256:31a7bbf552f587b96fd70ce26ef83972310736069ec8a2f21b276dc4a81da876
         codeSamplesNamespace: unkey-oas-python-code-samples
-        codeSamplesRevisionDigest: sha256:4c557e4115ee27d060ee91bebe3faa42dfaea6651b128997b9f722c7992a96fc
+        codeSamplesRevisionDigest: sha256:ad99a1bf67635a20011adb87b7cfb608b3c7bab1173bc48e12d5e9d164877ca5
 workflow:
     workflowVersion: 1.0.0
     speakeasyVersion: latest

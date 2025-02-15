@@ -17,13 +17,12 @@ from unkey_py import Unkey
 
 with Unkey(
     bearer_auth="UNKEY_ROOT_KEY",
-) as s:
-    res = s.ratelimits.limit(request={
+) as unkey:
+
+    res = unkey.ratelimits.limit(request={
         "identifier": "user_123",
         "limit": 10,
         "duration": 60000,
-        "namespace": "email.outbound",
-        "cost": 2,
         "resources": [
             {
                 "type": "organization",
@@ -33,9 +32,10 @@ with Unkey(
         ],
     })
 
-    if res.object is not None:
-        # handle response
-        pass
+    assert res.object is not None
+
+    # Handle response
+    print(res.object)
 
 ```
 
@@ -59,6 +59,7 @@ with Unkey(
 | models.ErrForbidden           | 403                           | application/json              |
 | models.ErrNotFound            | 404                           | application/json              |
 | models.ErrConflict            | 409                           | application/json              |
+| models.ErrPreconditionFailed  | 412                           | application/json              |
 | models.ErrTooManyRequests     | 429                           | application/json              |
 | models.ErrInternalServerError | 500                           | application/json              |
 | models.SDKError               | 4XX, 5XX                      | \*/\*                         |
@@ -72,16 +73,18 @@ from unkey_py import Unkey
 
 with Unkey(
     bearer_auth="UNKEY_ROOT_KEY",
-) as s:
-    res = s.ratelimits.delete_override(request={
+) as unkey:
+
+    res = unkey.ratelimits.delete_override(request={
         "identifier": "user_123",
         "namespace_id": "rlns_1234",
         "namespace_name": "email.outbound",
     })
 
-    if res.object is not None:
-        # handle response
-        pass
+    assert res.object is not None
+
+    # Handle response
+    print(res.object)
 
 ```
 
@@ -105,6 +108,7 @@ with Unkey(
 | models.ErrForbidden           | 403                           | application/json              |
 | models.ErrNotFound            | 404                           | application/json              |
 | models.ErrConflict            | 409                           | application/json              |
+| models.ErrPreconditionFailed  | 412                           | application/json              |
 | models.ErrTooManyRequests     | 429                           | application/json              |
 | models.ErrInternalServerError | 500                           | application/json              |
 | models.SDKError               | 4XX, 5XX                      | \*/\*                         |

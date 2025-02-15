@@ -53,6 +53,20 @@ class Authorization(BaseModel):
         return m
 
 
+class RemainingTypedDict(TypedDict):
+    r"""Customize the behaviour of deducting remaining uses. When some of your endpoints are more expensive than others, you can set a custom `cost` for each."""
+
+    cost: NotRequired[int]
+    r"""How many tokens should be deducted from the current `remaining` value. Set it to 0, to make it free."""
+
+
+class Remaining(BaseModel):
+    r"""Customize the behaviour of deducting remaining uses. When some of your endpoints are more expensive than others, you can set a custom `cost` for each."""
+
+    cost: Optional[int] = 1
+    r"""How many tokens should be deducted from the current `remaining` value. Set it to 0, to make it free."""
+
+
 @deprecated(
     "warning: ** DEPRECATED ** - This will be removed in a future release, please migrate away from it as soon as possible."
 )
@@ -105,8 +119,18 @@ class V1KeysVerifyKeyRequestTypedDict(TypedDict):
     r"""The id of the api where the key belongs to. This is optional for now but will be required soon.
     The key will be verified against the api's configuration. If the key does not belong to the api, the verification will fail.
     """
+    tags: NotRequired[List[str]]
+    r"""Tags do not influence the outcome of a verification.
+    They can be added to filter or aggregate historical verification data for your analytics needs.
+    To unkey, a tag is simply a string, we don't enforce any schema but leave that up to you.
+    The only exception is that each tag must be between 1 and 128 characters long.
+    A typical setup would be to add key-value pairs of resources or locations, that you need later when querying.
+
+    """
     authorization: NotRequired[AuthorizationTypedDict]
     r"""Perform RBAC checks"""
+    remaining: NotRequired[RemainingTypedDict]
+    r"""Customize the behaviour of deducting remaining uses. When some of your endpoints are more expensive than others, you can set a custom `cost` for each."""
     ratelimit: NotRequired[V1KeysVerifyKeyRequestRatelimitTypedDict]
     r"""Use 'ratelimits' with `[{ name: \"default\", cost: 2}]`"""
     ratelimits: NotRequired[List[RatelimitsModelTypedDict]]
@@ -125,8 +149,20 @@ class V1KeysVerifyKeyRequest(BaseModel):
     The key will be verified against the api's configuration. If the key does not belong to the api, the verification will fail.
     """
 
+    tags: Optional[List[str]] = None
+    r"""Tags do not influence the outcome of a verification.
+    They can be added to filter or aggregate historical verification data for your analytics needs.
+    To unkey, a tag is simply a string, we don't enforce any schema but leave that up to you.
+    The only exception is that each tag must be between 1 and 128 characters long.
+    A typical setup would be to add key-value pairs of resources or locations, that you need later when querying.
+
+    """
+
     authorization: Optional[Authorization] = None
     r"""Perform RBAC checks"""
+
+    remaining: Optional[Remaining] = None
+    r"""Customize the behaviour of deducting remaining uses. When some of your endpoints are more expensive than others, you can set a custom `cost` for each."""
 
     ratelimit: Annotated[
         Optional[V1KeysVerifyKeyRequestRatelimit],

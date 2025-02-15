@@ -156,6 +156,8 @@ class RequestBodyTypedDict(TypedDict):
     start: NotRequired[str]
     r"""The first 4 characters of the key. If a prefix is used, it should be the prefix plus 4 characters."""
     owner_id: NotRequired[str]
+    r"""Deprecated, use `externalId`"""
+    external_id: NotRequired[str]
     r"""Your user’s Id. This will provide a link between Unkey and your customer record.
     When validating a key, we will return this back to you, so you can clearly identify your user from their api key.
     """
@@ -215,7 +217,16 @@ class RequestBody(BaseModel):
     start: Optional[str] = None
     r"""The first 4 characters of the key. If a prefix is used, it should be the prefix plus 4 characters."""
 
-    owner_id: Annotated[Optional[str], pydantic.Field(alias="ownerId")] = None
+    owner_id: Annotated[
+        Optional[str],
+        pydantic.Field(
+            deprecated="warning: ** DEPRECATED ** - This will be removed in a future release, please migrate away from it as soon as possible.",
+            alias="ownerId",
+        ),
+    ] = None
+    r"""Deprecated, use `externalId`"""
+
+    external_id: Annotated[Optional[str], pydantic.Field(alias="externalId")] = None
     r"""Your user’s Id. This will provide a link between Unkey and your customer record.
     When validating a key, we will return this back to you, so you can clearly identify your user from their api key.
     """

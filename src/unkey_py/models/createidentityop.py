@@ -35,7 +35,7 @@ class CreateIdentityRequestBodyTypedDict(TypedDict):
     This usually comes from your authentication provider and could be a userId, organisationId or even an email.
     It does not matter what you use, as long as it uniquely identifies something in your application.
 
-    `externalId`s are unique across your workspace and therefore a `PRECONDITION_FAILED` error is returned when you try to create duplicates.
+    `externalId`s are unique across your workspace and therefore a `CONFLICT` error is returned when you try to create duplicates.
 
     """
     meta: NotRequired[Dict[str, Any]]
@@ -58,7 +58,7 @@ class CreateIdentityRequestBody(BaseModel):
     This usually comes from your authentication provider and could be a userId, organisationId or even an email.
     It does not matter what you use, as long as it uniquely identifies something in your application.
 
-    `externalId`s are unique across your workspace and therefore a `PRECONDITION_FAILED` error is returned when you try to create duplicates.
+    `externalId`s are unique across your workspace and therefore a `CONFLICT` error is returned when you try to create duplicates.
 
     """
 
