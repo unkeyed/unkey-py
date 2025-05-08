@@ -9,4 +9,4 @@ The identity of the key
 | ------------------------------------------------ | ------------------------------------------------ | ------------------------------------------------ | ------------------------------------------------ |
 | `id`                                             | *str*                                            | :heavy_check_mark:                               | The id of the identity                           |
 | `external_id`                                    | *str*                                            | :heavy_check_mark:                               | The external id of the identity                  |
-| `meta`                                           | Dict[str, *Any*]                                 | :heavy_minus_sign:                               | Any additional metadata attached to the identity |
+| `meta`                                           | Dict[str, *Nullable[Any]*]                       | :heavy_minus_sign:                               | Any additional metadata attached to the identity |

@@ -2,16 +2,29 @@
 
 from __future__ import annotations
 from .httpmetadata import HTTPMetadata, HTTPMetadataTypedDict
+from enum import Enum
 import pydantic
-from typing import Optional
-from typing_extensions import Annotated, NotRequired, TypedDict
+from typing import Optional, Union
+from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
 from unkey_py.types import BaseModel
+
+
+class Two(str, Enum):
+    UNKNOWN = ""
+
+
+DescriptionTypedDict = TypeAliasType("DescriptionTypedDict", Union[str, Two])
+r"""Explain what this permission does. This is just for your team, your users will not see this."""
+
+
+Description = TypeAliasType("Description", Union[str, Two])
+r"""Explain what this permission does. This is just for your team, your users will not see this."""
 
 
 class CreatePermissionRequestBodyTypedDict(TypedDict):
     name: str
     r"""The unique name of your permission."""
-    description: NotRequired[str]
+    description: NotRequired[DescriptionTypedDict]
     r"""Explain what this permission does. This is just for your team, your users will not see this."""
 
 
@@ -19,7 +32,7 @@ class CreatePermissionRequestBody(BaseModel):
     name: str
     r"""The unique name of your permission."""
 
-    description: Optional[str] = None
+    description: Optional[Description] = None
     r"""Explain what this permission does. This is just for your team, your users will not see this."""
 
 
