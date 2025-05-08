@@ -5,7 +5,7 @@ from .httpmetadata import HTTPMetadata, HTTPMetadataTypedDict
 import pydantic
 from typing import Any, Dict, List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
-from unkey_py.types import BaseModel
+from unkey_py.types import BaseModel, Nullable
 
 
 class UpdateIdentityRatelimitsTypedDict(TypedDict):
@@ -35,7 +35,7 @@ class UpdateIdentityRequestBodyTypedDict(TypedDict):
     r"""The externalId of the identity to update, use either `identityId` or `externalId`, if both are provided, `identityId` takes precedence."""
     environment: NotRequired[str]
     r"""This is not yet used but here for future compatibility."""
-    meta: NotRequired[Dict[str, Any]]
+    meta: NotRequired[Dict[str, Nullable[Any]]]
     r"""Attach metadata to this identity that you need to have access to when verifying a key.
 
     Set to `{}` to clear.
@@ -63,7 +63,7 @@ class UpdateIdentityRequestBody(BaseModel):
     environment: Optional[str] = "default"
     r"""This is not yet used but here for future compatibility."""
 
-    meta: Optional[Dict[str, Any]] = None
+    meta: Optional[Dict[str, Nullable[Any]]] = None
     r"""Attach metadata to this identity that you need to have access to when verifying a key.
 
     Set to `{}` to clear.
@@ -109,7 +109,7 @@ class UpdateIdentityResponseBodyTypedDict(TypedDict):
     r"""The id of the identity."""
     external_id: str
     r"""The externalId of the identity."""
-    meta: Dict[str, Any]
+    meta: Dict[str, Nullable[Any]]
     r"""The metadata attached to this identity."""
     ratelimits: List[UpdateIdentityIdentitiesRatelimitsTypedDict]
 
@@ -123,7 +123,7 @@ class UpdateIdentityResponseBody(BaseModel):
     external_id: Annotated[str, pydantic.Field(alias="externalId")]
     r"""The externalId of the identity."""
 
-    meta: Dict[str, Any]
+    meta: Dict[str, Nullable[Any]]
     r"""The metadata attached to this identity."""
 
     ratelimits: List[UpdateIdentityIdentitiesRatelimits]

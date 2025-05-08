@@ -5,7 +5,7 @@ from .httpmetadata import HTTPMetadata, HTTPMetadataTypedDict
 import pydantic
 from typing import Any, Dict, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
-from unkey_py.types import BaseModel
+from unkey_py.types import BaseModel, Nullable
 
 
 class WhoamiRequestBodyTypedDict(TypedDict):
@@ -52,7 +52,7 @@ class WhoamiResponseBodyTypedDict(TypedDict):
     r"""The remaining number of requests for the key"""
     identity: NotRequired[WhoamiIdentityTypedDict]
     r"""The identity object associated with the key"""
-    meta: NotRequired[Dict[str, Any]]
+    meta: NotRequired[Dict[str, Nullable[Any]]]
     r"""Metadata associated with the key"""
     environment: NotRequired[str]
     r"""The environment the key is associated with"""
@@ -79,7 +79,7 @@ class WhoamiResponseBody(BaseModel):
     identity: Optional[WhoamiIdentity] = None
     r"""The identity object associated with the key"""
 
-    meta: Optional[Dict[str, Any]] = None
+    meta: Optional[Dict[str, Nullable[Any]]] = None
     r"""Metadata associated with the key"""
 
     environment: Optional[str] = None

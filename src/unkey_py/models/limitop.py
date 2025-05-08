@@ -5,7 +5,7 @@ from .httpmetadata import HTTPMetadata, HTTPMetadataTypedDict
 import pydantic
 from typing import Any, Dict, List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
-from unkey_py.types import BaseModel
+from unkey_py.types import BaseModel, Nullable
 
 
 class ResourcesTypedDict(TypedDict):
@@ -15,7 +15,7 @@ class ResourcesTypedDict(TypedDict):
     r"""The unique identifier for the resource"""
     name: NotRequired[str]
     r"""A human readable name for this resource"""
-    meta: NotRequired[Dict[str, Any]]
+    meta: NotRequired[Dict[str, Nullable[Any]]]
     r"""Attach any metadata to this resources"""
 
 
@@ -29,7 +29,7 @@ class Resources(BaseModel):
     name: Optional[str] = None
     r"""A human readable name for this resource"""
 
-    meta: Optional[Dict[str, Any]] = None
+    meta: Optional[Dict[str, Nullable[Any]]] = None
     r"""Attach any metadata to this resources"""
 
 
@@ -50,7 +50,7 @@ class LimitRequestBodyTypedDict(TypedDict):
     """
     async_: NotRequired[bool]
     r"""Async will return a response immediately, lowering latency at the cost of accuracy."""
-    meta: NotRequired[Dict[str, Any]]
+    meta: NotRequired[Dict[str, Nullable[Any]]]
     r"""Attach any metadata to this request"""
     resources: NotRequired[List[ResourcesTypedDict]]
     r"""Resources that are about to be accessed by the user"""
@@ -79,7 +79,7 @@ class LimitRequestBody(BaseModel):
     async_: Annotated[Optional[bool], pydantic.Field(alias="async")] = False
     r"""Async will return a response immediately, lowering latency at the cost of accuracy."""
 
-    meta: Optional[Dict[str, Any]] = None
+    meta: Optional[Dict[str, Nullable[Any]]] = None
     r"""Attach any metadata to this request"""
 
     resources: Optional[List[Resources]] = None

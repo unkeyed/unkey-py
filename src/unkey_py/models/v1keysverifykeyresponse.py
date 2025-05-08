@@ -5,7 +5,7 @@ from enum import Enum
 import pydantic
 from typing import Any, Dict, List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
-from unkey_py.types import BaseModel
+from unkey_py.types import BaseModel, Nullable
 
 
 class V1KeysVerifyKeyResponseRatelimitTypedDict(TypedDict):
@@ -65,7 +65,7 @@ class V1KeysVerifyKeyResponseIdentityTypedDict(TypedDict):
 
     id: str
     external_id: str
-    meta: Dict[str, Any]
+    meta: Dict[str, Nullable[Any]]
 
 
 class V1KeysVerifyKeyResponseIdentity(BaseModel):
@@ -75,7 +75,7 @@ class V1KeysVerifyKeyResponseIdentity(BaseModel):
 
     external_id: Annotated[str, pydantic.Field(alias="externalId")]
 
-    meta: Dict[str, Any]
+    meta: Dict[str, Nullable[Any]]
 
 
 class V1KeysVerifyKeyResponseTypedDict(TypedDict):
@@ -99,13 +99,15 @@ class V1KeysVerifyKeyResponseTypedDict(TypedDict):
     These are validation codes, the HTTP status will be 200.
 
     """
+    request_id: str
+    r"""A unique id for this request, please provide it to Unkey support to help us debug your issue."""
     key_id: NotRequired[str]
     r"""The id of the key"""
     name: NotRequired[str]
     r"""The name of the key, give keys a name to easily identifiy their purpose"""
     owner_id: NotRequired[str]
     r"""The id of the tenant associated with this key. Use whatever reference you have in your system to identify the tenant. When verifying the key, we will send this field back to you, so you know who is accessing your API."""
-    meta: NotRequired[Dict[str, Any]]
+    meta: NotRequired[Dict[str, Nullable[Any]]]
     r"""Any additional metadata you want to store with the key"""
     expires: NotRequired[int]
     r"""The unix timestamp in milliseconds when the key will expire. If this field is null or undefined, the key is not expiring."""
@@ -117,6 +119,8 @@ class V1KeysVerifyKeyResponseTypedDict(TypedDict):
     r"""Sets the key to be enabled or disabled. Disabled keys will not verify."""
     permissions: NotRequired[List[str]]
     r"""A list of all the permissions this key is connected to."""
+    roles: NotRequired[List[str]]
+    r"""A list of all the roles this key is connected to."""
     environment: NotRequired[str]
     r"""The environment of the key, this is what what you set when you crated the key"""
     identity: NotRequired[V1KeysVerifyKeyResponseIdentityTypedDict]
@@ -146,6 +150,9 @@ class V1KeysVerifyKeyResponse(BaseModel):
 
     """
 
+    request_id: Annotated[str, pydantic.Field(alias="requestId")]
+    r"""A unique id for this request, please provide it to Unkey support to help us debug your issue."""
+
     key_id: Annotated[Optional[str], pydantic.Field(alias="keyId")] = None
     r"""The id of the key"""
 
@@ -155,7 +162,7 @@ class V1KeysVerifyKeyResponse(BaseModel):
     owner_id: Annotated[Optional[str], pydantic.Field(alias="ownerId")] = None
     r"""The id of the tenant associated with this key. Use whatever reference you have in your system to identify the tenant. When verifying the key, we will send this field back to you, so you know who is accessing your API."""
 
-    meta: Optional[Dict[str, Any]] = None
+    meta: Optional[Dict[str, Nullable[Any]]] = None
     r"""Any additional metadata you want to store with the key"""
 
     expires: Optional[int] = None
@@ -172,6 +179,9 @@ class V1KeysVerifyKeyResponse(BaseModel):
 
     permissions: Optional[List[str]] = None
     r"""A list of all the permissions this key is connected to."""
+
+    roles: Optional[List[str]] = None
+    r"""A list of all the roles this key is connected to."""
 
     environment: Optional[str] = None
     r"""The environment of the key, this is what what you set when you crated the key"""

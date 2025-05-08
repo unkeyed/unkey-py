@@ -6,7 +6,7 @@ from enum import Enum
 import pydantic
 from typing import Any, Dict, List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict, deprecated
-from unkey_py.types import BaseModel
+from unkey_py.types import BaseModel, Nullable
 
 
 class Variant(str, Enum):
@@ -156,10 +156,12 @@ class RequestBodyTypedDict(TypedDict):
     start: NotRequired[str]
     r"""The first 4 characters of the key. If a prefix is used, it should be the prefix plus 4 characters."""
     owner_id: NotRequired[str]
+    r"""Deprecated, use `externalId`"""
+    external_id: NotRequired[str]
     r"""Your user’s Id. This will provide a link between Unkey and your customer record.
     When validating a key, we will return this back to you, so you can clearly identify your user from their api key.
     """
-    meta: NotRequired[Dict[str, Any]]
+    meta: NotRequired[Dict[str, Nullable[Any]]]
     r"""This is a place for dynamic meta data, anything that feels useful for you should go here"""
     roles: NotRequired[List[str]]
     r"""A list of roles that this key should have. If the role does not exist, an error is thrown"""
@@ -215,12 +217,21 @@ class RequestBody(BaseModel):
     start: Optional[str] = None
     r"""The first 4 characters of the key. If a prefix is used, it should be the prefix plus 4 characters."""
 
-    owner_id: Annotated[Optional[str], pydantic.Field(alias="ownerId")] = None
+    owner_id: Annotated[
+        Optional[str],
+        pydantic.Field(
+            deprecated="warning: ** DEPRECATED ** - This will be removed in a future release, please migrate away from it as soon as possible.",
+            alias="ownerId",
+        ),
+    ] = None
+    r"""Deprecated, use `externalId`"""
+
+    external_id: Annotated[Optional[str], pydantic.Field(alias="externalId")] = None
     r"""Your user’s Id. This will provide a link between Unkey and your customer record.
     When validating a key, we will return this back to you, so you can clearly identify your user from their api key.
     """
 
-    meta: Optional[Dict[str, Any]] = None
+    meta: Optional[Dict[str, Nullable[Any]]] = None
     r"""This is a place for dynamic meta data, anything that feels useful for you should go here"""
 
     roles: Optional[List[str]] = None
