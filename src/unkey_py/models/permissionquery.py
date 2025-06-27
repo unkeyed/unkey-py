@@ -4,30 +4,30 @@ from __future__ import annotations
 import pydantic
 from typing import List, Union
 from typing_extensions import Annotated, TypeAliasType, TypedDict
-from unkey_py.types import BaseModel
+from unkey_py.types import BaseModel, Nullable
 
 
 class OrTypedDict(TypedDict):
-    or_: List[PermissionQueryTypedDict]
+    or_: List[Nullable[PermissionQueryTypedDict]]
 
 
 class Or(BaseModel):
-    or_: Annotated[List[PermissionQuery], pydantic.Field(alias="or")]
+    or_: Annotated[List[Nullable[PermissionQuery]], pydantic.Field(alias="or")]
 
 
 class AndTypedDict(TypedDict):
-    and_: List[PermissionQueryTypedDict]
+    and_: List[Nullable[PermissionQueryTypedDict]]
 
 
 class And(BaseModel):
-    and_: Annotated[List[PermissionQuery], pydantic.Field(alias="and")]
+    and_: Annotated[List[Nullable[PermissionQuery]], pydantic.Field(alias="and")]
 
 
 PermissionQueryTypedDict = TypeAliasType(
-    "PermissionQueryTypedDict", Union[AndTypedDict, OrTypedDict, str]
+    "PermissionQueryTypedDict", Union["AndTypedDict", "OrTypedDict", str]
 )
 r"""A query for which permissions you require"""
 
 
-PermissionQuery = TypeAliasType("PermissionQuery", Union[And, Or, str])
+PermissionQuery = TypeAliasType("PermissionQuery", Union["And", "Or", str])
 r"""A query for which permissions you require"""

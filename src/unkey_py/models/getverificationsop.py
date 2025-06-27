@@ -5,39 +5,163 @@ from .httpmetadata import HTTPMetadata, HTTPMetadataTypedDict
 from enum import Enum
 import pydantic
 from pydantic import model_serializer
-from typing import List, Optional
-from typing_extensions import Annotated, NotRequired, TypedDict
+from typing import List, Optional, Union
+from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
 from unkey_py.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SENTINEL
 from unkey_py.utils import FieldMetadata, QueryParamMetadata
 
 
-class Granularity(str, Enum):
-    r"""The granularity of the usage data to fetch, currently only `day` is supported"""
+KeyIDTypedDict = TypeAliasType("KeyIDTypedDict", Union[str, List[str]])
+r"""Only include data for a specific key or keys.
 
+When you are providing zero or more than one key ids, all usage counts are aggregated and summed up. Send multiple requests with one keyId each if you need counts per key.
+
+
+"""
+
+
+KeyID = TypeAliasType("KeyID", Union[str, List[str]])
+r"""Only include data for a specific key or keys.
+
+When you are providing zero or more than one key ids, all usage counts are aggregated and summed up. Send multiple requests with one keyId each if you need counts per key.
+
+
+"""
+
+
+TagTypedDict = TypeAliasType("TagTypedDict", Union[str, List[str]])
+r"""Only include data for a specific tag or tags.
+
+When you are providing zero or more than one tag, all usage counts are aggregated and summed up. Send multiple requests with one tag each if you need counts per tag.
+"""
+
+
+Tag = TypeAliasType("Tag", Union[str, List[str]])
+r"""Only include data for a specific tag or tags.
+
+When you are providing zero or more than one tag, all usage counts are aggregated and summed up. Send multiple requests with one tag each if you need counts per tag.
+"""
+
+
+class QueryParam2(str, Enum):
+    KEY = "key"
+    IDENTITY = "identity"
+    TAGS = "tags"
+    TAG = "tag"
+    MONTH = "month"
     DAY = "day"
+    HOUR = "hour"
+
+
+class One(str, Enum):
+    KEY = "key"
+    IDENTITY = "identity"
+    TAGS = "tags"
+    TAG = "tag"
+    MONTH = "month"
+    DAY = "day"
+    HOUR = "hour"
+
+
+GroupByTypedDict = TypeAliasType("GroupByTypedDict", Union[One, List[QueryParam2]])
+r"""By default, datapoints are not aggregated, however you probably want to get a breakdown per time, key or identity.
+
+Grouping by tags and by tag is mutually exclusive.
+"""
+
+
+GroupBy = TypeAliasType("GroupBy", Union[One, List[QueryParam2]])
+r"""By default, datapoints are not aggregated, however you probably want to get a breakdown per time, key or identity.
+
+Grouping by tags and by tag is mutually exclusive.
+"""
+
+
+class OrderBy(str, Enum):
+    r"""Sort the output by a specific value. You can use this in combination with the `order` param."""
+
+    TIME = "time"
+    VALID = "valid"
+    NOT_FOUND = "notFound"
+    FORBIDDEN = "forbidden"
+    USAGE_EXCEEDED = "usageExceeded"
+    RATE_LIMITED = "rateLimited"
+    UNAUTHORIZED = "unauthorized"
+    DISABLED = "disabled"
+    INSUFFICIENT_PERMISSIONS = "insufficientPermissions"
+    EXPIRED = "expired"
+    TOTAL = "total"
+
+
+class Order(str, Enum):
+    r"""Define the order of sorting. Use this in combination with `orderBy`"""
+
+    ASC = "asc"
+    DESC = "desc"
 
 
 class GetVerificationsRequestTypedDict(TypedDict):
-    key_id: NotRequired[str]
-    owner_id: NotRequired[str]
+    api_id: str
+    external_id: NotRequired[str]
+    key_id: NotRequired[KeyIDTypedDict]
+    r"""Only include data for a specific key or keys.
+
+    When you are providing zero or more than one key ids, all usage counts are aggregated and summed up. Send multiple requests with one keyId each if you need counts per key.
+
+
+    """
+    tag: NotRequired[TagTypedDict]
+    r"""Only include data for a specific tag or tags.
+
+    When you are providing zero or more than one tag, all usage counts are aggregated and summed up. Send multiple requests with one tag each if you need counts per tag.
+    """
     start: NotRequired[Nullable[int]]
     end: NotRequired[Nullable[int]]
-    granularity: NotRequired[Granularity]
-    r"""The granularity of the usage data to fetch, currently only `day` is supported"""
+    group_by: NotRequired[GroupByTypedDict]
+    r"""By default, datapoints are not aggregated, however you probably want to get a breakdown per time, key or identity.
+
+    Grouping by tags and by tag is mutually exclusive.
+    """
+    limit: NotRequired[int]
+    order_by: NotRequired[OrderBy]
+    r"""Sort the output by a specific value. You can use this in combination with the `order` param."""
+    order: NotRequired[Order]
+    r"""Define the order of sorting. Use this in combination with `orderBy`"""
 
 
 class GetVerificationsRequest(BaseModel):
-    key_id: Annotated[
+    api_id: Annotated[
+        str,
+        pydantic.Field(alias="apiId"),
+        FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
+    ]
+
+    external_id: Annotated[
         Optional[str],
-        pydantic.Field(alias="keyId"),
+        pydantic.Field(alias="externalId"),
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
     ] = None
 
-    owner_id: Annotated[
-        Optional[str],
-        pydantic.Field(alias="ownerId"),
+    key_id: Annotated[
+        Optional[KeyID],
+        pydantic.Field(alias="keyId"),
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
     ] = None
+    r"""Only include data for a specific key or keys.
+
+    When you are providing zero or more than one key ids, all usage counts are aggregated and summed up. Send multiple requests with one keyId each if you need counts per key.
+
+
+    """
+
+    tag: Annotated[
+        Optional[Tag],
+        FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
+    ] = None
+    r"""Only include data for a specific tag or tags.
+
+    When you are providing zero or more than one tag, all usage counts are aggregated and summed up. Send multiple requests with one tag each if you need counts per tag.
+    """
 
     start: Annotated[
         OptionalNullable[int],
@@ -47,17 +171,49 @@ class GetVerificationsRequest(BaseModel):
     end: Annotated[
         OptionalNullable[int],
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
-    ] = UNSET
+    ] = 1746664158001
 
-    granularity: Annotated[
-        Optional[Granularity],
+    group_by: Annotated[
+        Optional[GroupBy],
+        pydantic.Field(alias="groupBy"),
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
-    ] = Granularity.DAY
-    r"""The granularity of the usage data to fetch, currently only `day` is supported"""
+    ] = None
+    r"""By default, datapoints are not aggregated, however you probably want to get a breakdown per time, key or identity.
+
+    Grouping by tags and by tag is mutually exclusive.
+    """
+
+    limit: Annotated[
+        Optional[int],
+        FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
+    ] = None
+
+    order_by: Annotated[
+        Optional[OrderBy],
+        pydantic.Field(alias="orderBy"),
+        FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
+    ] = None
+    r"""Sort the output by a specific value. You can use this in combination with the `order` param."""
+
+    order: Annotated[
+        Optional[Order],
+        FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
+    ] = Order.ASC
+    r"""Define the order of sorting. Use this in combination with `orderBy`"""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = ["keyId", "ownerId", "start", "end", "granularity"]
+        optional_fields = [
+            "externalId",
+            "keyId",
+            "tag",
+            "start",
+            "end",
+            "groupBy",
+            "limit",
+            "orderBy",
+            "order",
+        ]
         nullable_fields = ["start", "end"]
         null_default_fields = []
 
@@ -65,7 +221,7 @@ class GetVerificationsRequest(BaseModel):
 
         m = {}
 
-        for n, f in self.model_fields.items():
+        for n, f in type(self).model_fields.items():
             k = f.alias or n
             val = serialized.get(k)
             serialized.pop(k, None)
@@ -86,51 +242,107 @@ class GetVerificationsRequest(BaseModel):
         return m
 
 
-class VerificationsTypedDict(TypedDict):
-    time: int
-    r"""The timestamp of the usage data"""
-    success: int
-    r"""The number of successful requests"""
-    rate_limited: int
-    r"""The number of requests that were rate limited"""
-    usage_exceeded: int
-    r"""The number of requests that exceeded the usage limit"""
+class GetVerificationsIdentityTypedDict(TypedDict):
+    r"""Only available when specifying groupBy=identity in the query.
+    In this case there would be one datapoint per time and groupBy target.
+    """
+
+    id: str
+    external_id: str
 
 
-class Verifications(BaseModel):
-    time: int
-    r"""The timestamp of the usage data"""
+class GetVerificationsIdentity(BaseModel):
+    r"""Only available when specifying groupBy=identity in the query.
+    In this case there would be one datapoint per time and groupBy target.
+    """
 
-    success: int
-    r"""The number of successful requests"""
+    id: str
 
-    rate_limited: Annotated[int, pydantic.Field(alias="rateLimited")]
-    r"""The number of requests that were rate limited"""
-
-    usage_exceeded: Annotated[int, pydantic.Field(alias="usageExceeded")]
-    r"""The number of requests that exceeded the usage limit"""
+    external_id: Annotated[str, pydantic.Field(alias="externalId")]
 
 
 class GetVerificationsResponseBodyTypedDict(TypedDict):
-    r"""Usage numbers over time"""
-
-    verifications: List[VerificationsTypedDict]
+    total: int
+    r"""Total number of verifications in the current time slice, regardless of outcome."""
+    time: NotRequired[int]
+    r"""Unix timestamp in milliseconds of the start of the current time slice."""
+    valid: NotRequired[int]
+    not_found: NotRequired[int]
+    forbidden: NotRequired[int]
+    usage_exceeded: NotRequired[int]
+    rate_limited: NotRequired[int]
+    unauthorized: NotRequired[int]
+    disabled: NotRequired[int]
+    insufficient_permissions: NotRequired[int]
+    expired: NotRequired[int]
+    tag: NotRequired[str]
+    r"""Only available when grouping by tag."""
+    tags: NotRequired[List[str]]
+    r"""Filter by one or multiple tags. If multiple tags are provided"""
+    key_id: NotRequired[str]
+    r"""Only available when specifying groupBy=key in the query.
+    In this case there would be one datapoint per time and groupBy target.
+    """
+    identity: NotRequired[GetVerificationsIdentityTypedDict]
+    r"""Only available when specifying groupBy=identity in the query.
+    In this case there would be one datapoint per time and groupBy target.
+    """
 
 
 class GetVerificationsResponseBody(BaseModel):
-    r"""Usage numbers over time"""
+    total: int
+    r"""Total number of verifications in the current time slice, regardless of outcome."""
 
-    verifications: List[Verifications]
+    time: Optional[int] = None
+    r"""Unix timestamp in milliseconds of the start of the current time slice."""
+
+    valid: Optional[int] = None
+
+    not_found: Annotated[Optional[int], pydantic.Field(alias="notFound")] = None
+
+    forbidden: Optional[int] = None
+
+    usage_exceeded: Annotated[Optional[int], pydantic.Field(alias="usageExceeded")] = (
+        None
+    )
+
+    rate_limited: Annotated[Optional[int], pydantic.Field(alias="rateLimited")] = None
+
+    unauthorized: Optional[int] = None
+
+    disabled: Optional[int] = None
+
+    insufficient_permissions: Annotated[
+        Optional[int], pydantic.Field(alias="insufficientPermissions")
+    ] = None
+
+    expired: Optional[int] = None
+
+    tag: Optional[str] = None
+    r"""Only available when grouping by tag."""
+
+    tags: Optional[List[str]] = None
+    r"""Filter by one or multiple tags. If multiple tags are provided"""
+
+    key_id: Annotated[Optional[str], pydantic.Field(alias="keyId")] = None
+    r"""Only available when specifying groupBy=key in the query.
+    In this case there would be one datapoint per time and groupBy target.
+    """
+
+    identity: Optional[GetVerificationsIdentity] = None
+    r"""Only available when specifying groupBy=identity in the query.
+    In this case there would be one datapoint per time and groupBy target.
+    """
 
 
 class GetVerificationsResponseTypedDict(TypedDict):
     http_meta: HTTPMetadataTypedDict
-    object: NotRequired[GetVerificationsResponseBodyTypedDict]
-    r"""Usage numbers over time"""
+    response_bodies: NotRequired[List[GetVerificationsResponseBodyTypedDict]]
+    r"""Retrieve all required data to build end-user facing dashboards and drive your usage-based billing."""
 
 
 class GetVerificationsResponse(BaseModel):
     http_meta: Annotated[Optional[HTTPMetadata], pydantic.Field(exclude=True)] = None
 
-    object: Optional[GetVerificationsResponseBody] = None
-    r"""Usage numbers over time"""
+    response_bodies: Optional[List[GetVerificationsResponseBody]] = None
+    r"""Retrieve all required data to build end-user facing dashboards and drive your usage-based billing."""

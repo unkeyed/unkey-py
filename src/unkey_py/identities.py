@@ -2,7 +2,7 @@
 
 from .basesdk import BaseSDK
 from jsonpath import JSONPath
-from typing import Any, Dict, Optional, Union, cast
+from typing import Any, Dict, List, Mapping, Optional, Union, cast
 from unkey_py import models, utils
 from unkey_py._hooks import HookContext
 from unkey_py.types import BaseModel, OptionalNullable, UNSET
@@ -19,12 +19,14 @@ class Identities(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.CreateIdentityResponse:
         r"""
         :param request: The request object to send.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
         """
         base_url = None
         url_variables = None
@@ -33,12 +35,14 @@ class Identities(BaseSDK):
 
         if server_url is not None:
             base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
 
         if not isinstance(request, BaseModel):
             request = utils.unmarshal(request, models.CreateIdentityRequestBody)
         request = cast(models.CreateIdentityRequestBody, request)
 
-        req = self.build_request(
+        req = self._build_request(
             method="POST",
             path="/v1/identities.createIdentity",
             base_url=base_url,
@@ -49,6 +53,7 @@ class Identities(BaseSDK):
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
+            http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
                 request, False, False, "json", models.CreateIdentityRequestBody
@@ -70,6 +75,7 @@ class Identities(BaseSDK):
 
         http_res = self.do_request(
             hook_ctx=HookContext(
+                base_url=base_url or "",
                 operation_id="createIdentity",
                 oauth2_scopes=[],
                 security_source=get_security_from_env(
@@ -83,6 +89,7 @@ class Identities(BaseSDK):
                 "403",
                 "404",
                 "409",
+                "412",
                 "429",
                 "4XX",
                 "500",
@@ -91,7 +98,7 @@ class Identities(BaseSDK):
             retry_config=retry_config,
         )
 
-        data: Any = None
+        response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return models.CreateIdentityResponse(
                 object=utils.unmarshal_json(
@@ -100,29 +107,45 @@ class Identities(BaseSDK):
                 http_meta=models.HTTPMetadata(request=req, response=http_res),
             )
         if utils.match_response(http_res, "400", "application/json"):
-            data = utils.unmarshal_json(http_res.text, models.ErrBadRequestData)
-            raise models.ErrBadRequest(data=data)
+            response_data = utils.unmarshal_json(
+                http_res.text, models.ErrBadRequestData
+            )
+            raise models.ErrBadRequest(data=response_data)
         if utils.match_response(http_res, "401", "application/json"):
-            data = utils.unmarshal_json(http_res.text, models.ErrUnauthorizedData)
-            raise models.ErrUnauthorized(data=data)
+            response_data = utils.unmarshal_json(
+                http_res.text, models.ErrUnauthorizedData
+            )
+            raise models.ErrUnauthorized(data=response_data)
         if utils.match_response(http_res, "403", "application/json"):
-            data = utils.unmarshal_json(http_res.text, models.ErrForbiddenData)
-            raise models.ErrForbidden(data=data)
+            response_data = utils.unmarshal_json(http_res.text, models.ErrForbiddenData)
+            raise models.ErrForbidden(data=response_data)
         if utils.match_response(http_res, "404", "application/json"):
-            data = utils.unmarshal_json(http_res.text, models.ErrNotFoundData)
-            raise models.ErrNotFound(data=data)
+            response_data = utils.unmarshal_json(http_res.text, models.ErrNotFoundData)
+            raise models.ErrNotFound(data=response_data)
         if utils.match_response(http_res, "409", "application/json"):
-            data = utils.unmarshal_json(http_res.text, models.ErrConflictData)
-            raise models.ErrConflict(data=data)
+            response_data = utils.unmarshal_json(http_res.text, models.ErrConflictData)
+            raise models.ErrConflict(data=response_data)
+        if utils.match_response(http_res, "412", "application/json"):
+            response_data = utils.unmarshal_json(
+                http_res.text, models.ErrPreconditionFailedData
+            )
+            raise models.ErrPreconditionFailed(data=response_data)
         if utils.match_response(http_res, "429", "application/json"):
-            data = utils.unmarshal_json(http_res.text, models.ErrTooManyRequestsData)
-            raise models.ErrTooManyRequests(data=data)
+            response_data = utils.unmarshal_json(
+                http_res.text, models.ErrTooManyRequestsData
+            )
+            raise models.ErrTooManyRequests(data=response_data)
         if utils.match_response(http_res, "500", "application/json"):
-            data = utils.unmarshal_json(
+            response_data = utils.unmarshal_json(
                 http_res.text, models.ErrInternalServerErrorData
             )
-            raise models.ErrInternalServerError(data=data)
-        if utils.match_response(http_res, ["4XX", "5XX"], "*"):
+            raise models.ErrInternalServerError(data=response_data)
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
+            raise models.SDKError(
+                "API error occurred", http_res.status_code, http_res_text, http_res
+            )
+        if utils.match_response(http_res, "5XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise models.SDKError(
                 "API error occurred", http_res.status_code, http_res_text, http_res
@@ -146,12 +169,14 @@ class Identities(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.CreateIdentityResponse:
         r"""
         :param request: The request object to send.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
         """
         base_url = None
         url_variables = None
@@ -160,12 +185,14 @@ class Identities(BaseSDK):
 
         if server_url is not None:
             base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
 
         if not isinstance(request, BaseModel):
             request = utils.unmarshal(request, models.CreateIdentityRequestBody)
         request = cast(models.CreateIdentityRequestBody, request)
 
-        req = self.build_request_async(
+        req = self._build_request_async(
             method="POST",
             path="/v1/identities.createIdentity",
             base_url=base_url,
@@ -176,6 +203,7 @@ class Identities(BaseSDK):
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
+            http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
                 request, False, False, "json", models.CreateIdentityRequestBody
@@ -197,6 +225,7 @@ class Identities(BaseSDK):
 
         http_res = await self.do_request_async(
             hook_ctx=HookContext(
+                base_url=base_url or "",
                 operation_id="createIdentity",
                 oauth2_scopes=[],
                 security_source=get_security_from_env(
@@ -210,6 +239,7 @@ class Identities(BaseSDK):
                 "403",
                 "404",
                 "409",
+                "412",
                 "429",
                 "4XX",
                 "500",
@@ -218,7 +248,7 @@ class Identities(BaseSDK):
             retry_config=retry_config,
         )
 
-        data: Any = None
+        response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return models.CreateIdentityResponse(
                 object=utils.unmarshal_json(
@@ -227,29 +257,45 @@ class Identities(BaseSDK):
                 http_meta=models.HTTPMetadata(request=req, response=http_res),
             )
         if utils.match_response(http_res, "400", "application/json"):
-            data = utils.unmarshal_json(http_res.text, models.ErrBadRequestData)
-            raise models.ErrBadRequest(data=data)
+            response_data = utils.unmarshal_json(
+                http_res.text, models.ErrBadRequestData
+            )
+            raise models.ErrBadRequest(data=response_data)
         if utils.match_response(http_res, "401", "application/json"):
-            data = utils.unmarshal_json(http_res.text, models.ErrUnauthorizedData)
-            raise models.ErrUnauthorized(data=data)
+            response_data = utils.unmarshal_json(
+                http_res.text, models.ErrUnauthorizedData
+            )
+            raise models.ErrUnauthorized(data=response_data)
         if utils.match_response(http_res, "403", "application/json"):
-            data = utils.unmarshal_json(http_res.text, models.ErrForbiddenData)
-            raise models.ErrForbidden(data=data)
+            response_data = utils.unmarshal_json(http_res.text, models.ErrForbiddenData)
+            raise models.ErrForbidden(data=response_data)
         if utils.match_response(http_res, "404", "application/json"):
-            data = utils.unmarshal_json(http_res.text, models.ErrNotFoundData)
-            raise models.ErrNotFound(data=data)
+            response_data = utils.unmarshal_json(http_res.text, models.ErrNotFoundData)
+            raise models.ErrNotFound(data=response_data)
         if utils.match_response(http_res, "409", "application/json"):
-            data = utils.unmarshal_json(http_res.text, models.ErrConflictData)
-            raise models.ErrConflict(data=data)
+            response_data = utils.unmarshal_json(http_res.text, models.ErrConflictData)
+            raise models.ErrConflict(data=response_data)
+        if utils.match_response(http_res, "412", "application/json"):
+            response_data = utils.unmarshal_json(
+                http_res.text, models.ErrPreconditionFailedData
+            )
+            raise models.ErrPreconditionFailed(data=response_data)
         if utils.match_response(http_res, "429", "application/json"):
-            data = utils.unmarshal_json(http_res.text, models.ErrTooManyRequestsData)
-            raise models.ErrTooManyRequests(data=data)
+            response_data = utils.unmarshal_json(
+                http_res.text, models.ErrTooManyRequestsData
+            )
+            raise models.ErrTooManyRequests(data=response_data)
         if utils.match_response(http_res, "500", "application/json"):
-            data = utils.unmarshal_json(
+            response_data = utils.unmarshal_json(
                 http_res.text, models.ErrInternalServerErrorData
             )
-            raise models.ErrInternalServerError(data=data)
-        if utils.match_response(http_res, ["4XX", "5XX"], "*"):
+            raise models.ErrInternalServerError(data=response_data)
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise models.SDKError(
+                "API error occurred", http_res.status_code, http_res_text, http_res
+            )
+        if utils.match_response(http_res, "5XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise models.SDKError(
                 "API error occurred", http_res.status_code, http_res_text, http_res
@@ -272,6 +318,7 @@ class Identities(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.GetIdentityResponse:
         r"""
         :param identity_id:
@@ -279,6 +326,7 @@ class Identities(BaseSDK):
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
         """
         base_url = None
         url_variables = None
@@ -287,13 +335,15 @@ class Identities(BaseSDK):
 
         if server_url is not None:
             base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
 
         request = models.GetIdentityRequest(
             identity_id=identity_id,
             external_id=external_id,
         )
 
-        req = self.build_request(
+        req = self._build_request(
             method="GET",
             path="/v1/identities.getIdentity",
             base_url=base_url,
@@ -304,6 +354,7 @@ class Identities(BaseSDK):
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
+            http_headers=http_headers,
             security=self.sdk_configuration.security,
             timeout_ms=timeout_ms,
         )
@@ -322,6 +373,7 @@ class Identities(BaseSDK):
 
         http_res = self.do_request(
             hook_ctx=HookContext(
+                base_url=base_url or "",
                 operation_id="getIdentity",
                 oauth2_scopes=[],
                 security_source=get_security_from_env(
@@ -335,6 +387,7 @@ class Identities(BaseSDK):
                 "403",
                 "404",
                 "409",
+                "412",
                 "429",
                 "4XX",
                 "500",
@@ -343,7 +396,7 @@ class Identities(BaseSDK):
             retry_config=retry_config,
         )
 
-        data: Any = None
+        response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return models.GetIdentityResponse(
                 object=utils.unmarshal_json(
@@ -352,29 +405,45 @@ class Identities(BaseSDK):
                 http_meta=models.HTTPMetadata(request=req, response=http_res),
             )
         if utils.match_response(http_res, "400", "application/json"):
-            data = utils.unmarshal_json(http_res.text, models.ErrBadRequestData)
-            raise models.ErrBadRequest(data=data)
+            response_data = utils.unmarshal_json(
+                http_res.text, models.ErrBadRequestData
+            )
+            raise models.ErrBadRequest(data=response_data)
         if utils.match_response(http_res, "401", "application/json"):
-            data = utils.unmarshal_json(http_res.text, models.ErrUnauthorizedData)
-            raise models.ErrUnauthorized(data=data)
+            response_data = utils.unmarshal_json(
+                http_res.text, models.ErrUnauthorizedData
+            )
+            raise models.ErrUnauthorized(data=response_data)
         if utils.match_response(http_res, "403", "application/json"):
-            data = utils.unmarshal_json(http_res.text, models.ErrForbiddenData)
-            raise models.ErrForbidden(data=data)
+            response_data = utils.unmarshal_json(http_res.text, models.ErrForbiddenData)
+            raise models.ErrForbidden(data=response_data)
         if utils.match_response(http_res, "404", "application/json"):
-            data = utils.unmarshal_json(http_res.text, models.ErrNotFoundData)
-            raise models.ErrNotFound(data=data)
+            response_data = utils.unmarshal_json(http_res.text, models.ErrNotFoundData)
+            raise models.ErrNotFound(data=response_data)
         if utils.match_response(http_res, "409", "application/json"):
-            data = utils.unmarshal_json(http_res.text, models.ErrConflictData)
-            raise models.ErrConflict(data=data)
+            response_data = utils.unmarshal_json(http_res.text, models.ErrConflictData)
+            raise models.ErrConflict(data=response_data)
+        if utils.match_response(http_res, "412", "application/json"):
+            response_data = utils.unmarshal_json(
+                http_res.text, models.ErrPreconditionFailedData
+            )
+            raise models.ErrPreconditionFailed(data=response_data)
         if utils.match_response(http_res, "429", "application/json"):
-            data = utils.unmarshal_json(http_res.text, models.ErrTooManyRequestsData)
-            raise models.ErrTooManyRequests(data=data)
+            response_data = utils.unmarshal_json(
+                http_res.text, models.ErrTooManyRequestsData
+            )
+            raise models.ErrTooManyRequests(data=response_data)
         if utils.match_response(http_res, "500", "application/json"):
-            data = utils.unmarshal_json(
+            response_data = utils.unmarshal_json(
                 http_res.text, models.ErrInternalServerErrorData
             )
-            raise models.ErrInternalServerError(data=data)
-        if utils.match_response(http_res, ["4XX", "5XX"], "*"):
+            raise models.ErrInternalServerError(data=response_data)
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
+            raise models.SDKError(
+                "API error occurred", http_res.status_code, http_res_text, http_res
+            )
+        if utils.match_response(http_res, "5XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise models.SDKError(
                 "API error occurred", http_res.status_code, http_res_text, http_res
@@ -397,6 +466,7 @@ class Identities(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.GetIdentityResponse:
         r"""
         :param identity_id:
@@ -404,6 +474,7 @@ class Identities(BaseSDK):
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
         """
         base_url = None
         url_variables = None
@@ -412,13 +483,15 @@ class Identities(BaseSDK):
 
         if server_url is not None:
             base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
 
         request = models.GetIdentityRequest(
             identity_id=identity_id,
             external_id=external_id,
         )
 
-        req = self.build_request_async(
+        req = self._build_request_async(
             method="GET",
             path="/v1/identities.getIdentity",
             base_url=base_url,
@@ -429,6 +502,7 @@ class Identities(BaseSDK):
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
+            http_headers=http_headers,
             security=self.sdk_configuration.security,
             timeout_ms=timeout_ms,
         )
@@ -447,6 +521,7 @@ class Identities(BaseSDK):
 
         http_res = await self.do_request_async(
             hook_ctx=HookContext(
+                base_url=base_url or "",
                 operation_id="getIdentity",
                 oauth2_scopes=[],
                 security_source=get_security_from_env(
@@ -460,6 +535,7 @@ class Identities(BaseSDK):
                 "403",
                 "404",
                 "409",
+                "412",
                 "429",
                 "4XX",
                 "500",
@@ -468,7 +544,7 @@ class Identities(BaseSDK):
             retry_config=retry_config,
         )
 
-        data: Any = None
+        response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return models.GetIdentityResponse(
                 object=utils.unmarshal_json(
@@ -477,29 +553,45 @@ class Identities(BaseSDK):
                 http_meta=models.HTTPMetadata(request=req, response=http_res),
             )
         if utils.match_response(http_res, "400", "application/json"):
-            data = utils.unmarshal_json(http_res.text, models.ErrBadRequestData)
-            raise models.ErrBadRequest(data=data)
+            response_data = utils.unmarshal_json(
+                http_res.text, models.ErrBadRequestData
+            )
+            raise models.ErrBadRequest(data=response_data)
         if utils.match_response(http_res, "401", "application/json"):
-            data = utils.unmarshal_json(http_res.text, models.ErrUnauthorizedData)
-            raise models.ErrUnauthorized(data=data)
+            response_data = utils.unmarshal_json(
+                http_res.text, models.ErrUnauthorizedData
+            )
+            raise models.ErrUnauthorized(data=response_data)
         if utils.match_response(http_res, "403", "application/json"):
-            data = utils.unmarshal_json(http_res.text, models.ErrForbiddenData)
-            raise models.ErrForbidden(data=data)
+            response_data = utils.unmarshal_json(http_res.text, models.ErrForbiddenData)
+            raise models.ErrForbidden(data=response_data)
         if utils.match_response(http_res, "404", "application/json"):
-            data = utils.unmarshal_json(http_res.text, models.ErrNotFoundData)
-            raise models.ErrNotFound(data=data)
+            response_data = utils.unmarshal_json(http_res.text, models.ErrNotFoundData)
+            raise models.ErrNotFound(data=response_data)
         if utils.match_response(http_res, "409", "application/json"):
-            data = utils.unmarshal_json(http_res.text, models.ErrConflictData)
-            raise models.ErrConflict(data=data)
+            response_data = utils.unmarshal_json(http_res.text, models.ErrConflictData)
+            raise models.ErrConflict(data=response_data)
+        if utils.match_response(http_res, "412", "application/json"):
+            response_data = utils.unmarshal_json(
+                http_res.text, models.ErrPreconditionFailedData
+            )
+            raise models.ErrPreconditionFailed(data=response_data)
         if utils.match_response(http_res, "429", "application/json"):
-            data = utils.unmarshal_json(http_res.text, models.ErrTooManyRequestsData)
-            raise models.ErrTooManyRequests(data=data)
+            response_data = utils.unmarshal_json(
+                http_res.text, models.ErrTooManyRequestsData
+            )
+            raise models.ErrTooManyRequests(data=response_data)
         if utils.match_response(http_res, "500", "application/json"):
-            data = utils.unmarshal_json(
+            response_data = utils.unmarshal_json(
                 http_res.text, models.ErrInternalServerErrorData
             )
-            raise models.ErrInternalServerError(data=data)
-        if utils.match_response(http_res, ["4XX", "5XX"], "*"):
+            raise models.ErrInternalServerError(data=response_data)
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise models.SDKError(
+                "API error occurred", http_res.status_code, http_res_text, http_res
+            )
+        if utils.match_response(http_res, "5XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise models.SDKError(
                 "API error occurred", http_res.status_code, http_res_text, http_res
@@ -523,6 +615,7 @@ class Identities(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
     ) -> Optional[models.ListIdentitiesResponse]:
         r"""
         :param environment:
@@ -531,6 +624,7 @@ class Identities(BaseSDK):
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
         """
         base_url = None
         url_variables = None
@@ -539,6 +633,8 @@ class Identities(BaseSDK):
 
         if server_url is not None:
             base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
 
         request = models.ListIdentitiesRequest(
             environment=environment,
@@ -546,7 +642,7 @@ class Identities(BaseSDK):
             cursor=cursor,
         )
 
-        req = self.build_request(
+        req = self._build_request(
             method="GET",
             path="/v1/identities.listIdentities",
             base_url=base_url,
@@ -557,6 +653,7 @@ class Identities(BaseSDK):
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
+            http_headers=http_headers,
             security=self.sdk_configuration.security,
             timeout_ms=timeout_ms,
         )
@@ -575,6 +672,7 @@ class Identities(BaseSDK):
 
         http_res = self.do_request(
             hook_ctx=HookContext(
+                base_url=base_url or "",
                 operation_id="listIdentities",
                 oauth2_scopes=[],
                 security_source=get_security_from_env(
@@ -588,6 +686,7 @@ class Identities(BaseSDK):
                 "403",
                 "404",
                 "409",
+                "412",
                 "429",
                 "4XX",
                 "500",
@@ -597,12 +696,15 @@ class Identities(BaseSDK):
         )
 
         def next_func() -> Optional[models.ListIdentitiesResponse]:
-            body = utils.unmarshal_json(http_res.text, Dict[Any, Any])
+            body = utils.unmarshal_json(http_res.text, Union[Dict[Any, Any], List[Any]])
             next_cursor = JSONPath("$.cursor").parse(body)
 
             if len(next_cursor) == 0:
                 return None
+
             next_cursor = next_cursor[0]
+            if next_cursor is None:
+                return None
 
             return self.list(
                 environment=environment,
@@ -611,7 +713,7 @@ class Identities(BaseSDK):
                 retries=retries,
             )
 
-        data: Any = None
+        response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return models.ListIdentitiesResponse(
                 object=utils.unmarshal_json(
@@ -621,29 +723,45 @@ class Identities(BaseSDK):
                 next=next_func,
             )
         if utils.match_response(http_res, "400", "application/json"):
-            data = utils.unmarshal_json(http_res.text, models.ErrBadRequestData)
-            raise models.ErrBadRequest(data=data)
+            response_data = utils.unmarshal_json(
+                http_res.text, models.ErrBadRequestData
+            )
+            raise models.ErrBadRequest(data=response_data)
         if utils.match_response(http_res, "401", "application/json"):
-            data = utils.unmarshal_json(http_res.text, models.ErrUnauthorizedData)
-            raise models.ErrUnauthorized(data=data)
+            response_data = utils.unmarshal_json(
+                http_res.text, models.ErrUnauthorizedData
+            )
+            raise models.ErrUnauthorized(data=response_data)
         if utils.match_response(http_res, "403", "application/json"):
-            data = utils.unmarshal_json(http_res.text, models.ErrForbiddenData)
-            raise models.ErrForbidden(data=data)
+            response_data = utils.unmarshal_json(http_res.text, models.ErrForbiddenData)
+            raise models.ErrForbidden(data=response_data)
         if utils.match_response(http_res, "404", "application/json"):
-            data = utils.unmarshal_json(http_res.text, models.ErrNotFoundData)
-            raise models.ErrNotFound(data=data)
+            response_data = utils.unmarshal_json(http_res.text, models.ErrNotFoundData)
+            raise models.ErrNotFound(data=response_data)
         if utils.match_response(http_res, "409", "application/json"):
-            data = utils.unmarshal_json(http_res.text, models.ErrConflictData)
-            raise models.ErrConflict(data=data)
+            response_data = utils.unmarshal_json(http_res.text, models.ErrConflictData)
+            raise models.ErrConflict(data=response_data)
+        if utils.match_response(http_res, "412", "application/json"):
+            response_data = utils.unmarshal_json(
+                http_res.text, models.ErrPreconditionFailedData
+            )
+            raise models.ErrPreconditionFailed(data=response_data)
         if utils.match_response(http_res, "429", "application/json"):
-            data = utils.unmarshal_json(http_res.text, models.ErrTooManyRequestsData)
-            raise models.ErrTooManyRequests(data=data)
+            response_data = utils.unmarshal_json(
+                http_res.text, models.ErrTooManyRequestsData
+            )
+            raise models.ErrTooManyRequests(data=response_data)
         if utils.match_response(http_res, "500", "application/json"):
-            data = utils.unmarshal_json(
+            response_data = utils.unmarshal_json(
                 http_res.text, models.ErrInternalServerErrorData
             )
-            raise models.ErrInternalServerError(data=data)
-        if utils.match_response(http_res, ["4XX", "5XX"], "*"):
+            raise models.ErrInternalServerError(data=response_data)
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
+            raise models.SDKError(
+                "API error occurred", http_res.status_code, http_res_text, http_res
+            )
+        if utils.match_response(http_res, "5XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise models.SDKError(
                 "API error occurred", http_res.status_code, http_res_text, http_res
@@ -667,6 +785,7 @@ class Identities(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
     ) -> Optional[models.ListIdentitiesResponse]:
         r"""
         :param environment:
@@ -675,6 +794,7 @@ class Identities(BaseSDK):
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
         """
         base_url = None
         url_variables = None
@@ -683,6 +803,8 @@ class Identities(BaseSDK):
 
         if server_url is not None:
             base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
 
         request = models.ListIdentitiesRequest(
             environment=environment,
@@ -690,7 +812,7 @@ class Identities(BaseSDK):
             cursor=cursor,
         )
 
-        req = self.build_request_async(
+        req = self._build_request_async(
             method="GET",
             path="/v1/identities.listIdentities",
             base_url=base_url,
@@ -701,6 +823,7 @@ class Identities(BaseSDK):
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
+            http_headers=http_headers,
             security=self.sdk_configuration.security,
             timeout_ms=timeout_ms,
         )
@@ -719,6 +842,7 @@ class Identities(BaseSDK):
 
         http_res = await self.do_request_async(
             hook_ctx=HookContext(
+                base_url=base_url or "",
                 operation_id="listIdentities",
                 oauth2_scopes=[],
                 security_source=get_security_from_env(
@@ -732,6 +856,7 @@ class Identities(BaseSDK):
                 "403",
                 "404",
                 "409",
+                "412",
                 "429",
                 "4XX",
                 "500",
@@ -741,12 +866,15 @@ class Identities(BaseSDK):
         )
 
         def next_func() -> Optional[models.ListIdentitiesResponse]:
-            body = utils.unmarshal_json(http_res.text, Dict[Any, Any])
+            body = utils.unmarshal_json(http_res.text, Union[Dict[Any, Any], List[Any]])
             next_cursor = JSONPath("$.cursor").parse(body)
 
             if len(next_cursor) == 0:
                 return None
+
             next_cursor = next_cursor[0]
+            if next_cursor is None:
+                return None
 
             return self.list(
                 environment=environment,
@@ -755,7 +883,7 @@ class Identities(BaseSDK):
                 retries=retries,
             )
 
-        data: Any = None
+        response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return models.ListIdentitiesResponse(
                 object=utils.unmarshal_json(
@@ -765,29 +893,45 @@ class Identities(BaseSDK):
                 next=next_func,
             )
         if utils.match_response(http_res, "400", "application/json"):
-            data = utils.unmarshal_json(http_res.text, models.ErrBadRequestData)
-            raise models.ErrBadRequest(data=data)
+            response_data = utils.unmarshal_json(
+                http_res.text, models.ErrBadRequestData
+            )
+            raise models.ErrBadRequest(data=response_data)
         if utils.match_response(http_res, "401", "application/json"):
-            data = utils.unmarshal_json(http_res.text, models.ErrUnauthorizedData)
-            raise models.ErrUnauthorized(data=data)
+            response_data = utils.unmarshal_json(
+                http_res.text, models.ErrUnauthorizedData
+            )
+            raise models.ErrUnauthorized(data=response_data)
         if utils.match_response(http_res, "403", "application/json"):
-            data = utils.unmarshal_json(http_res.text, models.ErrForbiddenData)
-            raise models.ErrForbidden(data=data)
+            response_data = utils.unmarshal_json(http_res.text, models.ErrForbiddenData)
+            raise models.ErrForbidden(data=response_data)
         if utils.match_response(http_res, "404", "application/json"):
-            data = utils.unmarshal_json(http_res.text, models.ErrNotFoundData)
-            raise models.ErrNotFound(data=data)
+            response_data = utils.unmarshal_json(http_res.text, models.ErrNotFoundData)
+            raise models.ErrNotFound(data=response_data)
         if utils.match_response(http_res, "409", "application/json"):
-            data = utils.unmarshal_json(http_res.text, models.ErrConflictData)
-            raise models.ErrConflict(data=data)
+            response_data = utils.unmarshal_json(http_res.text, models.ErrConflictData)
+            raise models.ErrConflict(data=response_data)
+        if utils.match_response(http_res, "412", "application/json"):
+            response_data = utils.unmarshal_json(
+                http_res.text, models.ErrPreconditionFailedData
+            )
+            raise models.ErrPreconditionFailed(data=response_data)
         if utils.match_response(http_res, "429", "application/json"):
-            data = utils.unmarshal_json(http_res.text, models.ErrTooManyRequestsData)
-            raise models.ErrTooManyRequests(data=data)
+            response_data = utils.unmarshal_json(
+                http_res.text, models.ErrTooManyRequestsData
+            )
+            raise models.ErrTooManyRequests(data=response_data)
         if utils.match_response(http_res, "500", "application/json"):
-            data = utils.unmarshal_json(
+            response_data = utils.unmarshal_json(
                 http_res.text, models.ErrInternalServerErrorData
             )
-            raise models.ErrInternalServerError(data=data)
-        if utils.match_response(http_res, ["4XX", "5XX"], "*"):
+            raise models.ErrInternalServerError(data=response_data)
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise models.SDKError(
+                "API error occurred", http_res.status_code, http_res_text, http_res
+            )
+        if utils.match_response(http_res, "5XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise models.SDKError(
                 "API error occurred", http_res.status_code, http_res_text, http_res
@@ -811,12 +955,14 @@ class Identities(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.UpdateIdentityResponse:
         r"""
         :param request: The request object to send.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
         """
         base_url = None
         url_variables = None
@@ -825,12 +971,14 @@ class Identities(BaseSDK):
 
         if server_url is not None:
             base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
 
         if not isinstance(request, BaseModel):
             request = utils.unmarshal(request, models.UpdateIdentityRequestBody)
         request = cast(models.UpdateIdentityRequestBody, request)
 
-        req = self.build_request(
+        req = self._build_request(
             method="POST",
             path="/v1/identities.updateIdentity",
             base_url=base_url,
@@ -841,6 +989,7 @@ class Identities(BaseSDK):
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
+            http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
                 request, False, True, "json", Optional[models.UpdateIdentityRequestBody]
@@ -862,6 +1011,7 @@ class Identities(BaseSDK):
 
         http_res = self.do_request(
             hook_ctx=HookContext(
+                base_url=base_url or "",
                 operation_id="updateIdentity",
                 oauth2_scopes=[],
                 security_source=get_security_from_env(
@@ -875,6 +1025,7 @@ class Identities(BaseSDK):
                 "403",
                 "404",
                 "409",
+                "412",
                 "429",
                 "4XX",
                 "500",
@@ -883,7 +1034,7 @@ class Identities(BaseSDK):
             retry_config=retry_config,
         )
 
-        data: Any = None
+        response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return models.UpdateIdentityResponse(
                 object=utils.unmarshal_json(
@@ -892,29 +1043,45 @@ class Identities(BaseSDK):
                 http_meta=models.HTTPMetadata(request=req, response=http_res),
             )
         if utils.match_response(http_res, "400", "application/json"):
-            data = utils.unmarshal_json(http_res.text, models.ErrBadRequestData)
-            raise models.ErrBadRequest(data=data)
+            response_data = utils.unmarshal_json(
+                http_res.text, models.ErrBadRequestData
+            )
+            raise models.ErrBadRequest(data=response_data)
         if utils.match_response(http_res, "401", "application/json"):
-            data = utils.unmarshal_json(http_res.text, models.ErrUnauthorizedData)
-            raise models.ErrUnauthorized(data=data)
+            response_data = utils.unmarshal_json(
+                http_res.text, models.ErrUnauthorizedData
+            )
+            raise models.ErrUnauthorized(data=response_data)
         if utils.match_response(http_res, "403", "application/json"):
-            data = utils.unmarshal_json(http_res.text, models.ErrForbiddenData)
-            raise models.ErrForbidden(data=data)
+            response_data = utils.unmarshal_json(http_res.text, models.ErrForbiddenData)
+            raise models.ErrForbidden(data=response_data)
         if utils.match_response(http_res, "404", "application/json"):
-            data = utils.unmarshal_json(http_res.text, models.ErrNotFoundData)
-            raise models.ErrNotFound(data=data)
+            response_data = utils.unmarshal_json(http_res.text, models.ErrNotFoundData)
+            raise models.ErrNotFound(data=response_data)
         if utils.match_response(http_res, "409", "application/json"):
-            data = utils.unmarshal_json(http_res.text, models.ErrConflictData)
-            raise models.ErrConflict(data=data)
+            response_data = utils.unmarshal_json(http_res.text, models.ErrConflictData)
+            raise models.ErrConflict(data=response_data)
+        if utils.match_response(http_res, "412", "application/json"):
+            response_data = utils.unmarshal_json(
+                http_res.text, models.ErrPreconditionFailedData
+            )
+            raise models.ErrPreconditionFailed(data=response_data)
         if utils.match_response(http_res, "429", "application/json"):
-            data = utils.unmarshal_json(http_res.text, models.ErrTooManyRequestsData)
-            raise models.ErrTooManyRequests(data=data)
+            response_data = utils.unmarshal_json(
+                http_res.text, models.ErrTooManyRequestsData
+            )
+            raise models.ErrTooManyRequests(data=response_data)
         if utils.match_response(http_res, "500", "application/json"):
-            data = utils.unmarshal_json(
+            response_data = utils.unmarshal_json(
                 http_res.text, models.ErrInternalServerErrorData
             )
-            raise models.ErrInternalServerError(data=data)
-        if utils.match_response(http_res, ["4XX", "5XX"], "*"):
+            raise models.ErrInternalServerError(data=response_data)
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
+            raise models.SDKError(
+                "API error occurred", http_res.status_code, http_res_text, http_res
+            )
+        if utils.match_response(http_res, "5XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise models.SDKError(
                 "API error occurred", http_res.status_code, http_res_text, http_res
@@ -938,12 +1105,14 @@ class Identities(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.UpdateIdentityResponse:
         r"""
         :param request: The request object to send.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
         """
         base_url = None
         url_variables = None
@@ -952,12 +1121,14 @@ class Identities(BaseSDK):
 
         if server_url is not None:
             base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
 
         if not isinstance(request, BaseModel):
             request = utils.unmarshal(request, models.UpdateIdentityRequestBody)
         request = cast(models.UpdateIdentityRequestBody, request)
 
-        req = self.build_request_async(
+        req = self._build_request_async(
             method="POST",
             path="/v1/identities.updateIdentity",
             base_url=base_url,
@@ -968,6 +1139,7 @@ class Identities(BaseSDK):
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
+            http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
                 request, False, True, "json", Optional[models.UpdateIdentityRequestBody]
@@ -989,6 +1161,7 @@ class Identities(BaseSDK):
 
         http_res = await self.do_request_async(
             hook_ctx=HookContext(
+                base_url=base_url or "",
                 operation_id="updateIdentity",
                 oauth2_scopes=[],
                 security_source=get_security_from_env(
@@ -1002,6 +1175,7 @@ class Identities(BaseSDK):
                 "403",
                 "404",
                 "409",
+                "412",
                 "429",
                 "4XX",
                 "500",
@@ -1010,7 +1184,7 @@ class Identities(BaseSDK):
             retry_config=retry_config,
         )
 
-        data: Any = None
+        response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return models.UpdateIdentityResponse(
                 object=utils.unmarshal_json(
@@ -1019,29 +1193,45 @@ class Identities(BaseSDK):
                 http_meta=models.HTTPMetadata(request=req, response=http_res),
             )
         if utils.match_response(http_res, "400", "application/json"):
-            data = utils.unmarshal_json(http_res.text, models.ErrBadRequestData)
-            raise models.ErrBadRequest(data=data)
+            response_data = utils.unmarshal_json(
+                http_res.text, models.ErrBadRequestData
+            )
+            raise models.ErrBadRequest(data=response_data)
         if utils.match_response(http_res, "401", "application/json"):
-            data = utils.unmarshal_json(http_res.text, models.ErrUnauthorizedData)
-            raise models.ErrUnauthorized(data=data)
+            response_data = utils.unmarshal_json(
+                http_res.text, models.ErrUnauthorizedData
+            )
+            raise models.ErrUnauthorized(data=response_data)
         if utils.match_response(http_res, "403", "application/json"):
-            data = utils.unmarshal_json(http_res.text, models.ErrForbiddenData)
-            raise models.ErrForbidden(data=data)
+            response_data = utils.unmarshal_json(http_res.text, models.ErrForbiddenData)
+            raise models.ErrForbidden(data=response_data)
         if utils.match_response(http_res, "404", "application/json"):
-            data = utils.unmarshal_json(http_res.text, models.ErrNotFoundData)
-            raise models.ErrNotFound(data=data)
+            response_data = utils.unmarshal_json(http_res.text, models.ErrNotFoundData)
+            raise models.ErrNotFound(data=response_data)
         if utils.match_response(http_res, "409", "application/json"):
-            data = utils.unmarshal_json(http_res.text, models.ErrConflictData)
-            raise models.ErrConflict(data=data)
+            response_data = utils.unmarshal_json(http_res.text, models.ErrConflictData)
+            raise models.ErrConflict(data=response_data)
+        if utils.match_response(http_res, "412", "application/json"):
+            response_data = utils.unmarshal_json(
+                http_res.text, models.ErrPreconditionFailedData
+            )
+            raise models.ErrPreconditionFailed(data=response_data)
         if utils.match_response(http_res, "429", "application/json"):
-            data = utils.unmarshal_json(http_res.text, models.ErrTooManyRequestsData)
-            raise models.ErrTooManyRequests(data=data)
+            response_data = utils.unmarshal_json(
+                http_res.text, models.ErrTooManyRequestsData
+            )
+            raise models.ErrTooManyRequests(data=response_data)
         if utils.match_response(http_res, "500", "application/json"):
-            data = utils.unmarshal_json(
+            response_data = utils.unmarshal_json(
                 http_res.text, models.ErrInternalServerErrorData
             )
-            raise models.ErrInternalServerError(data=data)
-        if utils.match_response(http_res, ["4XX", "5XX"], "*"):
+            raise models.ErrInternalServerError(data=response_data)
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise models.SDKError(
+                "API error occurred", http_res.status_code, http_res_text, http_res
+            )
+        if utils.match_response(http_res, "5XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise models.SDKError(
                 "API error occurred", http_res.status_code, http_res_text, http_res
@@ -1065,12 +1255,14 @@ class Identities(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.DeleteIdentityResponse:
         r"""
         :param request: The request object to send.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
         """
         base_url = None
         url_variables = None
@@ -1079,12 +1271,14 @@ class Identities(BaseSDK):
 
         if server_url is not None:
             base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
 
         if not isinstance(request, BaseModel):
             request = utils.unmarshal(request, models.DeleteIdentityRequestBody)
         request = cast(models.DeleteIdentityRequestBody, request)
 
-        req = self.build_request(
+        req = self._build_request(
             method="POST",
             path="/v1/identities.deleteIdentity",
             base_url=base_url,
@@ -1095,6 +1289,7 @@ class Identities(BaseSDK):
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
+            http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
                 request, False, False, "json", models.DeleteIdentityRequestBody
@@ -1116,6 +1311,7 @@ class Identities(BaseSDK):
 
         http_res = self.do_request(
             hook_ctx=HookContext(
+                base_url=base_url or "",
                 operation_id="deleteIdentity",
                 oauth2_scopes=[],
                 security_source=get_security_from_env(
@@ -1129,6 +1325,7 @@ class Identities(BaseSDK):
                 "403",
                 "404",
                 "409",
+                "412",
                 "429",
                 "4XX",
                 "500",
@@ -1137,7 +1334,7 @@ class Identities(BaseSDK):
             retry_config=retry_config,
         )
 
-        data: Any = None
+        response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return models.DeleteIdentityResponse(
                 object=utils.unmarshal_json(
@@ -1146,29 +1343,45 @@ class Identities(BaseSDK):
                 http_meta=models.HTTPMetadata(request=req, response=http_res),
             )
         if utils.match_response(http_res, "400", "application/json"):
-            data = utils.unmarshal_json(http_res.text, models.ErrBadRequestData)
-            raise models.ErrBadRequest(data=data)
+            response_data = utils.unmarshal_json(
+                http_res.text, models.ErrBadRequestData
+            )
+            raise models.ErrBadRequest(data=response_data)
         if utils.match_response(http_res, "401", "application/json"):
-            data = utils.unmarshal_json(http_res.text, models.ErrUnauthorizedData)
-            raise models.ErrUnauthorized(data=data)
+            response_data = utils.unmarshal_json(
+                http_res.text, models.ErrUnauthorizedData
+            )
+            raise models.ErrUnauthorized(data=response_data)
         if utils.match_response(http_res, "403", "application/json"):
-            data = utils.unmarshal_json(http_res.text, models.ErrForbiddenData)
-            raise models.ErrForbidden(data=data)
+            response_data = utils.unmarshal_json(http_res.text, models.ErrForbiddenData)
+            raise models.ErrForbidden(data=response_data)
         if utils.match_response(http_res, "404", "application/json"):
-            data = utils.unmarshal_json(http_res.text, models.ErrNotFoundData)
-            raise models.ErrNotFound(data=data)
+            response_data = utils.unmarshal_json(http_res.text, models.ErrNotFoundData)
+            raise models.ErrNotFound(data=response_data)
         if utils.match_response(http_res, "409", "application/json"):
-            data = utils.unmarshal_json(http_res.text, models.ErrConflictData)
-            raise models.ErrConflict(data=data)
+            response_data = utils.unmarshal_json(http_res.text, models.ErrConflictData)
+            raise models.ErrConflict(data=response_data)
+        if utils.match_response(http_res, "412", "application/json"):
+            response_data = utils.unmarshal_json(
+                http_res.text, models.ErrPreconditionFailedData
+            )
+            raise models.ErrPreconditionFailed(data=response_data)
         if utils.match_response(http_res, "429", "application/json"):
-            data = utils.unmarshal_json(http_res.text, models.ErrTooManyRequestsData)
-            raise models.ErrTooManyRequests(data=data)
+            response_data = utils.unmarshal_json(
+                http_res.text, models.ErrTooManyRequestsData
+            )
+            raise models.ErrTooManyRequests(data=response_data)
         if utils.match_response(http_res, "500", "application/json"):
-            data = utils.unmarshal_json(
+            response_data = utils.unmarshal_json(
                 http_res.text, models.ErrInternalServerErrorData
             )
-            raise models.ErrInternalServerError(data=data)
-        if utils.match_response(http_res, ["4XX", "5XX"], "*"):
+            raise models.ErrInternalServerError(data=response_data)
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
+            raise models.SDKError(
+                "API error occurred", http_res.status_code, http_res_text, http_res
+            )
+        if utils.match_response(http_res, "5XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise models.SDKError(
                 "API error occurred", http_res.status_code, http_res_text, http_res
@@ -1192,12 +1405,14 @@ class Identities(BaseSDK):
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.DeleteIdentityResponse:
         r"""
         :param request: The request object to send.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
         """
         base_url = None
         url_variables = None
@@ -1206,12 +1421,14 @@ class Identities(BaseSDK):
 
         if server_url is not None:
             base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
 
         if not isinstance(request, BaseModel):
             request = utils.unmarshal(request, models.DeleteIdentityRequestBody)
         request = cast(models.DeleteIdentityRequestBody, request)
 
-        req = self.build_request_async(
+        req = self._build_request_async(
             method="POST",
             path="/v1/identities.deleteIdentity",
             base_url=base_url,
@@ -1222,6 +1439,7 @@ class Identities(BaseSDK):
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
+            http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
                 request, False, False, "json", models.DeleteIdentityRequestBody
@@ -1243,6 +1461,7 @@ class Identities(BaseSDK):
 
         http_res = await self.do_request_async(
             hook_ctx=HookContext(
+                base_url=base_url or "",
                 operation_id="deleteIdentity",
                 oauth2_scopes=[],
                 security_source=get_security_from_env(
@@ -1256,6 +1475,7 @@ class Identities(BaseSDK):
                 "403",
                 "404",
                 "409",
+                "412",
                 "429",
                 "4XX",
                 "500",
@@ -1264,7 +1484,7 @@ class Identities(BaseSDK):
             retry_config=retry_config,
         )
 
-        data: Any = None
+        response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return models.DeleteIdentityResponse(
                 object=utils.unmarshal_json(
@@ -1273,29 +1493,45 @@ class Identities(BaseSDK):
                 http_meta=models.HTTPMetadata(request=req, response=http_res),
             )
         if utils.match_response(http_res, "400", "application/json"):
-            data = utils.unmarshal_json(http_res.text, models.ErrBadRequestData)
-            raise models.ErrBadRequest(data=data)
+            response_data = utils.unmarshal_json(
+                http_res.text, models.ErrBadRequestData
+            )
+            raise models.ErrBadRequest(data=response_data)
         if utils.match_response(http_res, "401", "application/json"):
-            data = utils.unmarshal_json(http_res.text, models.ErrUnauthorizedData)
-            raise models.ErrUnauthorized(data=data)
+            response_data = utils.unmarshal_json(
+                http_res.text, models.ErrUnauthorizedData
+            )
+            raise models.ErrUnauthorized(data=response_data)
         if utils.match_response(http_res, "403", "application/json"):
-            data = utils.unmarshal_json(http_res.text, models.ErrForbiddenData)
-            raise models.ErrForbidden(data=data)
+            response_data = utils.unmarshal_json(http_res.text, models.ErrForbiddenData)
+            raise models.ErrForbidden(data=response_data)
         if utils.match_response(http_res, "404", "application/json"):
-            data = utils.unmarshal_json(http_res.text, models.ErrNotFoundData)
-            raise models.ErrNotFound(data=data)
+            response_data = utils.unmarshal_json(http_res.text, models.ErrNotFoundData)
+            raise models.ErrNotFound(data=response_data)
         if utils.match_response(http_res, "409", "application/json"):
-            data = utils.unmarshal_json(http_res.text, models.ErrConflictData)
-            raise models.ErrConflict(data=data)
+            response_data = utils.unmarshal_json(http_res.text, models.ErrConflictData)
+            raise models.ErrConflict(data=response_data)
+        if utils.match_response(http_res, "412", "application/json"):
+            response_data = utils.unmarshal_json(
+                http_res.text, models.ErrPreconditionFailedData
+            )
+            raise models.ErrPreconditionFailed(data=response_data)
         if utils.match_response(http_res, "429", "application/json"):
-            data = utils.unmarshal_json(http_res.text, models.ErrTooManyRequestsData)
-            raise models.ErrTooManyRequests(data=data)
+            response_data = utils.unmarshal_json(
+                http_res.text, models.ErrTooManyRequestsData
+            )
+            raise models.ErrTooManyRequests(data=response_data)
         if utils.match_response(http_res, "500", "application/json"):
-            data = utils.unmarshal_json(
+            response_data = utils.unmarshal_json(
                 http_res.text, models.ErrInternalServerErrorData
             )
-            raise models.ErrInternalServerError(data=data)
-        if utils.match_response(http_res, ["4XX", "5XX"], "*"):
+            raise models.ErrInternalServerError(data=response_data)
+        if utils.match_response(http_res, "4XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise models.SDKError(
+                "API error occurred", http_res.status_code, http_res_text, http_res
+            )
+        if utils.match_response(http_res, "5XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise models.SDKError(
                 "API error occurred", http_res.status_code, http_res_text, http_res

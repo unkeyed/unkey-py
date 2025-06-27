@@ -59,14 +59,20 @@ from .createpermissionop import (
     CreatePermissionResponseBody,
     CreatePermissionResponseBodyTypedDict,
     CreatePermissionResponseTypedDict,
+    Description,
+    DescriptionTypedDict,
+    Two,
 )
 from .createroleop import (
+    CreateRoleDescription,
+    CreateRoleDescriptionTypedDict,
     CreateRoleRequestBody,
     CreateRoleRequestBodyTypedDict,
     CreateRoleResponse,
     CreateRoleResponseBody,
     CreateRoleResponseBodyTypedDict,
     CreateRoleResponseTypedDict,
+    Description2,
 )
 from .deleteapiop import (
     DeleteAPIRequestBody,
@@ -166,6 +172,13 @@ from .errnotfound import (
     ErrNotFoundError,
     ErrNotFoundErrorTypedDict,
 )
+from .errpreconditionfailed import (
+    ErrPreconditionFailed,
+    ErrPreconditionFailedCode,
+    ErrPreconditionFailedData,
+    ErrPreconditionFailedError,
+    ErrPreconditionFailedErrorTypedDict,
+)
 from .errtoomanyrequests import (
     ErrTooManyRequests,
     ErrTooManyRequestsCode,
@@ -229,15 +242,24 @@ from .getroleop import (
     GetRoleResponseTypedDict,
 )
 from .getverificationsop import (
+    GetVerificationsIdentity,
+    GetVerificationsIdentityTypedDict,
     GetVerificationsRequest,
     GetVerificationsRequestTypedDict,
     GetVerificationsResponse,
     GetVerificationsResponseBody,
     GetVerificationsResponseBodyTypedDict,
     GetVerificationsResponseTypedDict,
-    Granularity,
-    Verifications,
-    VerificationsTypedDict,
+    GroupBy,
+    GroupByTypedDict,
+    KeyID,
+    KeyIDTypedDict,
+    One,
+    Order,
+    OrderBy,
+    QueryParam2,
+    Tag,
+    TagTypedDict,
 )
 from .httpmetadata import HTTPMetadata, HTTPMetadataTypedDict
 from .key import (
@@ -251,6 +273,17 @@ from .key import (
     Refill,
     RefillTypedDict,
     Type,
+)
+from .keys_getverificationsop import (
+    Granularity,
+    KeysGetVerificationsRequest,
+    KeysGetVerificationsRequestTypedDict,
+    KeysGetVerificationsResponse,
+    KeysGetVerificationsResponseBody,
+    KeysGetVerificationsResponseBodyTypedDict,
+    KeysGetVerificationsResponseTypedDict,
+    Verifications,
+    VerificationsTypedDict,
 )
 from .limitop import (
     LimitRequestBody,
@@ -312,14 +345,6 @@ from .permissionquery import (
     PermissionQuery,
     PermissionQueryTypedDict,
 )
-from .ratelimit_setoverrideop import (
-    RatelimitSetOverrideRequestBody,
-    RatelimitSetOverrideRequestBodyTypedDict,
-    RatelimitSetOverrideResponse,
-    RatelimitSetOverrideResponseBody,
-    RatelimitSetOverrideResponseBodyTypedDict,
-    RatelimitSetOverrideResponseTypedDict,
-)
 from .removepermissionsop import (
     RemovePermissionsPermissions,
     RemovePermissionsPermissionsTypedDict,
@@ -342,6 +367,14 @@ from .removerolesop import (
 )
 from .sdkerror import SDKError
 from .security import Security, SecurityTypedDict
+from .setoverrideop import (
+    SetOverrideRequestBody,
+    SetOverrideRequestBodyTypedDict,
+    SetOverrideResponse,
+    SetOverrideResponseBody,
+    SetOverrideResponseBodyTypedDict,
+    SetOverrideResponseTypedDict,
+)
 from .setpermissionsop import (
     SetPermissionsPermissions,
     SetPermissionsPermissionsTypedDict,
@@ -450,6 +483,8 @@ from .v1keysverifykeyrequest import (
     AuthorizationTypedDict,
     RatelimitsModel,
     RatelimitsModelTypedDict,
+    Remaining,
+    RemainingTypedDict,
     V1KeysVerifyKeyRequest,
     V1KeysVerifyKeyRequestRatelimit,
     V1KeysVerifyKeyRequestRatelimitTypedDict,
@@ -475,6 +510,10 @@ from .whoamiop import (
     WhoamiResponseBodyTypedDict,
     WhoamiResponseTypedDict,
 )
+
+# Pydantic models with forward references
+Or.model_rebuild()
+And.model_rebuild()
 
 __all__ = [
     "AddPermissionsPermissions",
@@ -528,6 +567,8 @@ __all__ = [
     "CreatePermissionResponseBody",
     "CreatePermissionResponseBodyTypedDict",
     "CreatePermissionResponseTypedDict",
+    "CreateRoleDescription",
+    "CreateRoleDescriptionTypedDict",
     "CreateRoleRequestBody",
     "CreateRoleRequestBodyTypedDict",
     "CreateRoleResponse",
@@ -576,6 +617,9 @@ __all__ = [
     "DeleteRoleResponseBody",
     "DeleteRoleResponseBodyTypedDict",
     "DeleteRoleResponseTypedDict",
+    "Description",
+    "Description2",
+    "DescriptionTypedDict",
     "ErrBadRequest",
     "ErrBadRequestCode",
     "ErrBadRequestData",
@@ -604,6 +648,11 @@ __all__ = [
     "ErrNotFoundData",
     "ErrNotFoundError",
     "ErrNotFoundErrorTypedDict",
+    "ErrPreconditionFailed",
+    "ErrPreconditionFailedCode",
+    "ErrPreconditionFailedData",
+    "ErrPreconditionFailedError",
+    "ErrPreconditionFailedErrorTypedDict",
     "ErrTooManyRequests",
     "ErrTooManyRequestsCode",
     "ErrTooManyRequestsData",
@@ -652,6 +701,8 @@ __all__ = [
     "GetRoleResponseBody",
     "GetRoleResponseBodyTypedDict",
     "GetRoleResponseTypedDict",
+    "GetVerificationsIdentity",
+    "GetVerificationsIdentityTypedDict",
     "GetVerificationsRequest",
     "GetVerificationsRequestTypedDict",
     "GetVerificationsResponse",
@@ -659,6 +710,8 @@ __all__ = [
     "GetVerificationsResponseBodyTypedDict",
     "GetVerificationsResponseTypedDict",
     "Granularity",
+    "GroupBy",
+    "GroupByTypedDict",
     "HTTPMetadata",
     "HTTPMetadataTypedDict",
     "Hash",
@@ -667,7 +720,15 @@ __all__ = [
     "IdentityTypedDict",
     "Interval",
     "Key",
+    "KeyID",
+    "KeyIDTypedDict",
     "KeyTypedDict",
+    "KeysGetVerificationsRequest",
+    "KeysGetVerificationsRequestTypedDict",
+    "KeysGetVerificationsResponse",
+    "KeysGetVerificationsResponseBody",
+    "KeysGetVerificationsResponseBodyTypedDict",
+    "KeysGetVerificationsResponseTypedDict",
     "LimitRequestBody",
     "LimitRequestBodyTypedDict",
     "LimitResponse",
@@ -704,25 +765,25 @@ __all__ = [
     "ListRolesResponseBody",
     "ListRolesResponseBodyTypedDict",
     "ListRolesResponseTypedDict",
+    "One",
     "Op",
     "Or",
     "OrTypedDict",
+    "Order",
+    "OrderBy",
     "Overrides",
     "OverridesTypedDict",
     "PermissionQuery",
     "PermissionQueryTypedDict",
+    "QueryParam2",
     "RatelimitModel",
     "RatelimitModelTypedDict",
-    "RatelimitSetOverrideRequestBody",
-    "RatelimitSetOverrideRequestBodyTypedDict",
-    "RatelimitSetOverrideResponse",
-    "RatelimitSetOverrideResponseBody",
-    "RatelimitSetOverrideResponseBodyTypedDict",
-    "RatelimitSetOverrideResponseTypedDict",
     "RatelimitsModel",
     "RatelimitsModelTypedDict",
     "Refill",
     "RefillTypedDict",
+    "Remaining",
+    "RemainingTypedDict",
     "RemovePermissionsPermissions",
     "RemovePermissionsPermissionsTypedDict",
     "RemovePermissionsRequestBody",
@@ -752,6 +813,12 @@ __all__ = [
     "SecurityTypedDict",
     "Services",
     "ServicesTypedDict",
+    "SetOverrideRequestBody",
+    "SetOverrideRequestBodyTypedDict",
+    "SetOverrideResponse",
+    "SetOverrideResponseBody",
+    "SetOverrideResponseBodyTypedDict",
+    "SetOverrideResponseTypedDict",
     "SetPermissionsPermissions",
     "SetPermissionsPermissionsTypedDict",
     "SetPermissionsRequestBody",
@@ -768,6 +835,9 @@ __all__ = [
     "SetRolesResponseTypedDict",
     "SetRolesRoles",
     "SetRolesRolesTypedDict",
+    "Tag",
+    "TagTypedDict",
+    "Two",
     "Type",
     "UpdateIdentityIdentitiesRatelimits",
     "UpdateIdentityIdentitiesRatelimitsTypedDict",

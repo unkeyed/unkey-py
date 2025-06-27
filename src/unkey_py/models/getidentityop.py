@@ -5,7 +5,7 @@ from .httpmetadata import HTTPMetadata, HTTPMetadataTypedDict
 import pydantic
 from typing import Any, Dict, List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
-from unkey_py.types import BaseModel
+from unkey_py.types import BaseModel, Nullable
 from unkey_py.utils import FieldMetadata, QueryParamMetadata
 
 
@@ -55,7 +55,7 @@ class GetIdentityResponseBodyTypedDict(TypedDict):
     r"""The id of this identity. Used to interact with unkey's API"""
     external_id: str
     r"""The id in your system"""
-    meta: Dict[str, Any]
+    meta: Dict[str, Nullable[Any]]
     r"""The meta object defined for this identity."""
     ratelimits: List[GetIdentityRatelimitsTypedDict]
     r"""When verifying keys, you can specify which limits you want to use and all keys attached to this identity, will share the limits."""
@@ -70,7 +70,7 @@ class GetIdentityResponseBody(BaseModel):
     external_id: Annotated[str, pydantic.Field(alias="externalId")]
     r"""The id in your system"""
 
-    meta: Dict[str, Any]
+    meta: Dict[str, Nullable[Any]]
     r"""The meta object defined for this identity."""
 
     ratelimits: List[GetIdentityRatelimits]

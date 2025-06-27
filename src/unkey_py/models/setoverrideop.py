@@ -8,7 +8,7 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 from unkey_py.types import BaseModel
 
 
-class RatelimitSetOverrideRequestBodyTypedDict(TypedDict):
+class SetOverrideRequestBodyTypedDict(TypedDict):
     identifier: str
     r"""Identifier of your user, this can be their userId, an email, an ip or anything else. Wildcards ( * ) can be used to match multiple identifiers, More info can be found at https://www.unkey.com/docs/ratelimiting/overrides#wildcard-rules"""
     limit: int
@@ -23,7 +23,7 @@ class RatelimitSetOverrideRequestBodyTypedDict(TypedDict):
     r"""Async will return a response immediately, lowering latency at the cost of accuracy."""
 
 
-class RatelimitSetOverrideRequestBody(BaseModel):
+class SetOverrideRequestBody(BaseModel):
     identifier: str
     r"""Identifier of your user, this can be their userId, an email, an ip or anything else. Wildcards ( * ) can be used to match multiple identifiers, More info can be found at https://www.unkey.com/docs/ratelimiting/overrides#wildcard-rules"""
 
@@ -45,28 +45,28 @@ class RatelimitSetOverrideRequestBody(BaseModel):
     r"""Async will return a response immediately, lowering latency at the cost of accuracy."""
 
 
-class RatelimitSetOverrideResponseBodyTypedDict(TypedDict):
+class SetOverrideResponseBodyTypedDict(TypedDict):
     r"""Sucessfully created a ratelimit override"""
 
     override_id: str
     r"""The id of the override. This is used internally"""
 
 
-class RatelimitSetOverrideResponseBody(BaseModel):
+class SetOverrideResponseBody(BaseModel):
     r"""Sucessfully created a ratelimit override"""
 
     override_id: Annotated[str, pydantic.Field(alias="overrideId")]
     r"""The id of the override. This is used internally"""
 
 
-class RatelimitSetOverrideResponseTypedDict(TypedDict):
+class SetOverrideResponseTypedDict(TypedDict):
     http_meta: HTTPMetadataTypedDict
-    object: NotRequired[RatelimitSetOverrideResponseBodyTypedDict]
+    object: NotRequired[SetOverrideResponseBodyTypedDict]
     r"""Sucessfully created a ratelimit override"""
 
 
-class RatelimitSetOverrideResponse(BaseModel):
+class SetOverrideResponse(BaseModel):
     http_meta: Annotated[Optional[HTTPMetadata], pydantic.Field(exclude=True)] = None
 
-    object: Optional[RatelimitSetOverrideResponseBody] = None
+    object: Optional[SetOverrideResponseBody] = None
     r"""Sucessfully created a ratelimit override"""

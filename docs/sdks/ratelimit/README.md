@@ -5,44 +5,47 @@
 
 ### Available Operations
 
-* [ratelimit_set_override](#ratelimit_set_override)
+* [set_override](#set_override)
 * [list_overrides](#list_overrides)
 * [get_override](#get_override)
 
-## ratelimit_set_override
+## set_override
 
 ### Example Usage
 
 ```python
 from unkey_py import Unkey
 
+
 with Unkey(
     bearer_auth="UNKEY_ROOT_KEY",
-) as s:
-    res = s.ratelimit.ratelimit_set_override(request={
+) as unkey:
+
+    res = unkey.ratelimit.set_override(request={
+        "namespace_id": "rlns_1234",
+        "namespace_name": "email.outbound",
         "identifier": "user_123",
         "limit": 10,
         "duration": 60000,
-        "namespace_id": "rlns_1234",
-        "namespace_name": "email.outbound",
     })
 
-    if res.object is not None:
-        # handle response
-        pass
+    assert res.object is not None
+
+    # Handle response
+    print(res.object)
 
 ```
 
 ### Parameters
 
-| Parameter                                                                                 | Type                                                                                      | Required                                                                                  | Description                                                                               |
-| ----------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- |
-| `request`                                                                                 | [models.RatelimitSetOverrideRequestBody](../../models/ratelimitsetoverriderequestbody.md) | :heavy_check_mark:                                                                        | The request object to use for the request.                                                |
-| `retries`                                                                                 | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                          | :heavy_minus_sign:                                                                        | Configuration to override the default retry behavior of the client.                       |
+| Parameter                                                               | Type                                                                    | Required                                                                | Description                                                             |
+| ----------------------------------------------------------------------- | ----------------------------------------------------------------------- | ----------------------------------------------------------------------- | ----------------------------------------------------------------------- |
+| `request`                                                               | [models.SetOverrideRequestBody](../../models/setoverriderequestbody.md) | :heavy_check_mark:                                                      | The request object to use for the request.                              |
+| `retries`                                                               | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)        | :heavy_minus_sign:                                                      | Configuration to override the default retry behavior of the client.     |
 
 ### Response
 
-**[models.RatelimitSetOverrideResponse](../../models/ratelimitsetoverrideresponse.md)**
+**[models.SetOverrideResponse](../../models/setoverrideresponse.md)**
 
 ### Errors
 
@@ -53,6 +56,7 @@ with Unkey(
 | models.ErrForbidden           | 403                           | application/json              |
 | models.ErrNotFound            | 404                           | application/json              |
 | models.ErrConflict            | 409                           | application/json              |
+| models.ErrPreconditionFailed  | 412                           | application/json              |
 | models.ErrTooManyRequests     | 429                           | application/json              |
 | models.ErrInternalServerError | 500                           | application/json              |
 | models.SDKError               | 4XX, 5XX                      | \*/\*                         |
@@ -64,14 +68,17 @@ with Unkey(
 ```python
 from unkey_py import Unkey
 
+
 with Unkey(
     bearer_auth="UNKEY_ROOT_KEY",
-) as s:
-    res = s.ratelimit.list_overrides(namespace_id="rlns_1234", namespace_name="email.outbound", limit=100)
+) as unkey:
 
-    if res.object is not None:
-        # handle response
-        pass
+    res = unkey.ratelimit.list_overrides(namespace_id="rlns_1234", namespace_name="email.outbound")
+
+    assert res.object is not None
+
+    # Handle response
+    print(res.object)
 
 ```
 
@@ -98,6 +105,7 @@ with Unkey(
 | models.ErrForbidden           | 403                           | application/json              |
 | models.ErrNotFound            | 404                           | application/json              |
 | models.ErrConflict            | 409                           | application/json              |
+| models.ErrPreconditionFailed  | 412                           | application/json              |
 | models.ErrTooManyRequests     | 429                           | application/json              |
 | models.ErrInternalServerError | 500                           | application/json              |
 | models.SDKError               | 4XX, 5XX                      | \*/\*                         |
@@ -109,14 +117,17 @@ with Unkey(
 ```python
 from unkey_py import Unkey
 
+
 with Unkey(
     bearer_auth="UNKEY_ROOT_KEY",
-) as s:
-    res = s.ratelimit.get_override(identifier="user_123", namespace_id="rlns_1234", namespace_name="email.outbound")
+) as unkey:
 
-    if res.object is not None:
-        # handle response
-        pass
+    res = unkey.ratelimit.get_override(identifier="user_123", namespace_id="rlns_1234", namespace_name="email.outbound")
+
+    assert res.object is not None
+
+    # Handle response
+    print(res.object)
 
 ```
 
@@ -142,6 +153,7 @@ with Unkey(
 | models.ErrForbidden           | 403                           | application/json              |
 | models.ErrNotFound            | 404                           | application/json              |
 | models.ErrConflict            | 409                           | application/json              |
+| models.ErrPreconditionFailed  | 412                           | application/json              |
 | models.ErrTooManyRequests     | 429                           | application/json              |
 | models.ErrInternalServerError | 500                           | application/json              |
 | models.SDKError               | 4XX, 5XX                      | \*/\*                         |

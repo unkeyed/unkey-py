@@ -198,7 +198,7 @@ class UpdateKeyRequestBodyTypedDict(TypedDict):
     Under the hood this upserts and connects an `ìdentity` for you.
     To disconnect the key from an identity, set `externalId: null`.
     """
-    meta: NotRequired[Nullable[Dict[str, Any]]]
+    meta: NotRequired[Nullable[Dict[str, Nullable[Any]]]]
     r"""Any additional metadata you want to store with the key"""
     expires: NotRequired[Nullable[int]]
     r"""The unix timestamp in milliseconds when the key will expire. If this field is null or undefined, the key is not expiring."""
@@ -250,7 +250,7 @@ class UpdateKeyRequestBody(BaseModel):
     To disconnect the key from an identity, set `externalId: null`.
     """
 
-    meta: OptionalNullable[Dict[str, Any]] = UNSET
+    meta: OptionalNullable[Dict[str, Nullable[Any]]] = UNSET
     r"""Any additional metadata you want to store with the key"""
 
     expires: OptionalNullable[int] = UNSET
@@ -309,7 +309,7 @@ class UpdateKeyRequestBody(BaseModel):
 
         m = {}
 
-        for n, f in self.model_fields.items():
+        for n, f in type(self).model_fields.items():
             k = f.alias or n
             val = serialized.get(k)
             serialized.pop(k, None)

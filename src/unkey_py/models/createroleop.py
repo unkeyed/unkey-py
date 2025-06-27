@@ -2,16 +2,31 @@
 
 from __future__ import annotations
 from .httpmetadata import HTTPMetadata, HTTPMetadataTypedDict
+from enum import Enum
 import pydantic
-from typing import Optional
-from typing_extensions import Annotated, NotRequired, TypedDict
+from typing import Optional, Union
+from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
 from unkey_py.types import BaseModel
+
+
+class Description2(str, Enum):
+    UNKNOWN = ""
+
+
+CreateRoleDescriptionTypedDict = TypeAliasType(
+    "CreateRoleDescriptionTypedDict", Union[str, Description2]
+)
+r"""Explain what this role does. This is just for your team, your users will not see this."""
+
+
+CreateRoleDescription = TypeAliasType("CreateRoleDescription", Union[str, Description2])
+r"""Explain what this role does. This is just for your team, your users will not see this."""
 
 
 class CreateRoleRequestBodyTypedDict(TypedDict):
     name: str
     r"""The unique name of your role."""
-    description: NotRequired[str]
+    description: NotRequired[CreateRoleDescriptionTypedDict]
     r"""Explain what this role does. This is just for your team, your users will not see this."""
 
 
@@ -19,7 +34,7 @@ class CreateRoleRequestBody(BaseModel):
     name: str
     r"""The unique name of your role."""
 
-    description: Optional[str] = None
+    description: Optional[CreateRoleDescription] = None
     r"""Explain what this role does. This is just for your team, your users will not see this."""
 
 

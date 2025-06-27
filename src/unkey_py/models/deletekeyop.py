@@ -11,11 +11,16 @@ from unkey_py.types import BaseModel
 class DeleteKeyRequestBodyTypedDict(TypedDict):
     key_id: str
     r"""The id of the key to revoke"""
+    permanent: NotRequired[bool]
+    r"""By default Unkey soft deletes keys, so they may be recovered later. If you want to permanently delete it, set permanent=true. This might be necessary if you run into CONFLICT errors during key migration."""
 
 
 class DeleteKeyRequestBody(BaseModel):
     key_id: Annotated[str, pydantic.Field(alias="keyId")]
     r"""The id of the key to revoke"""
+
+    permanent: Optional[bool] = False
+    r"""By default Unkey soft deletes keys, so they may be recovered later. If you want to permanently delete it, set permanent=true. This might be necessary if you run into CONFLICT errors during key migration."""
 
 
 class DeleteKeyResponseBodyTypedDict(TypedDict):

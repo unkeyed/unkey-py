@@ -6,7 +6,7 @@ from enum import Enum
 import pydantic
 from typing import Any, Dict, List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict, deprecated
-from unkey_py.types import BaseModel
+from unkey_py.types import BaseModel, Nullable
 
 
 class V1MigrationsEnqueueKeysVariant(str, Enum):
@@ -162,7 +162,7 @@ class V1MigrationsEnqueueKeysKeysTypedDict(TypedDict):
     r"""Your user’s Id. This will provide a link between Unkey and your customer record.
     When validating a key, we will return this back to you, so you can clearly identify your user from their api key.
     """
-    meta: NotRequired[Dict[str, Any]]
+    meta: NotRequired[Dict[str, Nullable[Any]]]
     r"""This is a place for dynamic meta data, anything that feels useful for you should go here"""
     roles: NotRequired[List[str]]
     r"""A list of roles that this key should have. If the role does not exist, an error is thrown"""
@@ -220,7 +220,7 @@ class V1MigrationsEnqueueKeysKeys(BaseModel):
     When validating a key, we will return this back to you, so you can clearly identify your user from their api key.
     """
 
-    meta: Optional[Dict[str, Any]] = None
+    meta: Optional[Dict[str, Nullable[Any]]] = None
     r"""This is a place for dynamic meta data, anything that feels useful for you should go here"""
 
     roles: Optional[List[str]] = None

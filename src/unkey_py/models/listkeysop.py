@@ -78,7 +78,7 @@ class ListKeysRequest(BaseModel):
 
         m = {}
 
-        for n, f in self.model_fields.items():
+        for n, f in type(self).model_fields.items():
             k = f.alias or n
             val = serialized.get(k)
             serialized.pop(k, None)
@@ -104,7 +104,7 @@ class ListKeysResponseBodyTypedDict(TypedDict):
 
     keys: List[KeyTypedDict]
     total: int
-    r"""The total number of keys for this api"""
+    r"""The total number of keys for this api. This is an approximation and may lag behind up to 5 minutes."""
     cursor: NotRequired[str]
     r"""The cursor to use for the next page of results, if no cursor is returned, there are no more results"""
 
@@ -115,7 +115,7 @@ class ListKeysResponseBody(BaseModel):
     keys: List[Key]
 
     total: int
-    r"""The total number of keys for this api"""
+    r"""The total number of keys for this api. This is an approximation and may lag behind up to 5 minutes."""
 
     cursor: Optional[str] = None
     r"""The cursor to use for the next page of results, if no cursor is returned, there are no more results"""

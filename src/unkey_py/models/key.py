@@ -58,7 +58,7 @@ class Refill(BaseModel):
 
         m = {}
 
-        for n, f in self.model_fields.items():
+        for n, f in type(self).model_fields.items():
             k = f.alias or n
             val = serialized.get(k)
             serialized.pop(k, None)
@@ -138,7 +138,7 @@ class IdentityTypedDict(TypedDict):
     r"""The id of the identity"""
     external_id: str
     r"""The external id of the identity"""
-    meta: NotRequired[Dict[str, Any]]
+    meta: NotRequired[Dict[str, Nullable[Any]]]
     r"""Any additional metadata attached to the identity"""
 
 
@@ -151,7 +151,7 @@ class Identity(BaseModel):
     external_id: Annotated[str, pydantic.Field(alias="externalId")]
     r"""The external id of the identity"""
 
-    meta: Optional[Dict[str, Any]] = None
+    meta: Optional[Dict[str, Nullable[Any]]] = None
     r"""Any additional metadata attached to the identity"""
 
 
@@ -170,7 +170,7 @@ class KeyTypedDict(TypedDict):
     r"""The name of the key, give keys a name to easily identify their purpose"""
     owner_id: NotRequired[str]
     r"""The id of the tenant associated with this key. Use whatever reference you have in your system to identify the tenant. When verifying the key, we will send this field back to you, so you know who is accessing your API."""
-    meta: NotRequired[Dict[str, Any]]
+    meta: NotRequired[Dict[str, Nullable[Any]]]
     r"""Any additional metadata you want to store with the key"""
     updated_at: NotRequired[int]
     r"""The unix timestamp in milliseconds when the key was last updated"""
@@ -216,7 +216,7 @@ class Key(BaseModel):
     owner_id: Annotated[Optional[str], pydantic.Field(alias="ownerId")] = None
     r"""The id of the tenant associated with this key. Use whatever reference you have in your system to identify the tenant. When verifying the key, we will send this field back to you, so you know who is accessing your API."""
 
-    meta: Optional[Dict[str, Any]] = None
+    meta: Optional[Dict[str, Nullable[Any]]] = None
     r"""Any additional metadata you want to store with the key"""
 
     updated_at: Annotated[Optional[int], pydantic.Field(alias="updatedAt")] = None
