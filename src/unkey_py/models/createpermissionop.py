@@ -24,6 +24,8 @@ r"""Explain what this permission does. This is just for your team, your users wi
 class CreatePermissionRequestBodyTypedDict(TypedDict):
     name: str
     r"""The unique name of your permission."""
+    slug: NotRequired[str]
+    r"""The unique slug of your permission. If not provided, the name is used."""
     description: NotRequired[DescriptionTypedDict]
     r"""Explain what this permission does. This is just for your team, your users will not see this."""
 
@@ -31,6 +33,9 @@ class CreatePermissionRequestBodyTypedDict(TypedDict):
 class CreatePermissionRequestBody(BaseModel):
     name: str
     r"""The unique name of your permission."""
+
+    slug: Optional[str] = None
+    r"""The unique slug of your permission. If not provided, the name is used."""
 
     description: Optional[Description] = None
     r"""Explain what this permission does. This is just for your team, your users will not see this."""
