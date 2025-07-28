@@ -171,7 +171,7 @@ class GetVerificationsRequest(BaseModel):
     end: Annotated[
         OptionalNullable[int],
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
-    ] = 1746664158001
+    ] = 1753661546415
 
     group_by: Annotated[
         Optional[GroupBy],

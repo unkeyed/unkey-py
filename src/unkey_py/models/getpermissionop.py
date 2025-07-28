@@ -28,6 +28,8 @@ class GetPermissionResponseBodyTypedDict(TypedDict):
     r"""The id of the permission"""
     name: str
     r"""The name of the permission."""
+    slug: str
+    r"""The slug of the permission"""
     description: NotRequired[str]
     r"""The description of what this permission does. This is just for your team, your users will not see this."""
 
@@ -40,6 +42,9 @@ class GetPermissionResponseBody(BaseModel):
 
     name: str
     r"""The name of the permission."""
+
+    slug: str
+    r"""The slug of the permission"""
 
     description: Optional[str] = None
     r"""The description of what this permission does. This is just for your team, your users will not see this."""
