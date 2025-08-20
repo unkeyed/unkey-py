@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: 8618b570-44d2-4c9e-aa91-d78e8fe5330e
 management:
-  docChecksum: 5b76b5690abc6b64f298c78bc49b1cb3
+  docChecksum: d31a5e28617f26294cbd9e5c354b570c
   docVersion: 1.0.0
   speakeasyVersion: 1.542.3
   generationVersion: 2.597.9
-  releaseVersion: 0.10.0
-  configChecksum: a49d81219a116475988c23ee6f1c6e37
+  releaseVersion: 0.11.1
+  configChecksum: 1f256624b59b0efe804eb70d2a1e18bb
   repoURL: https://github.com/unkeyed/unkey-py.git
   installationURL: https://github.com/unkeyed/unkey-py.git
   published: true
@@ -1012,7 +1012,7 @@ examples:
   createPermission:
     speakeasy-default-create-permission:
       requestBody:
-        application/json: {"name": "record.write", "description": "record.write can create new dns records for our domains."}
+        application/json: {"name": "Can write records", "slug": "record.write", "description": "record.write can create new dns records for our domains."}
       responses:
         "200":
           application/json: {"permissionId": "perm_123"}
@@ -1062,7 +1062,7 @@ examples:
           permissionId: "perm_123"
       responses:
         "200":
-          application/json: {"id": "perm_123", "name": "domain.record.manager", "description": "Can manage dns records"}
+          application/json: {"id": "perm_123", "name": "domain.record.manager", "slug": "domain-record-manager", "description": "Can manage dns records"}
         "400":
           application/json: {"error": {"code": "BAD_REQUEST", "docs": "https://unkey.dev/docs/api-reference/errors/code/BAD_REQUEST", "message": "<value>", "requestId": "req_1234"}}
         "401":
@@ -1083,7 +1083,7 @@ examples:
     speakeasy-default-list-permissions:
       responses:
         "200":
-          application/json: [{"id": "perm_123", "name": "domain.record.manager", "description": "Can manage dns records"}, {"id": "perm_123", "name": "domain.record.manager", "description": "Can manage dns records"}, {"id": "perm_123", "name": "domain.record.manager", "description": "Can manage dns records"}]
+          application/json: [{"id": "perm_123", "name": "domain.record.manager", "slug": "domain-record-manager", "description": "Can manage dns records"}, {"id": "perm_123", "name": "domain.record.manager", "slug": "domain-record-manager", "description": "Can manage dns records"}, {"id": "perm_123", "name": "domain.record.manager", "slug": "domain-record-manager", "description": "Can manage dns records"}]
         "400":
           application/json: {"error": {"code": "BAD_REQUEST", "docs": "https://unkey.dev/docs/api-reference/errors/code/BAD_REQUEST", "message": "<value>", "requestId": "req_1234"}}
         "401":
@@ -1341,3 +1341,4 @@ examples:
           application/json: {"error": {"code": "INTERNAL_SERVER_ERROR", "docs": "https://unkey.dev/docs/api-reference/errors/code/INTERNAL_SERVER_ERROR", "message": "<value>", "requestId": "req_1234"}}
 examplesVersion: 1.0.1
 generatedTests: {}
+releaseNotes: "## SDK Changes Detected:\n* `unkey.keys.remove_permissions()`: \n  *  `request.permissions.[].slug` **Added**\n* `unkey.keys.set_permissions()`: \n  *  `request.permissions.[].slug` **Added**\n* `unkey.permissions.create()`: \n  *  `request.slug` **Added**\n* `unkey.permissions.get()`:  `response.slug` **Added**\n* `unkey.permissions.list()`:  `response.[].slug` **Added**\n"

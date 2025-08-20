@@ -27,7 +27,8 @@ with Unkey(
 ) as unkey:
 
     res = unkey.permissions.create(request={
-        "name": "record.write",
+        "name": "Can write records",
+        "slug": "record.write",
         "description": "record.write can create new dns records for our domains.",
     })
 

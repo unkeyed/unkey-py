@@ -1,6 +1,6 @@
 [project]
 name = "unkey.py"
-version = "0.10.0"
+version = "0.11.1"
 description = "Python Client SDK for unkey.com."
 authors = [{ name = "Speakeasy" },]
 readme = "README-PYPI.md"

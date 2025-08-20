@@ -10,17 +10,27 @@ from unkey_py.types import BaseModel
 
 class RemovePermissionsPermissionsTypedDict(TypedDict):
     id: NotRequired[str]
-    r"""The id of the permission. Provide either `id` or `name`. If both are provided `id` is used."""
+    r"""The id of the permission. Provide either `id` or `slug`. If both are provided `id` is used."""
     name: NotRequired[str]
-    r"""Identify the permission via its name. Provide either `id` or `name`. If both are provided `id` is used."""
+    r"""This field is deprecated and will be removed in a future release. please use `slug` instead."""
+    slug: NotRequired[str]
+    r"""Identify the permission via its slug. Provide either `id` or `slug`. If both are provided `id` is used."""
 
 
 class RemovePermissionsPermissions(BaseModel):
     id: Optional[str] = None
-    r"""The id of the permission. Provide either `id` or `name`. If both are provided `id` is used."""
+    r"""The id of the permission. Provide either `id` or `slug`. If both are provided `id` is used."""
 
-    name: Optional[str] = None
-    r"""Identify the permission via its name. Provide either `id` or `name`. If both are provided `id` is used."""
+    name: Annotated[
+        Optional[str],
+        pydantic.Field(
+            deprecated="warning: ** DEPRECATED ** - This will be removed in a future release, please migrate away from it as soon as possible."
+        ),
+    ] = None
+    r"""This field is deprecated and will be removed in a future release. please use `slug` instead."""
+
+    slug: Optional[str] = None
+    r"""Identify the permission via its slug. Provide either `id` or `slug`. If both are provided `id` is used."""
 
 
 class RemovePermissionsRequestBodyTypedDict(TypedDict):

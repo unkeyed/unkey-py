@@ -12,7 +12,9 @@ class SetPermissionsPermissionsTypedDict(TypedDict):
     id: NotRequired[str]
     r"""The id of the permission. Provide either `id` or `name`. If both are provided `id` is used."""
     name: NotRequired[str]
-    r"""Identify the permission via its name. Provide either `id` or `name`. If both are provided `id` is used."""
+    r"""This field is deprecated and will be removed in a future release. please use `slug` instead."""
+    slug: NotRequired[str]
+    r"""Identify the permission via its slug. Provide either `id` or `slug`. If both are provided `id` is used."""
     create: NotRequired[bool]
     r"""Set to true to automatically create the permissions they do not exist yet. Only works when specifying `name`.
     Autocreating permissions requires your root key to have the `rbac.*.create_permission` permission, otherwise the request will get rejected
@@ -23,8 +25,16 @@ class SetPermissionsPermissions(BaseModel):
     id: Optional[str] = None
     r"""The id of the permission. Provide either `id` or `name`. If both are provided `id` is used."""
 
-    name: Optional[str] = None
-    r"""Identify the permission via its name. Provide either `id` or `name`. If both are provided `id` is used."""
+    name: Annotated[
+        Optional[str],
+        pydantic.Field(
+            deprecated="warning: ** DEPRECATED ** - This will be removed in a future release, please migrate away from it as soon as possible."
+        ),
+    ] = None
+    r"""This field is deprecated and will be removed in a future release. please use `slug` instead."""
+
+    slug: Optional[str] = None
+    r"""Identify the permission via its slug. Provide either `id` or `slug`. If both are provided `id` is used."""
 
     create: Optional[bool] = None
     r"""Set to true to automatically create the permissions they do not exist yet. Only works when specifying `name`.
